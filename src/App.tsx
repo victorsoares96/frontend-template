@@ -1,4 +1,5 @@
 // routes
+import React from 'react';
 import Router from './routes';
 // theme
 import ThemeProvider from './theme';
