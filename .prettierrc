@@ -1,6 +1,18 @@
 {
-  "printWidth": 120,
+  "tabWidth": 2,
+  "useTabs": false,
+  "semi": true,
   "singleQuote": true,
-  "trailingComma": "es5",
-  "tabWidth": 2
+  "printWidth": 100,
+  "trailingComma": "all",
+  "importOrder": [
+    "^(^react$|@react|react|^redux$)",
+    "^@mui/(.*)$",
+    "<THIRD_PARTY_MODULES>",
+    "^@/(.*)$",
+    "^[./]"
+  ],
+  "importOrderGroupNamespaceSpecifiers": true,
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true
 }
