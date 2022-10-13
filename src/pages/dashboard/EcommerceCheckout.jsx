@@ -1,29 +1,24 @@
-import PropTypes from 'prop-types';
-import { useEffect } from 'react';
-// @mui
+import { Fragment, useEffect } from 'react';
+
+import { Box, Container, Grid, Step, StepConnector, StepLabel, Stepper } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { Box, Grid, Step, Stepper, Container, StepLabel, StepConnector } from '@mui/material';
-// redux
-import { useDispatch, useSelector } from '../../redux/store';
-import { getCart, createBilling } from '../../redux/slices/product';
-// routes
-import { PATH_DASHBOARD } from '../../routes/paths';
-// hooks
+
+import PropTypes from 'prop-types';
+
+import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
+import Iconify from '../../components/Iconify';
+import Page from '../../components/Page';
 import useIsMountedRef from '../../hooks/useIsMountedRef';
 import useSettings from '../../hooks/useSettings';
-// components
-import Page from '../../components/Page';
-import Iconify from '../../components/Iconify';
-import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
-// sections
+import { PATH_DASHBOARD } from '../../routes/paths';
 import {
-  CheckoutCart,
-  CheckoutPayment,
-  CheckoutOrderComplete,
   CheckoutBillingAddress,
+  CheckoutCart,
+  CheckoutOrderComplete,
+  CheckoutPayment,
 } from '../../sections/@dashboard/e-commerce/checkout';
-
-// ----------------------------------------------------------------------
+import { useDispatch, useSelector } from '../../store';
+import { createBilling, getCart } from '../../store/slices/product';
 
 const STEPS = ['Cart', 'Billing & address', 'Payment'];
 
@@ -61,7 +56,10 @@ function QontoStepIcon({ active, completed }) {
       }}
     >
       {completed ? (
-        <Iconify icon={'eva:checkmark-fill'} sx={{ zIndex: 1, width: 20, height: 20, color: 'primary.main' }} />
+        <Iconify
+          icon="eva:checkmark-fill"
+          sx={{ zIndex: 1, width: 20, height: 20, color: 'primary.main' }}
+        />
       ) : (
         <Box
           sx={{
@@ -134,11 +132,11 @@ export default function EcommerceCheckout() {
         </Grid>
 
         {!isComplete ? (
-          <>
+          <Fragment>
             {activeStep === 0 && <CheckoutCart />}
             {activeStep === 1 && <CheckoutBillingAddress />}
             {activeStep === 2 && billing && <CheckoutPayment />}
-          </>
+          </Fragment>
         ) : (
           <CheckoutOrderComplete open={isComplete} />
         )}

@@ -1,27 +1,23 @@
-import sum from 'lodash/sum';
 import { Link as RouterLink } from 'react-router-dom';
-// @mui
-import { Grid, Card, Button, CardHeader, Typography } from '@mui/material';
-// redux
-import { useDispatch, useSelector } from '../../../../redux/store';
-import {
-  deleteCart,
-  onNextStep,
-  applyDiscount,
-  increaseQuantity,
-  decreaseQuantity,
-} from '../../../../redux/slices/product';
-// routes
-import { PATH_DASHBOARD } from '../../../../routes/paths';
-// components
+
+import { Button, Card, CardHeader, Grid, Typography } from '@mui/material';
+
+import sum from 'lodash/sum';
+
+import EmptyContent from '../../../../components/EmptyContent';
 import Iconify from '../../../../components/Iconify';
 import Scrollbar from '../../../../components/Scrollbar';
-import EmptyContent from '../../../../components/EmptyContent';
-//
-import CheckoutSummary from './CheckoutSummary';
+import { PATH_DASHBOARD } from '../../../../routes/paths';
+import { useDispatch, useSelector } from '../../../../store';
+import {
+  applyDiscount,
+  decreaseQuantity,
+  deleteCart,
+  increaseQuantity,
+  onNextStep,
+} from '../../../../store/slices/product';
 import CheckoutProductList from './CheckoutProductList';
-
-// ----------------------------------------------------------------------
+import CheckoutSummary from './CheckoutSummary';
 
 export default function CheckoutCart() {
   const dispatch = useDispatch();
@@ -92,7 +88,7 @@ export default function CheckoutCart() {
           color="inherit"
           component={RouterLink}
           to={PATH_DASHBOARD.eCommerce.root}
-          startIcon={<Iconify icon={'eva:arrow-ios-back-fill'} />}
+          startIcon={<Iconify icon="eva:arrow-ios-back-fill" />}
         >
           Continue Shopping
         </Button>

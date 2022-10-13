@@ -1,19 +1,17 @@
-import PropTypes from 'prop-types';
-import { useState } from 'react';
-// @mui
+import { Fragment, useState } from 'react';
+
+import { Checkbox, Link, MenuItem, Stack, TableCell, TableRow, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { Checkbox, TableRow, TableCell, Typography, Stack, Link, MenuItem } from '@mui/material';
-// utils
-import { fDate } from '../../../../utils/formatTime';
-import createAvatar from '../../../../utils/createAvatar';
-import { fCurrency } from '../../../../utils/formatNumber';
-// components
-import Label from '../../../../components/Label';
+
+import PropTypes from 'prop-types';
+
 import Avatar from '../../../../components/Avatar';
 import Iconify from '../../../../components/Iconify';
+import Label from '../../../../components/Label';
 import { TableMoreMenu } from '../../../../components/table';
-
-// ----------------------------------------------------------------------
+import createAvatar from '../../../../utils/createAvatar';
+import { fCurrency } from '../../../../utils/formatNumber';
+import { fDate } from '../../../../utils/formatTime.util';
 
 InvoiceTableRow.propTypes = {
   row: PropTypes.object.isRequired,
@@ -24,7 +22,14 @@ InvoiceTableRow.propTypes = {
   onDeleteRow: PropTypes.func,
 };
 
-export default function InvoiceTableRow({ row, selected, onSelectRow, onViewRow, onEditRow, onDeleteRow }) {
+export default function InvoiceTableRow({
+  row,
+  selected,
+  onSelectRow,
+  onViewRow,
+  onEditRow,
+  onDeleteRow,
+}) {
   const theme = useTheme();
 
   const { sent, invoiceNumber, createDate, dueDate, status, invoiceTo, totalPrice } = row;
@@ -55,7 +60,12 @@ export default function InvoiceTableRow({ row, selected, onSelectRow, onViewRow,
             {invoiceTo.name}
           </Typography>
 
-          <Link noWrap variant="body2" onClick={onViewRow} sx={{ color: 'text.disabled', cursor: 'pointer' }}>
+          <Link
+            noWrap
+            variant="body2"
+            onClick={onViewRow}
+            sx={{ color: 'text.disabled', cursor: 'pointer' }}
+          >
             {invoiceNumber}
           </Link>
         </Stack>
@@ -92,7 +102,7 @@ export default function InvoiceTableRow({ row, selected, onSelectRow, onViewRow,
           onOpen={handleOpenMenu}
           onClose={handleCloseMenu}
           actions={
-            <>
+            <Fragment>
               <MenuItem
                 onClick={() => {
                   onDeleteRow();
@@ -100,7 +110,7 @@ export default function InvoiceTableRow({ row, selected, onSelectRow, onViewRow,
                 }}
                 sx={{ color: 'error.main' }}
               >
-                <Iconify icon={'eva:trash-2-outline'} />
+                <Iconify icon="eva:trash-2-outline" />
                 Delete
               </MenuItem>
 
@@ -110,7 +120,7 @@ export default function InvoiceTableRow({ row, selected, onSelectRow, onViewRow,
                   handleCloseMenu();
                 }}
               >
-                <Iconify icon={'eva:eye-fill'} />
+                <Iconify icon="eva:eye-fill" />
                 View
               </MenuItem>
 
@@ -120,10 +130,10 @@ export default function InvoiceTableRow({ row, selected, onSelectRow, onViewRow,
                   handleCloseMenu();
                 }}
               >
-                <Iconify icon={'eva:edit-fill'} />
+                <Iconify icon="eva:edit-fill" />
                 Edit
               </MenuItem>
-            </>
+            </Fragment>
           }
         />
       </TableCell>

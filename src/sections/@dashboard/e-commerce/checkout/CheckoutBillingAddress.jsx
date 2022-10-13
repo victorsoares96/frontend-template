@@ -1,20 +1,16 @@
-import PropTypes from 'prop-types';
-import { useState } from 'react';
-// @mui
-import { Box, Grid, Card, Button, Typography } from '@mui/material';
-// redux
-import { useDispatch, useSelector } from '../../../../redux/store';
-import { onBackStep, onNextStep, createBilling } from '../../../../redux/slices/product';
-// _mock_
-import { _addressBooks } from '../../../../_mock';
-// components
-import Label from '../../../../components/Label';
-import Iconify from '../../../../components/Iconify';
-//
-import CheckoutSummary from './CheckoutSummary';
-import CheckoutNewAddressForm from './CheckoutNewAddressForm';
+import { Fragment, useState } from 'react';
 
-// ----------------------------------------------------------------------
+import { Box, Button, Card, Grid, Typography } from '@mui/material';
+
+import PropTypes from 'prop-types';
+
+import { _addressBooks } from '../../../../_mock';
+import Iconify from '../../../../components/Iconify';
+import Label from '../../../../components/Label';
+import { useDispatch, useSelector } from '../../../../store';
+import { createBilling, onBackStep, onNextStep } from '../../../../store/slices/product';
+import CheckoutNewAddressForm from './CheckoutNewAddressForm';
+import CheckoutSummary from './CheckoutSummary';
 
 export default function CheckoutBillingAddress() {
   //
@@ -45,7 +41,7 @@ export default function CheckoutBillingAddress() {
   };
 
   return (
-    <>
+    <Fragment>
       <Grid container spacing={3}>
         <Grid item xs={12} md={8}>
           {_addressBooks.map((address, index) => (
@@ -61,11 +57,15 @@ export default function CheckoutBillingAddress() {
               size="small"
               color="inherit"
               onClick={handleBackStep}
-              startIcon={<Iconify icon={'eva:arrow-ios-back-fill'} />}
+              startIcon={<Iconify icon="eva:arrow-ios-back-fill" />}
             >
               Back
             </Button>
-            <Button size="small" onClick={handleClickOpen} startIcon={<Iconify icon={'eva:plus-fill'} />}>
+            <Button
+              size="small"
+              onClick={handleClickOpen}
+              startIcon={<Iconify icon="eva:plus-fill" />}
+            >
               Add new address
             </Button>
           </Box>
@@ -82,7 +82,7 @@ export default function CheckoutBillingAddress() {
         onNextStep={handleNextStep}
         onCreateBilling={handleCreateBilling}
       />
-    </>
+    </Fragment>
   );
 }
 

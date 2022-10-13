@@ -1,21 +1,17 @@
 import { useEffect } from 'react';
-import { paramCase } from 'change-case';
-import { useParams, useLocation } from 'react-router-dom';
-// @mui
-import { Container } from '@mui/material';
-// redux
-import { useDispatch, useSelector } from '../../redux/store';
-import { getProducts } from '../../redux/slices/product';
-// routes
-import { PATH_DASHBOARD } from '../../routes/paths';
-// hooks
-import useSettings from '../../hooks/useSettings';
-// components
-import Page from '../../components/Page';
-import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
-import ProductNewEditForm from '../../sections/@dashboard/e-commerce/ProductNewEditForm';
+import { useLocation, useParams } from 'react-router-dom';
 
-// ----------------------------------------------------------------------
+import { Container } from '@mui/material';
+
+import { paramCase } from 'change-case';
+
+import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
+import Page from '../../components/Page';
+import useSettings from '../../hooks/useSettings';
+import { PATH_DASHBOARD } from '../../routes/paths';
+import ProductNewEditForm from '../../sections/@dashboard/e-commerce/ProductNewEditForm';
+import { useDispatch, useSelector } from '../../store';
+import { getProducts } from '../../store/slices/product';
 
 export default function EcommerceProductCreate() {
   const { themeStretch } = useSettings();

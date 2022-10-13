@@ -1,30 +1,28 @@
-import PropTypes from 'prop-types';
-// @mui
-import { styled, useTheme } from '@mui/material/styles';
+import React from 'react';
+
 import {
   Box,
   Card,
+  Divider,
   Grid,
   Table,
-  Divider,
-  TableRow,
   TableBody,
-  TableHead,
   TableCell,
-  Typography,
   TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
 } from '@mui/material';
-// utils
-import { fDate } from '../../../../utils/formatTime';
-import { fCurrency } from '../../../../utils/formatNumber';
-// components
-import Label from '../../../../components/Label';
-import Image from '../../../../components/Image';
-import Scrollbar from '../../../../components/Scrollbar';
-//
-import InvoiceToolbar from './InvoiceToolbar';
+import { styled, useTheme } from '@mui/material/styles';
 
-// ----------------------------------------------------------------------
+import PropTypes from 'prop-types';
+
+import Image from '../../../../components/Image';
+import Label from '../../../../components/Label';
+import Scrollbar from '../../../../components/Scrollbar';
+import { fCurrency } from '../../../../utils/formatNumber';
+import { fDate } from '../../../../utils/formatTime.util';
+import InvoiceToolbar from './InvoiceToolbar';
 
 const RowResultStyle = styled(TableRow)(({ theme }) => ({
   '& td': {
@@ -32,8 +30,6 @@ const RowResultStyle = styled(TableRow)(({ theme }) => ({
     paddingBottom: theme.spacing(1),
   },
 }));
-
-// ----------------------------------------------------------------------
 
 InvoiceDetails.propTypes = {
   invoice: PropTypes.object.isRequired,
@@ -61,13 +57,19 @@ export default function InvoiceDetails({ invoice }) {
   } = invoice;
 
   return (
-    <>
+    <React.Fragment>
       <InvoiceToolbar invoice={invoice} />
 
       <Card sx={{ pt: 5, px: 5 }}>
         <Grid container>
           <Grid item xs={12} sm={6} sx={{ mb: 5 }}>
-            <Image disabledEffect visibleByDefault alt="logo" src="/logo/logo_full.svg" sx={{ maxWidth: 120 }} />
+            <Image
+              disabledEffect
+              visibleByDefault
+              alt="logo"
+              src="/logo/logo_full.svg"
+              sx={{ maxWidth: 120 }}
+            />
           </Grid>
 
           <Grid item xs={12} sm={6} sx={{ mb: 5 }}>
@@ -181,7 +183,9 @@ export default function InvoiceDetails({ invoice }) {
                     <Typography>Discount</Typography>
                   </TableCell>
                   <TableCell align="right" width={120}>
-                    <Typography sx={{ color: 'error.main' }}>{discount && fCurrency(-discount)}</Typography>
+                    <Typography sx={{ color: 'error.main' }}>
+                      {discount && fCurrency(-discount)}
+                    </Typography>
                   </TableCell>
                 </RowResultStyle>
 
@@ -224,6 +228,6 @@ export default function InvoiceDetails({ invoice }) {
           </Grid>
         </Grid>
       </Card>
-    </>
+    </React.Fragment>
   );
 }
