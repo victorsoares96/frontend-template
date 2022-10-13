@@ -1,14 +1,12 @@
+import { Fragment, useState } from 'react';
+
+import { Avatar, Stack, Typography } from '@mui/material';
+
 import PropTypes from 'prop-types';
-import { useState } from 'react';
-// @mui
-import { Stack, Avatar, Typography } from '@mui/material';
-// utils
-import { fToNow } from '../../../utils/formatTime';
-// components
+
 import Image from '../../../components/Image';
 import LightboxModal from '../../../components/LightboxModal';
-
-// ----------------------------------------------------------------------
+import { fToNow } from '../../../utils/formatTime.util';
 
 KanbanTaskCommentList.propTypes = {
   comments: PropTypes.array,
@@ -19,7 +17,9 @@ export default function KanbanTaskCommentList({ comments }) {
 
   const [selectedImage, setSelectedImage] = useState(0);
 
-  const imagesLightbox = comments.filter((comment) => comment.messageType === 'image').map((item) => item.message);
+  const imagesLightbox = comments
+    .filter((comment) => comment.messageType === 'image')
+    .map((item) => item.message);
 
   const handleOpenLightbox = (url) => {
     const selectedImage = imagesLightbox.findIndex((index) => index === url);
@@ -28,7 +28,7 @@ export default function KanbanTaskCommentList({ comments }) {
   };
 
   return (
-    <>
+    <Fragment>
       <Stack spacing={3} sx={{ py: 3, px: 2.5, bgcolor: 'background.neutral' }}>
         {comments.map((comment) => (
           <Stack key={comment.id} direction="row" spacing={2}>
@@ -65,6 +65,6 @@ export default function KanbanTaskCommentList({ comments }) {
         isOpen={openLightbox}
         onCloseRequest={() => setOpenLightbox(false)}
       />
-    </>
+    </Fragment>
   );
 }

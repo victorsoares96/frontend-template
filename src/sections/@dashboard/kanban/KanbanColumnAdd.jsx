@@ -1,13 +1,10 @@
-import { useState, useRef, useEffect } from 'react';
-// @mui
-import { OutlinedInput, Paper, Button, ClickAwayListener } from '@mui/material';
-// redux
-import { useDispatch } from '../../../redux/store';
-import { createColumn } from '../../../redux/slices/kanban';
-// components
-import Iconify from '../../../components/Iconify';
+import { useEffect, useRef, useState } from 'react';
 
-// ----------------------------------------------------------------------
+import { Button, ClickAwayListener, OutlinedInput, Paper } from '@mui/material';
+
+import Iconify from '../../../components/Iconify';
+import { useDispatch } from '../../../store';
+import { createColumn } from '../../../store/slices/kanban';
 
 export default function KanbanColumnAdd() {
   const nameRef = useRef(null);
@@ -64,7 +61,7 @@ export default function KanbanColumnAdd() {
           size="large"
           color="inherit"
           variant="outlined"
-          startIcon={<Iconify icon={'eva:plus-fill'} width={20} height={20} />}
+          startIcon={<Iconify icon="eva:plus-fill" width={20} height={20} />}
           onClick={handleOpen}
         >
           Add section
