@@ -1,21 +1,20 @@
-import { useState } from 'react';
-import PropTypes from 'prop-types';
-// @mui
+import { Fragment, useState } from 'react';
+
 import {
+  Avatar,
   Box,
   Button,
-  Avatar,
   Divider,
   ListItem,
+  ListItemAvatar,
+  ListItemText,
   TextField,
   Typography,
-  ListItemText,
-  ListItemAvatar,
 } from '@mui/material';
-// utils
-import { fDate } from '../../../utils/formatTime';
 
-// ----------------------------------------------------------------------
+import PropTypes from 'prop-types';
+
+import { fDate } from '../../../utils/formatTime.util';
 
 BlogPostCommentItem.propTypes = {
   name: PropTypes.string,
@@ -26,7 +25,14 @@ BlogPostCommentItem.propTypes = {
   hasReply: PropTypes.bool,
 };
 
-export default function BlogPostCommentItem({ name, avatarUrl, message, tagUser, postedAt, hasReply }) {
+export default function BlogPostCommentItem({
+  name,
+  avatarUrl,
+  message,
+  tagUser,
+  postedAt,
+  hasReply,
+}) {
   const [openReply, setOpenReply] = useState(false);
 
   const handleOpenReply = () => {
@@ -34,7 +40,7 @@ export default function BlogPostCommentItem({ name, avatarUrl, message, tagUser,
   };
 
   return (
-    <>
+    <Fragment>
       <ListItem
         disableGutters
         sx={{
@@ -54,7 +60,7 @@ export default function BlogPostCommentItem({ name, avatarUrl, message, tagUser,
           primary={name}
           primaryTypographyProps={{ variant: 'subtitle1' }}
           secondary={
-            <>
+            <Fragment>
               <Typography
                 gutterBottom
                 variant="caption"
@@ -68,7 +74,7 @@ export default function BlogPostCommentItem({ name, avatarUrl, message, tagUser,
               <Typography component="span" variant="body2">
                 <strong>{tagUser}</strong> {message}
               </Typography>
-            </>
+            </Fragment>
           }
         />
 
@@ -107,6 +113,6 @@ export default function BlogPostCommentItem({ name, avatarUrl, message, tagUser,
           width: (theme) => `calc(100% - ${theme.spacing(7)})`,
         }}
       />
-    </>
+    </Fragment>
   );
 }

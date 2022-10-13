@@ -1,11 +1,20 @@
-import PropTypes from 'prop-types';
+import {
+  Timeline,
+  TimelineConnector,
+  TimelineContent,
+  TimelineDot,
+  TimelineItem,
+  TimelineSeparator,
+} from '@mui/lab';
 // @mui
-import { Card, Typography, CardHeader, CardContent } from '@mui/material';
-import { Timeline, TimelineDot, TimelineItem, TimelineContent, TimelineSeparator, TimelineConnector } from '@mui/lab';
-// utils
-import { fDateTime } from '../../../../utils/formatTime';
+import { Card, CardContent, CardHeader, Typography } from '@mui/material';
+
+import PropTypes from 'prop-types';
+
 // _mock_
 import { _analyticOrderTimeline } from '../../../../_mock';
+// utils
+import { fDateTime } from '../../../../utils/formatTime.util';
 
 // ----------------------------------------------------------------------
 
@@ -22,7 +31,11 @@ export default function AnalyticsOrderTimeline() {
       <CardContent>
         <Timeline>
           {_analyticOrderTimeline.map((item, index) => (
-            <OrderItem key={item.id} item={item} isLast={index === _analyticOrderTimeline.length - 1} />
+            <OrderItem
+              key={item.id}
+              item={item}
+              isLast={index === _analyticOrderTimeline.length - 1}
+            />
           ))}
         </Timeline>
       </CardContent>

@@ -1,32 +1,29 @@
-import PropTypes from 'prop-types';
-import { noCase } from 'change-case';
-import { useState } from 'react';
-// @mui
+import { Fragment, useState } from 'react';
+
 import {
-  Box,
-  List,
-  Badge,
-  Button,
   Avatar,
-  Tooltip,
+  Badge,
+  Box,
+  Button,
   Divider,
-  Typography,
-  ListItemText,
-  ListSubheader,
+  List,
   ListItemAvatar,
   ListItemButton,
+  ListItemText,
+  ListSubheader,
+  Tooltip,
+  Typography,
 } from '@mui/material';
-// utils
-import { fToNow } from '../../../utils/formatTime';
-// _mock_
-import { _notifications } from '../../../_mock';
-// components
-import Iconify from '../../../components/Iconify';
-import Scrollbar from '../../../components/Scrollbar';
-import MenuPopover from '../../../components/MenuPopover';
-import { IconButtonAnimate } from '../../../components/animate';
 
-// ----------------------------------------------------------------------
+import { noCase } from 'change-case';
+import PropTypes from 'prop-types';
+
+import { _notifications } from '../../../_mock';
+import Iconify from '../../../components/Iconify';
+import MenuPopover from '../../../components/MenuPopover';
+import Scrollbar from '../../../components/Scrollbar';
+import { IconButtonAnimate } from '../../../components/animate';
+import { fToNow } from '../../../utils/formatTime.util';
 
 export default function NotificationsPopover() {
   const [notifications, setNotifications] = useState(_notifications);
@@ -48,13 +45,17 @@ export default function NotificationsPopover() {
       notifications.map((notification) => ({
         ...notification,
         isUnRead: false,
-      }))
+      })),
     );
   };
 
   return (
-    <>
-      <IconButtonAnimate color={open ? 'primary' : 'default'} onClick={handleOpen} sx={{ width: 40, height: 40 }}>
+    <Fragment>
+      <IconButtonAnimate
+        color={open ? 'primary' : 'default'}
+        onClick={handleOpen}
+        sx={{ width: 40, height: 40 }}
+      >
         <Badge badgeContent={totalUnRead} color="error">
           <Iconify icon="eva:bell-fill" width={20} height={20} />
         </Badge>
@@ -121,11 +122,9 @@ export default function NotificationsPopover() {
           </Button>
         </Box>
       </MenuPopover>
-    </>
+    </Fragment>
   );
 }
-
-// ----------------------------------------------------------------------
 
 NotificationItem.propTypes = {
   notification: PropTypes.shape({

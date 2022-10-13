@@ -1,29 +1,32 @@
-import { useEffect, useState } from 'react';
-import orderBy from 'lodash/orderBy';
+import { Fragment, useEffect, useState } from 'react';
 // form
 import { useForm } from 'react-hook-form';
+
 // @mui
-import { Container, Typography, Stack } from '@mui/material';
-// redux
-import { useDispatch, useSelector } from '../../redux/store';
-import { getProducts, filterProducts } from '../../redux/slices/product';
-// routes
-import { PATH_DASHBOARD } from '../../routes/paths';
-// hooks
-import useSettings from '../../hooks/useSettings';
+import { Container, Stack, Typography } from '@mui/material';
+
+import orderBy from 'lodash/orderBy';
+
+import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
 // components
 import Page from '../../components/Page';
-import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
 import { FormProvider } from '../../components/hook-form';
+// hooks
+import useSettings from '../../hooks/useSettings';
+// routes
+import { PATH_DASHBOARD } from '../../routes/paths';
+import CartWidget from '../../sections/@dashboard/e-commerce/CartWidget';
 // sections
 import {
-  ShopTagFiltered,
-  ShopProductSort,
-  ShopProductList,
   ShopFilterSidebar,
+  ShopProductList,
   ShopProductSearch,
+  ShopProductSort,
+  ShopTagFiltered,
 } from '../../sections/@dashboard/e-commerce/shop';
-import CartWidget from '../../sections/@dashboard/e-commerce/CartWidget';
+// redux
+import { useDispatch, useSelector } from '../../store';
+import { filterProducts, getProducts } from '../../store/slices/product';
 
 // ----------------------------------------------------------------------
 
@@ -144,7 +147,7 @@ export default function EcommerceShop() {
 
         <Stack sx={{ mb: 3 }}>
           {!isDefault && (
-            <>
+            <Fragment>
               <Typography variant="body2" gutterBottom>
                 <strong>{filteredProducts.length}</strong>
                 &nbsp;Products found
@@ -160,7 +163,7 @@ export default function EcommerceShop() {
                 onRemoveRating={handleRemoveRating}
                 onResetAll={handleResetFilter}
               />
-            </>
+            </Fragment>
           )}
         </Stack>
 
@@ -195,7 +198,9 @@ function applyFilter(products, sortBy, filters) {
     products = products.filter((product) => product.category === filters.category);
   }
   if (filters.colors.length > 0) {
-    products = products.filter((product) => product.colors.some((color) => filters.colors.includes(color)));
+    products = products.filter((product) =>
+      product.colors.some((color) => filters.colors.includes(color)),
+    );
   }
   if (filters.priceRange) {
     products = products.filter((product) => {

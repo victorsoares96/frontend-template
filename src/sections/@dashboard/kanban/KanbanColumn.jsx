@@ -1,21 +1,18 @@
-import PropTypes from 'prop-types';
 import { useState } from 'react';
-import { useSnackbar } from 'notistack';
+import { Draggable, Droppable } from 'react-beautiful-dnd';
 import { useSelector } from 'react-redux';
-import { Droppable, Draggable } from 'react-beautiful-dnd';
-// @mui
-import { Paper, Stack, Button } from '@mui/material';
-// redux
-import { useDispatch } from '../../../redux/store';
-import { deleteColumn, updateColumn, addTask, deleteTask } from '../../../redux/slices/kanban';
-// components
+
+import { Button, Paper, Stack } from '@mui/material';
+
+import { useSnackbar } from 'notistack';
+import PropTypes from 'prop-types';
+
 import Iconify from '../../../components/Iconify';
-//
+import { useDispatch } from '../../../store';
+import { addTask, deleteColumn, deleteTask, updateColumn } from '../../../store/slices/kanban';
+import KanbanColumnToolBar from './KanbanColumnToolBar';
 import KanbanAddTask from './KanbanTaskAdd';
 import KanbanTaskCard from './KanbanTaskCard';
-import KanbanColumnToolBar from './KanbanColumnToolBar';
-
-// ----------------------------------------------------------------------
 
 KanbanColumn.propTypes = {
   column: PropTypes.object,
@@ -76,7 +73,11 @@ export default function KanbanColumn({ column, index }) {
           sx={{ px: 2, bgcolor: 'grey.5008' }}
         >
           <Stack spacing={3} {...provided.dragHandleProps}>
-            <KanbanColumnToolBar columnName={name} onDelete={handleDeleteColumn} onUpdate={handleUpdateColumn} />
+            <KanbanColumnToolBar
+              columnName={name}
+              onDelete={handleDeleteColumn}
+              onUpdate={handleUpdateColumn}
+            />
 
             <Droppable droppableId={id} type="task">
               {(provided) => (
@@ -95,13 +96,15 @@ export default function KanbanColumn({ column, index }) {
             </Droppable>
 
             <Stack spacing={2} sx={{ pb: 3 }}>
-              {open && <KanbanAddTask onAddTask={handleAddTask} onCloseAddTask={handleCloseAddTask} />}
+              {open && (
+                <KanbanAddTask onAddTask={handleAddTask} onCloseAddTask={handleCloseAddTask} />
+              )}
 
               <Button
                 fullWidth
                 size="large"
                 color="inherit"
-                startIcon={<Iconify icon={'eva:plus-fill'} width={20} height={20} />}
+                startIcon={<Iconify icon="eva:plus-fill" width={20} height={20} />}
                 onClick={handleOpenAddTask}
                 sx={{ fontSize: 14 }}
               >

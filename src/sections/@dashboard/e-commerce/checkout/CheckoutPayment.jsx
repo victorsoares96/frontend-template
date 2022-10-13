@@ -1,23 +1,24 @@
-import * as Yup from 'yup';
-// form
 import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-// @mui
-import { Grid, Button } from '@mui/material';
+
 import { LoadingButton } from '@mui/lab';
-// redux
-import { useDispatch, useSelector } from '../../../../redux/store';
-import { onGotoStep, onBackStep, onNextStep, applyShipping } from '../../../../redux/slices/product';
-// components
+import { Button, Grid } from '@mui/material';
+
+import * as Yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+
 import Iconify from '../../../../components/Iconify';
 import { FormProvider } from '../../../../components/hook-form';
-//
-import CheckoutSummary from './CheckoutSummary';
-import CheckoutDelivery from './CheckoutDelivery';
+import { useDispatch, useSelector } from '../../../../store';
+import {
+  applyShipping,
+  onBackStep,
+  onGotoStep,
+  onNextStep,
+} from '../../../../store/slices/product';
 import CheckoutBillingInfo from './CheckoutBillingInfo';
+import CheckoutDelivery from './CheckoutDelivery';
 import CheckoutPaymentMethods from './CheckoutPaymentMethods';
-
-// ----------------------------------------------------------------------
+import CheckoutSummary from './CheckoutSummary';
 
 const DELIVERY_OPTIONS = [
   {
@@ -116,13 +117,16 @@ export default function CheckoutPayment() {
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Grid container spacing={3}>
         <Grid item xs={12} md={8}>
-          <CheckoutDelivery onApplyShipping={handleApplyShipping} deliveryOptions={DELIVERY_OPTIONS} />
+          <CheckoutDelivery
+            onApplyShipping={handleApplyShipping}
+            deliveryOptions={DELIVERY_OPTIONS}
+          />
           <CheckoutPaymentMethods cardOptions={CARDS_OPTIONS} paymentOptions={PAYMENT_OPTIONS} />
           <Button
             size="small"
             color="inherit"
             onClick={handleBackStep}
-            startIcon={<Iconify icon={'eva:arrow-ios-back-fill'} />}
+            startIcon={<Iconify icon="eva:arrow-ios-back-fill" />}
           >
             Back
           </Button>
@@ -139,7 +143,13 @@ export default function CheckoutPayment() {
             shipping={shipping}
             onEdit={() => handleGotoStep(0)}
           />
-          <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={isSubmitting}>
+          <LoadingButton
+            fullWidth
+            size="large"
+            type="submit"
+            variant="contained"
+            loading={isSubmitting}
+          >
             Complete Order
           </LoadingButton>
         </Grid>

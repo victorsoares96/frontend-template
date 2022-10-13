@@ -1,15 +1,11 @@
-import PropTypes from 'prop-types';
-// @mui
+import { Button, IconButton, Stack, ToggleButton, Tooltip, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { Stack, Button, Tooltip, Typography, IconButton, ToggleButton } from '@mui/material';
-// utils
-import { fDate } from '../../../utils/formatTime';
-// hooks
-import useResponsive from '../../../hooks/useResponsive';
-// components
-import Iconify from '../../../components/Iconify';
 
-// ----------------------------------------------------------------------
+import PropTypes from 'prop-types';
+
+import Iconify from '../../../components/Iconify';
+import useResponsive from '../../../hooks/useResponsive';
+import { fDate } from '../../../utils/formatTime.util';
 
 const VIEW_OPTIONS = [
   { value: 'dayGridMonth', label: 'Month', icon: 'ic:round-view-module' },
@@ -29,8 +25,6 @@ const RootStyle = styled('div')(({ theme }) => ({
   },
 }));
 
-// ----------------------------------------------------------------------
-
 CalendarToolbar.propTypes = {
   date: PropTypes.instanceOf(Date).isRequired,
   onToday: PropTypes.func,
@@ -40,7 +34,14 @@ CalendarToolbar.propTypes = {
   view: PropTypes.oneOf(['dayGridMonth', 'timeGridWeek', 'timeGridDay', 'listWeek']),
 };
 
-export default function CalendarToolbar({ date, view, onToday, onNextDate, onPrevDate, onChangeView }) {
+export default function CalendarToolbar({
+  date,
+  view,
+  onToday,
+  onNextDate,
+  onPrevDate,
+  onChangeView,
+}) {
   const isDesktop = useResponsive('up', 'sm');
 
   return (

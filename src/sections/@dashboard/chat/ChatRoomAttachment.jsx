@@ -1,17 +1,14 @@
-import PropTypes from 'prop-types';
-import uniq from 'lodash/uniq';
-import flatten from 'lodash/flatten';
-// @mui
+import { Box, Button, Collapse, Divider, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { Box, Button, Divider, Collapse, Typography } from '@mui/material';
-// utils
-import { fDateTime } from '../../../utils/formatTime';
-import { getFileFullName, getFileThumb } from '../../../utils/getFileFormat';
-// components
+
+import flatten from 'lodash/flatten';
+import uniq from 'lodash/uniq';
+import PropTypes from 'prop-types';
+
 import Iconify from '../../../components/Iconify';
 import Scrollbar from '../../../components/Scrollbar';
-
-// ----------------------------------------------------------------------
+import { fDateTime } from '../../../utils/formatTime.util';
+import { getFileFullName, getFileThumb } from '../../../utils/getFileFormat';
 
 const RootStyle = styled('div')(({ theme }) => ({
   flexGrow: 1,
@@ -61,7 +58,9 @@ ChatRoomAttachment.propTypes = {
 };
 
 export default function ChatRoomAttachment({ conversation, isCollapse, onCollapse }) {
-  const totalAttachment = uniq(flatten(conversation.messages.map((item) => item.attachments))).length;
+  const totalAttachment = uniq(
+    flatten(conversation.messages.map((item) => item.attachments)),
+  ).length;
 
   return (
     <RootStyle>

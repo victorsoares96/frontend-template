@@ -1,42 +1,37 @@
-import { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-// @mui
-import { useTheme, styled } from '@mui/material/styles';
-import { Box, Stack, Drawer, IconButton } from '@mui/material';
-// redux
-import { useSelector } from '../../../redux/store';
-// hooks
-import useResponsive from '../../../hooks/useResponsive';
-// utils
-import axios from '../../../utils/axios';
-// routes
-import { PATH_DASHBOARD } from '../../../routes/paths';
-// components
+import { Fragment, useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+
+import { Box, Drawer, IconButton, Stack } from '@mui/material';
+import { styled, useTheme } from '@mui/material/styles';
+
 import Iconify from '../../../components/Iconify';
 import Scrollbar from '../../../components/Scrollbar';
-//
+import useResponsive from '../../../hooks/useResponsive';
+import { PATH_DASHBOARD } from '../../../routes/paths';
+import { useSelector } from '../../../store';
+import axios from '../../../utils/axios';
 import ChatAccount from './ChatAccount';
-import ChatSearchResults from './ChatSearchResults';
 import ChatContactSearch from './ChatContactSearch';
 import ChatConversationList from './ChatConversationList';
+import ChatSearchResults from './ChatSearchResults';
 
-// ----------------------------------------------------------------------
-
-const ToggleButtonStyle = styled((props) => <IconButton disableRipple {...props} />)(({ theme }) => ({
-  left: 0,
-  zIndex: 9,
-  width: 32,
-  height: 32,
-  position: 'absolute',
-  top: theme.spacing(13),
-  borderRadius: `0 12px 12px 0`,
-  color: theme.palette.primary.contrastText,
-  backgroundColor: theme.palette.primary.main,
-  boxShadow: theme.customShadows.primary,
-  '&:hover': {
-    backgroundColor: theme.palette.primary.darker,
-  },
-}));
+const ToggleButtonStyle = styled((props) => <IconButton disableRipple {...props} />)(
+  ({ theme }) => ({
+    left: 0,
+    zIndex: 9,
+    width: 32,
+    height: 32,
+    position: 'absolute',
+    top: theme.spacing(13),
+    borderRadius: `0 12px 12px 0`,
+    color: theme.palette.primary.contrastText,
+    backgroundColor: theme.palette.primary.main,
+    boxShadow: theme.customShadows.primary,
+    '&:hover': {
+      backgroundColor: theme.palette.primary.darker,
+    },
+  }),
+);
 
 // ----------------------------------------------------------------------
 
@@ -131,14 +126,14 @@ export default function ChatSidebar() {
   };
 
   const renderContent = (
-    <>
+    <Fragment>
       <Box sx={{ py: 2, px: 3 }}>
         <Stack direction="row" alignItems="center" justifyContent="center">
           {!isCollapse && (
-            <>
+            <Fragment>
               <ChatAccount />
               <Box sx={{ flexGrow: 1 }} />
-            </>
+            </Fragment>
           )}
 
           <IconButton onClick={handleToggleSidebar}>
@@ -151,7 +146,7 @@ export default function ChatSidebar() {
 
           {!isCollapse && (
             <IconButton onClick={() => navigate(PATH_DASHBOARD.chat.new)}>
-              <Iconify icon={'eva:edit-fill'} width={20} height={20} />
+              <Iconify icon="eva:edit-fill" width={20} height={20} />
             </IconButton>
           )}
         </Stack>
@@ -175,17 +170,21 @@ export default function ChatSidebar() {
             sx={{ ...(isSearchFocused && { display: 'none' }) }}
           />
         ) : (
-          <ChatSearchResults query={searchQuery} results={searchResults} onSelectContact={handleSelectContact} />
+          <ChatSearchResults
+            query={searchQuery}
+            results={searchResults}
+            onSelectContact={handleSelectContact}
+          />
         )}
       </Scrollbar>
-    </>
+    </Fragment>
   );
 
   return (
-    <>
+    <Fragment>
       {!isDesktop && (
         <ToggleButtonStyle onClick={handleToggleSidebar}>
-          <Iconify width={16} height={16} icon={'eva:people-fill'} />
+          <Iconify width={16} height={16} icon="eva:people-fill" />
         </ToggleButtonStyle>
       )}
 
@@ -225,6 +224,6 @@ export default function ChatSidebar() {
           {renderContent}
         </Drawer>
       )}
-    </>
+    </Fragment>
   );
 }

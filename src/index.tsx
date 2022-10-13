@@ -1,35 +1,32 @@
-import './locales/i18n';
-
-import './utils/highlight';
-
-import 'simplebar/src/simplebar.css';
-
+/* eslint-disable prettier/prettier */
 import 'react-image-lightbox/style.css';
-
-import 'mapbox-gl/dist/mapbox-gl.css';
-
-import 'react-quill/dist/quill.snow.css';
-
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-
+import 'react-lazy-load-image-component/src/effects/black-and-white.css';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import 'react-lazy-load-image-component/src/effects/opacity.css';
-import 'react-lazy-load-image-component/src/effects/black-and-white.css';
+import 'react-quill/dist/quill.snow.css';
+import 'simplebar/src/simplebar.css';
+import 'slick-carousel/slick/slick-theme.css';
+import 'slick-carousel/slick/slick.css';
+import 'mapbox-gl/dist/mapbox-gl.css';
+import './locales/i18n';
+import './utils/highlight';
 
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { Provider as ReduxProvider } from 'react-redux';
-import { PersistGate } from 'redux-persist/lib/integration/react';
+import { BrowserRouter } from 'react-router-dom';
+
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import { store, persistor } from './redux/store';
-import { SettingsProvider } from './contexts/SettingsContext';
-import { CollapseDrawerProvider } from './contexts/CollapseDrawerContext';
 
-import { AuthProvider } from './contexts/JWTContext';
+import { PersistGate } from 'redux-persist/lib/integration/react';
+
+
 import App from './App';
+import { CollapseDrawerProvider } from './contexts/CollapseDrawerContext';
+import { AuthProvider } from './contexts/JWTContext';
+import { SettingsProvider } from './contexts/SettingsContext';
+import { persistor, store } from './store';
 
 ReactDOM.render(
   <AuthProvider>
@@ -49,5 +46,5 @@ ReactDOM.render(
       </ReduxProvider>
     </HelmetProvider>
   </AuthProvider>,
-  document.getElementById('root')
+  document.getElementById('root'),
 );

@@ -1,15 +1,12 @@
-import PropTypes from 'prop-types';
-import { capitalCase } from 'change-case';
-// @mui
+import { Avatar, AvatarGroup, Box, IconButton, Link, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { Box, Link, Avatar, Typography, AvatarGroup, IconButton } from '@mui/material';
-// utils
-import { fToNow } from '../../../utils/formatTime';
-// components
-import Iconify from '../../../components/Iconify';
-import BadgeStatus from '../../../components/BadgeStatus';
 
-// ----------------------------------------------------------------------
+import { capitalCase } from 'change-case';
+import PropTypes from 'prop-types';
+
+import BadgeStatus from '../../../components/BadgeStatus';
+import Iconify from '../../../components/Iconify';
+import { fToNow } from '../../../utils/formatTime.util';
 
 const RootStyle = styled('div')(({ theme }) => ({
   flexShrink: 0,
@@ -18,8 +15,6 @@ const RootStyle = styled('div')(({ theme }) => ({
   alignItems: 'center',
   padding: theme.spacing(0, 3),
 }));
-
-// ----------------------------------------------------------------------
 
 ChatHeaderDetail.propTypes = {
   participants: PropTypes.array.isRequired,
@@ -30,7 +25,11 @@ export default function ChatHeaderDetail({ participants }) {
 
   return (
     <RootStyle>
-      {isGroup ? <GroupAvatar participants={participants} /> : <OneAvatar participants={participants} />}
+      {isGroup ? (
+        <GroupAvatar participants={participants} />
+      ) : (
+        <OneAvatar participants={participants} />
+      )}
 
       <Box sx={{ flexGrow: 1 }} />
       <IconButton>
@@ -63,13 +62,18 @@ function OneAvatar({ participants }) {
     <Box sx={{ display: 'flex', alignItems: 'center' }}>
       <Box sx={{ position: 'relative' }}>
         <Avatar src={participant.avatar} alt={participant.name} />
-        <BadgeStatus status={participant.status} sx={{ position: 'absolute', right: 2, bottom: 2 }} />
+        <BadgeStatus
+          status={participant.status}
+          sx={{ position: 'absolute', right: 2, bottom: 2 }}
+        />
       </Box>
       <Box sx={{ ml: 2 }}>
         <Typography variant="subtitle2">{participant.name}</Typography>
 
         <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-          {participant.status !== 'offline' ? capitalCase(participant.status) : fToNow(participant.lastActivity || '')}
+          {participant.status !== 'offline'
+            ? capitalCase(participant.status)
+            : fToNow(participant.lastActivity || '')}
         </Typography>
       </Box>
     </Box>
@@ -96,7 +100,13 @@ function GroupAvatar({ participants }) {
           <Avatar key={participant.id} alt={participant.name} src={participant.avatar} />
         ))}
       </AvatarGroup>
-      <Link variant="body2" underline="none" component="button" color="text.secondary" onClick={() => {}}>
+      <Link
+        variant="body2"
+        underline="none"
+        component="button"
+        color="text.secondary"
+        onClick={() => {}}
+      >
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           {participants.length} persons
           <Iconify icon="eva:arrow-ios-forward-fill" />

@@ -1,20 +1,17 @@
-import PropTypes from 'prop-types';
-import { useState } from 'react';
-import { sentenceCase } from 'change-case';
-// @mui
-import { useTheme } from '@mui/material/styles';
-import { TableRow, Checkbox, TableCell, Typography, MenuItem } from '@mui/material';
-// utils
-import { fDate } from '../../../../utils/formatTime';
-import { fCurrency } from '../../../../utils/formatNumber';
-// components
-import Label from '../../../../components/Label';
-import Image from '../../../../components/Image';
-import Iconify from '../../../../components/Iconify';
-import { TableMoreMenu } from '../../../../components/table';
-//
+import { Fragment, useState } from 'react';
 
-// ----------------------------------------------------------------------
+import { Checkbox, MenuItem, TableCell, TableRow, Typography } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+
+import { sentenceCase } from 'change-case';
+import PropTypes from 'prop-types';
+
+import Iconify from '../../../../components/Iconify';
+import Image from '../../../../components/Image';
+import Label from '../../../../components/Label';
+import { TableMoreMenu } from '../../../../components/table';
+import { fCurrency } from '../../../../utils/formatNumber';
+import { fDate } from '../../../../utils/formatTime.util';
 
 ProductTableRow.propTypes = {
   row: PropTypes.object,
@@ -46,7 +43,12 @@ export default function ProductTableRow({ row, selected, onEditRow, onSelectRow,
       </TableCell>
 
       <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
-        <Image disabledEffect alt={name} src={cover} sx={{ borderRadius: 1.5, width: 48, height: 48, mr: 2 }} />
+        <Image
+          disabledEffect
+          alt={name}
+          src={cover}
+          sx={{ borderRadius: 1.5, width: 48, height: 48, mr: 2 }}
+        />
         <Typography variant="subtitle2" noWrap>
           {name}
         </Typography>
@@ -58,7 +60,9 @@ export default function ProductTableRow({ row, selected, onEditRow, onSelectRow,
         <Label
           variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
           color={
-            (inventoryType === 'out_of_stock' && 'error') || (inventoryType === 'low_stock' && 'warning') || 'success'
+            (inventoryType === 'out_of_stock' && 'error') ||
+            (inventoryType === 'low_stock' && 'warning') ||
+            'success'
           }
           sx={{ textTransform: 'capitalize' }}
         >
@@ -74,7 +78,7 @@ export default function ProductTableRow({ row, selected, onEditRow, onSelectRow,
           onOpen={handleOpenMenu}
           onClose={handleCloseMenu}
           actions={
-            <>
+            <Fragment>
               <MenuItem
                 onClick={() => {
                   onDeleteRow();
@@ -82,7 +86,7 @@ export default function ProductTableRow({ row, selected, onEditRow, onSelectRow,
                 }}
                 sx={{ color: 'error.main' }}
               >
-                <Iconify icon={'eva:trash-2-outline'} />
+                <Iconify icon="eva:trash-2-outline" />
                 Delete
               </MenuItem>
               <MenuItem
@@ -91,10 +95,10 @@ export default function ProductTableRow({ row, selected, onEditRow, onSelectRow,
                   handleCloseMenu();
                 }}
               >
-                <Iconify icon={'eva:edit-fill'} />
+                <Iconify icon="eva:edit-fill" />
                 Edit
               </MenuItem>
-            </>
+            </Fragment>
           }
         />
       </TableCell>

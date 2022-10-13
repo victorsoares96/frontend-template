@@ -1,27 +1,39 @@
-import PropTypes from 'prop-types';
-import * as Yup from 'yup';
-import { useSnackbar } from 'notistack';
-import { useNavigate } from 'react-router-dom';
 import { useCallback, useEffect, useMemo } from 'react';
 // form
-import { useForm, Controller } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
+import { Controller, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+
+import { LoadingButton } from '@mui/lab';
+import {
+  Autocomplete,
+  Card,
+  Chip,
+  Grid,
+  InputAdornment,
+  Stack,
+  TextField,
+  Typography,
+} from '@mui/material';
 // @mui
 import { styled } from '@mui/material/styles';
-import { LoadingButton } from '@mui/lab';
-import { Card, Chip, Grid, Stack, TextField, Typography, Autocomplete, InputAdornment } from '@mui/material';
-// routes
-import { PATH_DASHBOARD } from '../../../routes/paths';
+
+import * as Yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useSnackbar } from 'notistack';
+import PropTypes from 'prop-types';
+
 // components
 import {
   FormProvider,
-  RHFSwitch,
-  RHFSelect,
   RHFEditor,
-  RHFTextField,
   RHFRadioGroup,
+  RHFSelect,
+  RHFSwitch,
+  RHFTextField,
   RHFUploadMultiFile,
 } from '../../../components/hook-form';
+// routes
+import { PATH_DASHBOARD } from '../../../routes/paths';
 
 // ----------------------------------------------------------------------
 
@@ -90,7 +102,7 @@ export default function ProductNewEditForm({ isEdit, currentProduct }) {
       category: currentProduct?.category || CATEGORY_OPTION[0].classify[1],
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [currentProduct]
+    [currentProduct],
   );
 
   const methods = useForm({
@@ -138,11 +150,11 @@ export default function ProductNewEditForm({ isEdit, currentProduct }) {
         acceptedFiles.map((file) =>
           Object.assign(file, {
             preview: URL.createObjectURL(file),
-          })
-        )
+          }),
+        ),
       );
     },
-    [setValue]
+    [setValue],
   );
 
   const handleRemoveAll = () => {
@@ -227,7 +239,12 @@ export default function ProductNewEditForm({ isEdit, currentProduct }) {
                       options={TAGS_OPTION.map((option) => option)}
                       renderTags={(value, getTagProps) =>
                         value.map((option, index) => (
-                          <Chip {...getTagProps({ index })} key={option} size="small" label={option} />
+                          <Chip
+                            {...getTagProps({ index })}
+                            key={option}
+                            size="small"
+                            label={option}
+                          />
                         ))
                       }
                       renderInput={(params) => <TextField label="Tags" {...params} />}

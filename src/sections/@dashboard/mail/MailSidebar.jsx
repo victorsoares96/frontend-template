@@ -1,22 +1,17 @@
-import PropTypes from 'prop-types';
-import { useEffect } from 'react';
+import { Fragment, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-// @mui
-import { Box, List, Drawer, Button, Divider } from '@mui/material';
-// redux
-import { useSelector } from '../../../redux/store';
-// hooks
-import useResponsive from '../../../hooks/useResponsive';
-// config
-import { NAVBAR } from '../../../config';
-// components
+
+import { Box, Button, Divider, Drawer, List } from '@mui/material';
+
+import PropTypes from 'prop-types';
+
 import Iconify from '../../../components/Iconify';
 import Scrollbar from '../../../components/Scrollbar';
 import { SkeletonMailSidebarItem } from '../../../components/skeleton';
-//
+import { NAVBAR } from '../../../config';
+import useResponsive from '../../../hooks/useResponsive';
+import { useSelector } from '../../../store';
 import MailSidebarItem from './MailSidebarItem';
-
-// ----------------------------------------------------------------------
 
 MailSidebar.propTypes = {
   isOpenSidebar: PropTypes.bool,
@@ -51,7 +46,7 @@ export default function MailSidebar({ isOpenSidebar, onOpenCompose, onCloseSideb
         <Button
           fullWidth
           variant="contained"
-          startIcon={<Iconify icon={'eva:plus-fill'} />}
+          startIcon={<Iconify icon="eva:plus-fill" />}
           onClick={handleOpenCompose}
         >
           Compose
@@ -62,16 +57,23 @@ export default function MailSidebar({ isOpenSidebar, onOpenCompose, onCloseSideb
 
       <List disablePadding>
         {(loading ? [...Array(8)] : labels).map((label, index) =>
-          label ? <MailSidebarItem key={label.id} label={label} /> : <SkeletonMailSidebarItem key={index} />
+          label ? (
+            <MailSidebarItem key={label.id} label={label} />
+          ) : (
+            <SkeletonMailSidebarItem key={index} />
+          ),
         )}
       </List>
     </Scrollbar>
   );
 
   return (
-    <>
+    <Fragment>
       {isDesktop ? (
-        <Drawer variant="permanent" PaperProps={{ sx: { width: NAVBAR.BASE_WIDTH, position: 'relative' } }}>
+        <Drawer
+          variant="permanent"
+          PaperProps={{ sx: { width: NAVBAR.BASE_WIDTH, position: 'relative' } }}
+        >
           {renderContent}
         </Drawer>
       ) : (
@@ -84,6 +86,6 @@ export default function MailSidebar({ isOpenSidebar, onOpenCompose, onCloseSideb
           {renderContent}
         </Drawer>
       )}
-    </>
+    </Fragment>
   );
 }

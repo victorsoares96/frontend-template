@@ -1,16 +1,12 @@
-import PropTypes from 'prop-types';
-// @mui
+import { Avatar, Box, SpeedDial, SpeedDialAction, Typography } from '@mui/material';
 import { alpha, styled } from '@mui/material/styles';
-import { Box, Avatar, SpeedDial, Typography, SpeedDialAction } from '@mui/material';
-// hooks
-import useResponsive from '../../../hooks/useResponsive';
-// utils
-import { fDate } from '../../../utils/formatTime';
-// components
-import Image from '../../../components/Image';
-import Iconify from '../../../components/Iconify';
 
-// ----------------------------------------------------------------------
+import PropTypes from 'prop-types';
+
+import Iconify from '../../../components/Iconify';
+import Image from '../../../components/Image';
+import useResponsive from '../../../hooks/useResponsive';
+import { fDate } from '../../../utils/formatTime.util';
 
 const SOCIALS = [
   {
@@ -73,8 +69,6 @@ const FooterStyle = styled('div')(({ theme }) => ({
     padding: theme.spacing(10),
   },
 }));
-
-// ----------------------------------------------------------------------
 
 BlogPostHero.propTypes = {
   post: PropTypes.object.isRequired,

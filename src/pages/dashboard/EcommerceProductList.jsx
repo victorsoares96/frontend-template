@@ -1,45 +1,43 @@
-import { paramCase } from 'change-case';
-import { useState, useEffect } from 'react';
-import { useNavigate, Link as RouterLink } from 'react-router-dom';
-// @mui
+import { useEffect, useState } from 'react';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
+
 import {
   Box,
-  Card,
-  Table,
   Button,
-  Switch,
-  Tooltip,
-  TableBody,
+  Card,
   Container,
+  FormControlLabel,
   IconButton,
+  Switch,
+  Table,
+  TableBody,
   TableContainer,
   TablePagination,
-  FormControlLabel,
+  Tooltip,
 } from '@mui/material';
-// redux
-import { useDispatch, useSelector } from '../../redux/store';
-import { getProducts } from '../../redux/slices/product';
-// routes
-import { PATH_DASHBOARD } from '../../routes/paths';
-// hooks
-import useSettings from '../../hooks/useSettings';
-import useTable, { getComparator, emptyRows } from '../../hooks/useTable';
-// components
-import Page from '../../components/Page';
-import Iconify from '../../components/Iconify';
-import Scrollbar from '../../components/Scrollbar';
+
+import { paramCase } from 'change-case';
+
 import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
+import Iconify from '../../components/Iconify';
+import Page from '../../components/Page';
+import Scrollbar from '../../components/Scrollbar';
 import {
-  TableNoData,
-  TableSkeleton,
   TableEmptyRows,
   TableHeadCustom,
+  TableNoData,
   TableSelectedActions,
+  TableSkeleton,
 } from '../../components/table';
-// sections
-import { ProductTableRow, ProductTableToolbar } from '../../sections/@dashboard/e-commerce/product-list';
-
-// ----------------------------------------------------------------------
+import useSettings from '../../hooks/useSettings';
+import useTable, { emptyRows, getComparator } from '../../hooks/useTable';
+import { PATH_DASHBOARD } from '../../routes/paths';
+import {
+  ProductTableRow,
+  ProductTableToolbar,
+} from '../../sections/@dashboard/e-commerce/product-list';
+import { useDispatch, useSelector } from '../../store';
+import { getProducts } from '../../store/slices/product';
 
 const TABLE_HEAD = [
   { id: 'name', label: 'Product', align: 'left' },
@@ -164,13 +162,13 @@ export default function EcommerceProductList() {
                   onSelectAllRows={(checked) =>
                     onSelectAllRows(
                       checked,
-                      tableData.map((row) => row.id)
+                      tableData.map((row) => row.id),
                     )
                   }
                   actions={
                     <Tooltip title="Delete">
                       <IconButton color="primary" onClick={() => handleDeleteRows(selected)}>
-                        <Iconify icon={'eva:trash-2-outline'} />
+                        <Iconify icon="eva:trash-2-outline" />
                       </IconButton>
                     </Tooltip>
                   }
@@ -188,7 +186,7 @@ export default function EcommerceProductList() {
                   onSelectAllRows={(checked) =>
                     onSelectAllRows(
                       checked,
-                      tableData.map((row) => row.id)
+                      tableData.map((row) => row.id),
                     )
                   }
                 />
@@ -208,10 +206,13 @@ export default function EcommerceProductList() {
                         />
                       ) : (
                         !isNotFound && <TableSkeleton key={index} sx={{ height: denseHeight }} />
-                      )
+                      ),
                     )}
 
-                  <TableEmptyRows height={denseHeight} emptyRows={emptyRows(page, rowsPerPage, tableData.length)} />
+                  <TableEmptyRows
+                    height={denseHeight}
+                    emptyRows={emptyRows(page, rowsPerPage, tableData.length)}
+                  />
 
                   <TableNoData isNotFound={isNotFound} />
                 </TableBody>
@@ -256,7 +257,9 @@ function applySortFilter({ tableData, comparator, filterName }) {
   tableData = stabilizedThis.map((el) => el[0]);
 
   if (filterName) {
-    tableData = tableData.filter((item) => item.name.toLowerCase().indexOf(filterName.toLowerCase()) !== -1);
+    tableData = tableData.filter(
+      (item) => item.name.toLowerCase().indexOf(filterName.toLowerCase()) !== -1,
+    );
   }
 
   return tableData;

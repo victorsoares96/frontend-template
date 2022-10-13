@@ -1,20 +1,15 @@
 import { useEffect } from 'react';
-// @mui
-import { Container, Stack } from '@mui/material';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
-// redux
-import { useDispatch, useSelector } from '../../redux/store';
-import { getBoard, persistColumn, persistCard } from '../../redux/slices/kanban';
-// routes
-import { PATH_DASHBOARD } from '../../routes/paths';
-// components
-import Page from '../../components/Page';
-import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
-import { SkeletonKanbanColumn } from '../../components/skeleton';
-// sections
-import { KanbanColumn, KanbanColumnAdd } from '../../sections/@dashboard/kanban';
 
-// ----------------------------------------------------------------------
+import { Container, Stack } from '@mui/material';
+
+import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
+import Page from '../../components/Page';
+import { SkeletonKanbanColumn } from '../../components/skeleton';
+import { PATH_DASHBOARD } from '../../routes/paths';
+import { KanbanColumn, KanbanColumnAdd } from '../../sections/@dashboard/kanban';
+import { useDispatch, useSelector } from '../../store';
+import { getBoard, persistCard, persistColumn } from '../../store/slices/kanban';
 
 export default function Kanban() {
   const dispatch = useDispatch();
@@ -31,7 +26,8 @@ export default function Kanban() {
 
     if (!destination) return;
 
-    if (destination.droppableId === source.droppableId && destination.index === source.index) return;
+    if (destination.droppableId === source.droppableId && destination.index === source.index)
+      return;
 
     if (type === 'column') {
       const newColumnOrder = Array.from(board.columnOrder);
@@ -59,7 +55,7 @@ export default function Kanban() {
         persistCard({
           ...board.columns,
           [updatedColumn.id]: updatedColumn,
-        })
+        }),
       );
       return;
     }
@@ -83,7 +79,7 @@ export default function Kanban() {
         ...board.columns,
         [updatedStart.id]: updatedStart,
         [updatedFinish.id]: updatedFinish,
-      })
+      }),
     );
   };
 

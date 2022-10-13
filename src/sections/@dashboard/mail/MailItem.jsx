@@ -1,25 +1,20 @@
-import PropTypes from 'prop-types';
-import { useParams, Link as RouterLink } from 'react-router-dom';
-// @mui
+import React from 'react';
+import { Link as RouterLink, useParams } from 'react-router-dom';
+
+import { Box, Checkbox, Link, Tooltip, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { Box, Link, Tooltip, Typography, Checkbox } from '@mui/material';
-// redux
-import { useSelector } from '../../../redux/store';
-// hooks
-import useResponsive from '../../../hooks/useResponsive';
-// utils
-import { fDate } from '../../../utils/formatTime';
-import createAvatar from '../../../utils/createAvatar';
-// routes
-import { PATH_DASHBOARD } from '../../../routes/paths';
-// components
-import Label from '../../../components/Label';
+
+import PropTypes from 'prop-types';
+
 import Avatar from '../../../components/Avatar';
 import Iconify from '../../../components/Iconify';
-//
+import Label from '../../../components/Label';
+import useResponsive from '../../../hooks/useResponsive';
+import { PATH_DASHBOARD } from '../../../routes/paths';
+import { useSelector } from '../../../store';
+import createAvatar from '../../../utils/createAvatar';
+import { fDate } from '../../../utils/formatTime.util';
 import MailItemAction from './MailItemAction';
-
-// ----------------------------------------------------------------------
 
 const RootStyle = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -42,8 +37,6 @@ const WrapStyle = styled(Link)(({ theme }) => ({
   padding: theme.spacing(2, 0),
   transition: theme.transitions.create('padding'),
 }));
-
-// ----------------------------------------------------------------------
 
 const linkTo = (params, mailId) => {
   const { systemLabel, customLabel } = params;
@@ -91,21 +84,24 @@ export default function MailItem({ mail, isDense, isSelected, onSelect, onDesele
     >
       {isDesktop && (
         <Box sx={{ mr: 2, display: 'flex' }}>
-          <Checkbox checked={isSelected} onChange={(event) => handleChangeCheckbox(event.target.checked)} />
+          <Checkbox
+            checked={isSelected}
+            onChange={(event) => handleChangeCheckbox(event.target.checked)}
+          />
           <Tooltip title="Starred">
             <Checkbox
               color="warning"
               defaultChecked={mail.isStarred}
-              icon={<Iconify icon={'eva:star-outline'} />}
-              checkedIcon={<Iconify icon={'eva:star-fill'} />}
+              icon={<Iconify icon="eva:star-outline" />}
+              checkedIcon={<Iconify icon="eva:star-fill" />}
             />
           </Tooltip>
           <Tooltip title="Important">
             <Checkbox
               color="warning"
               defaultChecked={mail.isImportant}
-              checkedIcon={<Iconify icon={'ic:round-label-important'} />}
-              icon={<Iconify icon={'ic:round-label-important'} />}
+              checkedIcon={<Iconify icon="ic:round-label-important" />}
+              icon={<Iconify icon="ic:round-label-important" />}
             />
           </Tooltip>
         </Box>
@@ -169,7 +165,7 @@ export default function MailItem({ mail, isDense, isSelected, onSelect, onDesele
           </Typography>
 
           {isDesktop && (
-            <>
+            <React.Fragment>
               <Box sx={{ display: 'flex' }}>
                 {mail.labelIds.map((labelId) => {
                   const label = labels.find((_label) => _label.id === labelId);
@@ -192,7 +188,7 @@ export default function MailItem({ mail, isDense, isSelected, onSelect, onDesele
 
               {isAttached && (
                 <Iconify
-                  icon={'eva:link-fill'}
+                  icon="eva:link-fill"
                   sx={{
                     mx: 2,
                     width: 20,
@@ -201,7 +197,7 @@ export default function MailItem({ mail, isDense, isSelected, onSelect, onDesele
                   }}
                 />
               )}
-            </>
+            </React.Fragment>
           )}
 
           <Typography

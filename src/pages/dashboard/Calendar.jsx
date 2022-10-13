@@ -1,30 +1,23 @@
+/* eslint-disable prettier/prettier */
+import '@fullcalendar/react/dist/vdom';
 import FullCalendar from '@fullcalendar/react'; // => request placed at the top
 import listPlugin from '@fullcalendar/list';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import timelinePlugin from '@fullcalendar/timeline';
 import interactionPlugin from '@fullcalendar/interaction';
-//
 import { useState, useRef, useEffect } from 'react';
-// @mui
 import { Card, Button, Container, DialogTitle } from '@mui/material';
-// redux
-import { useDispatch, useSelector } from '../../redux/store';
-import { getEvents, openModal, closeModal, updateEvent, selectEvent, selectRange } from '../../redux/slices/calendar';
-// routes
+import { useDispatch, useSelector } from '../../store';
+import { getEvents, openModal, closeModal, updateEvent, selectEvent, selectRange } from '../../store/slices/calendar';
 import { PATH_DASHBOARD } from '../../routes/paths';
-// hooks
 import useSettings from '../../hooks/useSettings';
 import useResponsive from '../../hooks/useResponsive';
-// components
 import Page from '../../components/Page';
 import Iconify from '../../components/Iconify';
 import { DialogAnimate } from '../../components/animate';
 import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
-// sections
 import { CalendarForm, CalendarStyle, CalendarToolbar } from '../../sections/@dashboard/calendar';
-
-// ----------------------------------------------------------------------
 
 const selectedEventSelector = (state) => {
   const { events, selectedEventId } = state.calendar;
@@ -160,7 +153,7 @@ export default function Calendar() {
           action={
             <Button
               variant="contained"
-              startIcon={<Iconify icon={'eva:plus-fill'} width={20} height={20} />}
+              startIcon={<Iconify icon="eva:plus-fill" width={20} height={20} />}
               onClick={handleAddEvent}
             >
               New Event

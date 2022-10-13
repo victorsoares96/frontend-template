@@ -1,16 +1,16 @@
-import PropTypes from 'prop-types';
-import { Page, View, Text, Image, Document } from '@react-pdf/renderer';
-// utils
-import { fCurrency } from '../../../../utils/formatNumber';
-import { fDate } from '../../../../utils/formatTime';
-//
-import styles from './InvoiceStyle';
+import pdf from '@react-pdf/renderer';
 
-// ----------------------------------------------------------------------
+import PropTypes from 'prop-types';
+
+import { fCurrency } from '../../../../utils/formatNumber';
+import { fDate } from '../../../../utils/formatTime.util';
+import styles from './InvoiceStyle';
 
 InvoicePDF.propTypes = {
   invoice: PropTypes.object.isRequired,
 };
+
+const { Document, Image, Page, Text, View } = pdf;
 
 export default function InvoicePDF({ invoice }) {
   const {
@@ -171,7 +171,9 @@ export default function InvoicePDF({ invoice }) {
         <View style={[styles.gridContainer, styles.footer]}>
           <View style={styles.col8}>
             <Text style={styles.subtitle2}>NOTES</Text>
-            <Text>We appreciate your business. Should you need us to add VAT or extra notes let us know!</Text>
+            <Text>
+              We appreciate your business. Should you need us to add VAT or extra notes let us know!
+            </Text>
           </View>
           <View style={[styles.col4, styles.alignRight]}>
             <Text style={styles.subtitle2}>Have a Question?</Text>

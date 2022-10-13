@@ -1,18 +1,21 @@
-import PropTypes from 'prop-types';
-import Slider from 'react-slick';
 import { useRef } from 'react';
+import Slider from 'react-slick';
+
+import { Avatar, Box, CardHeader, Paper, Stack, Typography } from '@mui/material';
 // @mui
 import { useTheme } from '@mui/material/styles';
-import { Box, Stack, Avatar, Typography, Paper, CardHeader } from '@mui/material';
-// utils
-import { fDateTime } from '../../../../utils/formatTime';
+
+import PropTypes from 'prop-types';
+
 // _mock_
 import { _bookingNew } from '../../../../_mock';
+import Iconify from '../../../../components/Iconify';
+import Image from '../../../../components/Image';
 // components
 import Label from '../../../../components/Label';
-import Image from '../../../../components/Image';
-import Iconify from '../../../../components/Iconify';
 import { CarouselArrows } from '../../../../components/carousel';
+// utils
+import { fDateTime } from '../../../../utils/formatTime.util';
 
 // ----------------------------------------------------------------------
 
@@ -63,7 +66,7 @@ export default function BookingNewestBooking() {
         subheader="12 Booking"
         action={
           <CarouselArrows
-            customIcon={'ic:round-keyboard-arrow-right'}
+            customIcon="ic:round-keyboard-arrow-right"
             onNext={handleNext}
             onPrevious={handlePrevious}
             sx={{ '& .arrow': { width: 28, height: 28, p: 0 } }}
@@ -109,7 +112,10 @@ function BookingItem({ item }) {
           <Avatar alt={name} src={avatar} />
           <div>
             <Typography variant="subtitle2">{name}</Typography>
-            <Typography variant="caption" sx={{ color: 'text.disabled', mt: 0.5, display: 'block' }}>
+            <Typography
+              variant="caption"
+              sx={{ color: 'text.disabled', mt: 0.5, display: 'block' }}
+            >
               {fDateTime(bookdAt)}
             </Typography>
           </div>
@@ -117,12 +123,12 @@ function BookingItem({ item }) {
 
         <Stack direction="row" alignItems="center" spacing={3} sx={{ color: 'text.secondary' }}>
           <Stack direction="row" alignItems="center" spacing={1}>
-            <Iconify icon={'ic:round-vpn-key'} width={16} height={16} />
+            <Iconify icon="ic:round-vpn-key" width={16} height={16} />
             <Typography variant="caption">Room {roomNumber}</Typography>
           </Stack>
 
           <Stack direction="row" alignItems="center" spacing={1}>
-            <Iconify icon={'eva:people-fill'} width={16} height={16} />
+            <Iconify icon="eva:people-fill" width={16} height={16} />
             <Typography variant="caption">{person} Person</Typography>
           </Stack>
         </Stack>

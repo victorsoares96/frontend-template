@@ -1,12 +1,9 @@
-import PropTypes from 'prop-types';
-// @mui
-import { Card, Button, Typography, CardHeader, CardContent } from '@mui/material';
-// redux
-import { useSelector } from '../../../../redux/store';
-// components
-import Iconify from '../../../../components/Iconify';
+import { Button, Card, CardContent, CardHeader, Typography } from '@mui/material';
 
-// ----------------------------------------------------------------------
+import PropTypes from 'prop-types';
+
+import Iconify from '../../../../components/Iconify';
+import { useSelector } from '../../../../store';
 
 CheckoutBillingInfo.propTypes = {
   onBackStep: PropTypes.func,
@@ -22,7 +19,7 @@ export default function CheckoutBillingInfo({ onBackStep }) {
       <CardHeader
         title="Billing Address"
         action={
-          <Button size="small" startIcon={<Iconify icon={'eva:edit-fill'} />} onClick={onBackStep}>
+          <Button size="small" startIcon={<Iconify icon="eva:edit-fill" />} onClick={onBackStep}>
             Edit
           </Button>
         }
