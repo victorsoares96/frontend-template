@@ -1,15 +1,18 @@
-import PropTypes from 'prop-types';
 import { useState } from 'react';
+
+import { Box, Card, CardContent, IconButton, Typography } from '@mui/material';
 // @mui
 import { styled } from '@mui/material/styles';
-import { Box, Card, IconButton, Typography, CardContent } from '@mui/material';
-// utils
-import { fDate } from '../../../../utils/formatTime';
-import cssStyles from '../../../../utils/cssStyles';
+
+import PropTypes from 'prop-types';
+
+import Iconify from '../../../../components/Iconify';
 // components
 import Image from '../../../../components/Image';
-import Iconify from '../../../../components/Iconify';
 import LightboxModal from '../../../../components/LightboxModal';
+import cssStyles from '../../../../utils/cssStyles';
+// utils
+import { fDate } from '../../../../utils/formatTime.util';
 
 // ----------------------------------------------------------------------
 
@@ -89,7 +92,12 @@ function GalleryItem({ image, onOpenLightbox }) {
   const { imageUrl, title, postAt } = image;
   return (
     <Card sx={{ cursor: 'pointer', position: 'relative' }}>
-      <Image alt="gallery image" ratio="1/1" src={imageUrl} onClick={() => onOpenLightbox(imageUrl)} />
+      <Image
+        alt="gallery image"
+        ratio="1/1"
+        src={imageUrl}
+        onClick={() => onOpenLightbox(imageUrl)}
+      />
 
       <CaptionStyle>
         <div>
@@ -99,7 +107,7 @@ function GalleryItem({ image, onOpenLightbox }) {
           </Typography>
         </div>
         <IconButton color="inherit">
-          <Iconify icon={'eva:more-vertical-fill'} width={20} height={20} />
+          <Iconify icon="eva:more-vertical-fill" width={20} height={20} />
         </IconButton>
       </CaptionStyle>
     </Card>

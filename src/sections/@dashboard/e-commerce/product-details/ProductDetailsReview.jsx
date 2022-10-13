@@ -1,7 +1,10 @@
-import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
+
 // @mui
-import { Divider, Collapse } from '@mui/material';
+import { Collapse, Divider } from '@mui/material';
+
+import PropTypes from 'prop-types';
+
 //
 import ProductDetailsReviewForm from './ProductDetailsReviewForm';
 import ProductDetailsReviewList from './ProductDetailsReviewList';
@@ -25,7 +28,7 @@ export default function ProductDetailsReview({ product }) {
   };
 
   return (
-    <>
+    <Fragment>
       <ProductDetailsReviewOverview product={product} onOpen={handleOpenReviewBox} />
 
       <Divider />
@@ -36,6 +39,6 @@ export default function ProductDetailsReview({ product }) {
       </Collapse>
 
       <ProductDetailsReviewList product={product} />
-    </>
+    </Fragment>
   );
 }

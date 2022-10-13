@@ -1,15 +1,18 @@
-import PropTypes from 'prop-types';
 import { Link as RouterLink } from 'react-router-dom';
+
 // @mui
-import { Box, Stack, Link, Card, Button, Divider, Typography, CardHeader } from '@mui/material';
-// utils
-import { fToNow } from '../../../../utils/formatTime';
+import { Box, Button, Card, CardHeader, Divider, Link, Stack, Typography } from '@mui/material';
+
+import PropTypes from 'prop-types';
+
 // _mock_
 import { _analyticPost } from '../../../../_mock';
+import Iconify from '../../../../components/Iconify';
 // components
 import Image from '../../../../components/Image';
-import Iconify from '../../../../components/Iconify';
 import Scrollbar from '../../../../components/Scrollbar';
+// utils
+import { fToNow } from '../../../../utils/formatTime.util';
 
 // ----------------------------------------------------------------------
 
@@ -34,7 +37,7 @@ export default function AnalyticsNewsUpdate() {
           size="small"
           color="inherit"
           component={RouterLink}
-          endIcon={<Iconify icon={'eva:arrow-ios-forward-fill'} />}
+          endIcon={<Iconify icon="eva:arrow-ios-forward-fill" />}
         >
           View all
         </Button>
@@ -59,7 +62,11 @@ function NewsItem({ news }) {
 
   return (
     <Stack direction="row" alignItems="center" spacing={2}>
-      <Image alt={title} src={image} sx={{ width: 48, height: 48, borderRadius: 1.5, flexShrink: 0 }} />
+      <Image
+        alt={title}
+        src={image}
+        sx={{ width: 48, height: 48, borderRadius: 1.5, flexShrink: 0 }}
+      />
       <Box sx={{ minWidth: 240 }}>
         <Link component={RouterLink} to="#" color="inherit">
           <Typography variant="subtitle2" noWrap>

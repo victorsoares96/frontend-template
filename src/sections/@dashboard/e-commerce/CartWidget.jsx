@@ -1,14 +1,17 @@
-import sum from 'lodash/sum';
 import { Link as RouterLink } from 'react-router-dom';
+
+import { Badge } from '@mui/material';
 // @mui
 import { styled } from '@mui/material/styles';
-import { Badge } from '@mui/material';
-// redux
-import { useSelector } from '../../../redux/store';
-// routes
-import { PATH_DASHBOARD } from '../../../routes/paths';
+
+import sum from 'lodash/sum';
+
 // components
 import Iconify from '../../../components/Iconify';
+// routes
+import { PATH_DASHBOARD } from '../../../routes/paths';
+// redux
+import { useSelector } from '../../../store';
 
 // ----------------------------------------------------------------------
 
@@ -42,7 +45,7 @@ export default function CartWidget() {
   return (
     <RootStyle to={PATH_DASHBOARD.eCommerce.checkout}>
       <Badge showZero badgeContent={totalItems} color="error" max={99}>
-        <Iconify icon={'eva:shopping-cart-fill'} width={24} height={24} />
+        <Iconify icon="eva:shopping-cart-fill" width={24} height={24} />
       </Badge>
     </RootStyle>
   );

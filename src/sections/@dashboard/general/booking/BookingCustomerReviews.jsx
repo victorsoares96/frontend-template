@@ -1,16 +1,19 @@
-import PropTypes from 'prop-types';
-import Slider from 'react-slick';
 import { useRef } from 'react';
+import Slider from 'react-slick';
+
+import { Avatar, Button, Card, CardHeader, Chip, Rating, Stack, Typography } from '@mui/material';
 // @mui
 import { useTheme } from '@mui/material/styles';
-import { Card, Chip, Stack, Avatar, Rating, Button, CardHeader, Typography } from '@mui/material';
-// utils
-import { fDateTime } from '../../../../utils/formatTime';
+
+import PropTypes from 'prop-types';
+
 // _mock_
 import { _bookingReview } from '../../../../_mock';
 // components
 import Iconify from '../../../../components/Iconify';
 import { CarouselArrows } from '../../../../components/carousel';
+// utils
+import { fDateTime } from '../../../../utils/formatTime.util';
 
 // ----------------------------------------------------------------------
 
@@ -42,7 +45,7 @@ export default function BookingCustomerReviews() {
         subheader={`${_bookingReview.length} Reviews`}
         action={
           <CarouselArrows
-            customIcon={'ic:round-keyboard-arrow-right'}
+            customIcon="ic:round-keyboard-arrow-right"
             onNext={handleNext}
             onPrevious={handlePrevious}
             sx={{ '& .arrow': { width: 28, height: 28, p: 0 } }}
@@ -102,10 +105,19 @@ function ReviewItem({ item }) {
       </Stack>
 
       <Stack direction="row" spacing={2} alignItems="flex-end" sx={{ flexGrow: 1 }}>
-        <Button fullWidth variant="contained" endIcon={<Iconify icon={'eva:checkmark-circle-2-fill'} />}>
+        <Button
+          fullWidth
+          variant="contained"
+          endIcon={<Iconify icon="eva:checkmark-circle-2-fill" />}
+        >
           Accept
         </Button>
-        <Button fullWidth variant="contained" color="error" endIcon={<Iconify icon={'eva:close-circle-fill'} />}>
+        <Button
+          fullWidth
+          variant="contained"
+          color="error"
+          endIcon={<Iconify icon="eva:close-circle-fill" />}
+        >
           Reject
         </Button>
       </Stack>

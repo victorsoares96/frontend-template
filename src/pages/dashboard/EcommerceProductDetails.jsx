@@ -1,30 +1,33 @@
-import { sentenceCase } from 'change-case';
+import { Fragment, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+
+import { TabContext, TabList, TabPanel } from '@mui/lab';
+import { Box, Card, Container, Divider, Grid, Tab, Typography } from '@mui/material';
 // @mui
 import { alpha, styled } from '@mui/material/styles';
-import { Box, Tab, Card, Grid, Divider, Container, Typography } from '@mui/material';
-import { TabContext, TabList, TabPanel } from '@mui/lab';
-// redux
-import { useDispatch, useSelector } from '../../redux/store';
-import { getProduct, addCart, onGotoStep } from '../../redux/slices/product';
-// routes
-import { PATH_DASHBOARD } from '../../routes/paths';
-// hooks
-import useSettings from '../../hooks/useSettings';
-// components
-import Page from '../../components/Page';
+
+import { sentenceCase } from 'change-case';
+
+import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
 import Iconify from '../../components/Iconify';
 import Markdown from '../../components/Markdown';
+// components
+import Page from '../../components/Page';
 import { SkeletonProduct } from '../../components/skeleton';
-import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
+// hooks
+import useSettings from '../../hooks/useSettings';
+// routes
+import { PATH_DASHBOARD } from '../../routes/paths';
+import CartWidget from '../../sections/@dashboard/e-commerce/CartWidget';
 // sections
 import {
-  ProductDetailsSummary,
-  ProductDetailsReview,
   ProductDetailsCarousel,
+  ProductDetailsReview,
+  ProductDetailsSummary,
 } from '../../sections/@dashboard/e-commerce/product-details';
-import CartWidget from '../../sections/@dashboard/e-commerce/CartWidget';
+// redux
+import { useDispatch, useSelector } from '../../store';
+import { addCart, getProduct, onGotoStep } from '../../store/slices/product';
 
 // ----------------------------------------------------------------------
 
@@ -102,7 +105,7 @@ export default function EcommerceProductDetails() {
         <CartWidget />
 
         {product && (
-          <>
+          <Fragment>
             <Card>
               <Grid container>
                 <Grid item xs={12} md={6} lg={7}>
@@ -161,7 +164,7 @@ export default function EcommerceProductDetails() {
                 </TabPanel>
               </TabContext>
             </Card>
-          </>
+          </Fragment>
         )}
 
         {!product && <SkeletonProduct />}

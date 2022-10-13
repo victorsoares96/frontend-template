@@ -1,30 +1,32 @@
 import { Suspense, lazy } from 'react';
-import { Navigate, useRoutes, useLocation } from 'react-router-dom';
-// layouts
-import MainLayout from '../layouts/main';
-import DashboardLayout from '../layouts/dashboard';
-import LogoOnlyLayout from '../layouts/LogoOnlyLayout';
-// guards
-import GuestGuard from '../guards/GuestGuard';
-import AuthGuard from '../guards/AuthGuard';
+import { Navigate, useLocation, useRoutes } from 'react-router-dom';
+
+// components
+import LoadingScreen from '../components/LoadingScreen';
 // import RoleBasedGuard from '../guards/RoleBasedGuard';
 // config
 import { PATH_AFTER_LOGIN } from '../config';
-// components
-import LoadingScreen from '../components/LoadingScreen';
+import AuthGuard from '../guards/AuthGuard';
+// guards
+import GuestGuard from '../guards/GuestGuard';
+import LogoOnlyLayout from '../layouts/LogoOnlyLayout';
+import DashboardLayout from '../layouts/dashboard';
+// layouts
+import MainLayout from '../layouts/main';
 
 // ----------------------------------------------------------------------
 
-const Loadable = (Component) => (props) => {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { pathname } = useLocation();
+const Loadable = (Component) =>
+  function (props) {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const { pathname } = useLocation();
 
-  return (
-    <Suspense fallback={<LoadingScreen isDashboard={pathname.includes('/dashboard')} />}>
-      <Component {...props} />
-    </Suspense>
-  );
-};
+    return (
+      <Suspense fallback={<LoadingScreen isDashboard={pathname.includes('/dashboard')} />}>
+        <Component {...props} />
+      </Suspense>
+    );
+  };
 
 export default function Router() {
   return useRoutes([
@@ -181,9 +183,15 @@ const GeneralBooking = Loadable(lazy(() => import('../pages/dashboard/GeneralBoo
 
 // ECOMMERCE
 const EcommerceShop = Loadable(lazy(() => import('../pages/dashboard/EcommerceShop')));
-const EcommerceProductDetails = Loadable(lazy(() => import('../pages/dashboard/EcommerceProductDetails')));
-const EcommerceProductList = Loadable(lazy(() => import('../pages/dashboard/EcommerceProductList')));
-const EcommerceProductCreate = Loadable(lazy(() => import('../pages/dashboard/EcommerceProductCreate')));
+const EcommerceProductDetails = Loadable(
+  lazy(() => import('../pages/dashboard/EcommerceProductDetails')),
+);
+const EcommerceProductList = Loadable(
+  lazy(() => import('../pages/dashboard/EcommerceProductList')),
+);
+const EcommerceProductCreate = Loadable(
+  lazy(() => import('../pages/dashboard/EcommerceProductCreate')),
+);
 const EcommerceCheckout = Loadable(lazy(() => import('../pages/dashboard/EcommerceCheckout')));
 
 // INVOICE

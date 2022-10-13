@@ -1,12 +1,15 @@
-import PropTypes from 'prop-types';
 import { Link as RouterLink } from 'react-router-dom';
+
 // @mui
-import { Stack, Link, Button, Typography } from '@mui/material';
-// utils
-import { fDate } from '../../../../utils/formatTime';
-import { fCurrency } from '../../../../utils/formatNumber';
+import { Button, Link, Stack, Typography } from '@mui/material';
+
+import PropTypes from 'prop-types';
+
 // components
 import Iconify from '../../../../components/Iconify';
+import { fCurrency } from '../../../../utils/formatNumber';
+// utils
+import { fDate } from '../../../../utils/formatTime.util';
 
 // ----------------------------------------------------------------------
 
@@ -35,7 +38,7 @@ export default function AccountBillingInvoiceHistory({ invoices }) {
         ))}
       </Stack>
 
-      <Button size="small" endIcon={<Iconify icon={'eva:arrow-ios-forward-fill'} />}>
+      <Button size="small" endIcon={<Iconify icon="eva:arrow-ios-forward-fill" />}>
         All invoices
       </Button>
     </Stack>

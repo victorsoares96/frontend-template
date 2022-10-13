@@ -1,23 +1,17 @@
-import { useState } from 'react';
-// @mui
-import { alpha } from '@mui/material/styles';
-import { Avatar, Typography, ListItemText, ListItemAvatar, MenuItem } from '@mui/material';
-// utils
-import { fToNow } from '../../../utils/formatTime';
-// _mock_
-import { _contacts } from '../../../_mock';
-// components
-import Iconify from '../../../components/Iconify';
-import Scrollbar from '../../../components/Scrollbar';
-import MenuPopover from '../../../components/MenuPopover';
-import BadgeStatus from '../../../components/BadgeStatus';
-import { IconButtonAnimate } from '../../../components/animate';
+import { Fragment, useState } from 'react';
 
-// ----------------------------------------------------------------------
+import { Avatar, ListItemAvatar, ListItemText, MenuItem, Typography } from '@mui/material';
+import { alpha } from '@mui/material/styles';
+
+import { _contacts } from '../../../_mock';
+import BadgeStatus from '../../../components/BadgeStatus';
+import Iconify from '../../../components/Iconify';
+import MenuPopover from '../../../components/MenuPopover';
+import Scrollbar from '../../../components/Scrollbar';
+import { IconButtonAnimate } from '../../../components/animate';
+import { fToNow } from '../../../utils/formatTime.util';
 
 const ITEM_HEIGHT = 64;
-
-// ----------------------------------------------------------------------
 
 export default function ContactsPopover() {
   const [open, setOpen] = useState(null);
@@ -31,7 +25,7 @@ export default function ContactsPopover() {
   };
 
   return (
-    <>
+    <Fragment>
       <IconButtonAnimate
         color={open ? 'primary' : 'default'}
         onClick={handleOpen}
@@ -39,11 +33,12 @@ export default function ContactsPopover() {
           width: 40,
           height: 40,
           ...(open && {
-            bgcolor: (theme) => alpha(theme.palette.primary.main, theme.palette.action.focusOpacity),
+            bgcolor: (theme) =>
+              alpha(theme.palette.primary.main, theme.palette.action.focusOpacity),
           }),
         }}
       >
-        <Iconify icon={'eva:people-fill'} width={20} height={20} />
+        <Iconify icon="eva:people-fill" width={20} height={20} />
       </IconButtonAnimate>
 
       <MenuPopover
@@ -70,7 +65,10 @@ export default function ContactsPopover() {
             <MenuItem key={contact.id}>
               <ListItemAvatar sx={{ position: 'relative' }}>
                 <Avatar src={contact.avatar} />
-                <BadgeStatus status={contact.status} sx={{ position: 'absolute', right: 1, bottom: 1 }} />
+                <BadgeStatus
+                  status={contact.status}
+                  sx={{ position: 'absolute', right: 1, bottom: 1 }}
+                />
               </ListItemAvatar>
 
               <ListItemText
@@ -83,6 +81,6 @@ export default function ContactsPopover() {
           ))}
         </Scrollbar>
       </MenuPopover>
-    </>
+    </Fragment>
   );
 }

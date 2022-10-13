@@ -1,33 +1,36 @@
-import PropTypes from 'prop-types';
-import { useState, useRef } from 'react';
+import { useRef, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
+
 // @mui
 import {
-  Box,
-  Link,
-  Card,
-  Stack,
-  Paper,
   Avatar,
+  AvatarGroup,
+  Box,
+  Card,
+  CardHeader,
   Checkbox,
+  FormControlLabel,
+  IconButton,
+  InputAdornment,
+  Link,
+  Paper,
+  Stack,
   TextField,
   Typography,
-  CardHeader,
-  IconButton,
-  AvatarGroup,
-  InputAdornment,
-  FormControlLabel,
 } from '@mui/material';
-// hooks
-import useAuth from '../../../../hooks/useAuth';
-// utils
-import { fDate } from '../../../../utils/formatTime';
-import { fShortenNumber } from '../../../../utils/formatNumber';
+
+import PropTypes from 'prop-types';
+
+import EmojiPicker from '../../../../components/EmojiPicker';
+import Iconify from '../../../../components/Iconify';
 // components
 import Image from '../../../../components/Image';
-import Iconify from '../../../../components/Iconify';
 import MyAvatar from '../../../../components/MyAvatar';
-import EmojiPicker from '../../../../components/EmojiPicker';
+// hooks
+import useAuth from '../../../../hooks/useAuth';
+import { fShortenNumber } from '../../../../utils/formatNumber';
+// utils
+import { fDate } from '../../../../utils/formatTime.util';
 
 // ----------------------------------------------------------------------
 
@@ -89,7 +92,7 @@ export default function ProfilePostCard({ post }) {
         }
         action={
           <IconButton>
-            <Iconify icon={'eva:more-vertical-fill'} width={20} height={20} />
+            <Iconify icon="eva:more-vertical-fill" width={20} height={20} />
           </IconButton>
         }
       />
@@ -106,8 +109,8 @@ export default function ProfilePostCard({ post }) {
                 size="small"
                 color="error"
                 checked={isLiked}
-                icon={<Iconify icon={'eva:heart-fill'} />}
-                checkedIcon={<Iconify icon={'eva:heart-fill'} />}
+                icon={<Iconify icon="eva:heart-fill" />}
+                checkedIcon={<Iconify icon="eva:heart-fill" />}
                 onChange={isLiked ? handleUnlike : handleLike}
               />
             }
@@ -121,10 +124,10 @@ export default function ProfilePostCard({ post }) {
           </AvatarGroup>
           <Box sx={{ flexGrow: 1 }} />
           <IconButton onClick={handleClickComment}>
-            <Iconify icon={'eva:message-square-fill'} width={20} height={20} />
+            <Iconify icon="eva:message-square-fill" width={20} height={20} />
           </IconButton>
           <IconButton>
-            <Iconify icon={'eva:share-fill'} width={20} height={20} />
+            <Iconify icon="eva:share-fill" width={20} height={20} />
           </IconButton>
         </Stack>
 
@@ -167,7 +170,7 @@ export default function ProfilePostCard({ post }) {
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton size="small" onClick={handleClickAttach}>
-                    <Iconify icon={'ic:round-add-photo-alternate'} width={24} height={24} />
+                    <Iconify icon="ic:round-add-photo-alternate" width={24} height={24} />
                   </IconButton>
                   <EmojiPicker alignRight value={message} setValue={setMessage} />
                 </InputAdornment>
@@ -183,7 +186,7 @@ export default function ProfilePostCard({ post }) {
             }}
           />
           <IconButton>
-            <Iconify icon={'ic:round-send'} width={24} height={24} />
+            <Iconify icon="ic:round-send" width={24} height={24} />
           </IconButton>
           <input type="file" ref={fileInputRef} style={{ display: 'none' }} />
         </Stack>
