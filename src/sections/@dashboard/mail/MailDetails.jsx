@@ -1,19 +1,16 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-// @mui
-import { styled } from '@mui/material/styles';
+
 import { Box, Divider, Typography } from '@mui/material';
-// redux
-import { useDispatch, useSelector } from '../../../redux/store';
-import { getMail } from '../../../redux/slices/mail';
-//
+import { styled } from '@mui/material/styles';
+
 import Markdown from '../../../components/Markdown';
 import Scrollbar from '../../../components/Scrollbar';
-import MailDetailsToolbar from './MailDetailsToolbar';
-import MailDetailsReplyInput from './MailDetailsReplyInput';
+import { useDispatch, useSelector } from '../../../store';
+import { getMail } from '../../../store/slices/mail';
 import MailDetailsAttachments from './MailDetailsAttachments';
-
-// ----------------------------------------------------------------------
+import MailDetailsReplyInput from './MailDetailsReplyInput';
+import MailDetailsToolbar from './MailDetailsToolbar';
 
 const RootStyle = styled('div')({
   flexGrow: 1,
@@ -27,8 +24,6 @@ const MarkdownStyle = styled('div')(({ theme }) => ({
     marginBottom: theme.spacing(2),
   },
 }));
-
-// ----------------------------------------------------------------------
 
 export default function MailDetails() {
   const { mailId } = useParams();

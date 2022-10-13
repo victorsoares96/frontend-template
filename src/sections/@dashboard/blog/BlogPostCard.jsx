@@ -1,24 +1,20 @@
-import PropTypes from 'prop-types';
-import { paramCase } from 'change-case';
 import { Link as RouterLink } from 'react-router-dom';
-// @mui
-import { styled, alpha } from '@mui/material/styles';
-import { Box, Link, Card, Avatar, Typography, CardContent, Stack } from '@mui/material';
-// routes
-import { PATH_DASHBOARD } from '../../../routes/paths';
-// hooks
-import useResponsive from '../../../hooks/useResponsive';
-// utils
-import { fDate } from '../../../utils/formatTime';
-import { fShortenNumber } from '../../../utils/formatNumber';
-// components
-import Image from '../../../components/Image';
-import Iconify from '../../../components/Iconify';
-import TextMaxLine from '../../../components/TextMaxLine';
-import TextIconLabel from '../../../components/TextIconLabel';
-import SvgIconStyle from '../../../components/SvgIconStyle';
 
-// ----------------------------------------------------------------------
+import { Avatar, Box, Card, CardContent, Link, Stack, Typography } from '@mui/material';
+import { alpha, styled } from '@mui/material/styles';
+
+import { paramCase } from 'change-case';
+import PropTypes from 'prop-types';
+
+import Iconify from '../../../components/Iconify';
+import Image from '../../../components/Image';
+import SvgIconStyle from '../../../components/SvgIconStyle';
+import TextIconLabel from '../../../components/TextIconLabel';
+import TextMaxLine from '../../../components/TextMaxLine';
+import useResponsive from '../../../hooks/useResponsive';
+import { PATH_DASHBOARD } from '../../../routes/paths';
+import { fShortenNumber } from '../../../utils/formatNumber';
+import { fDate } from '../../../utils/formatTime.util';
 
 const OverlayStyle = styled('div')(({ theme }) => ({
   top: 0,
@@ -28,8 +24,6 @@ const OverlayStyle = styled('div')(({ theme }) => ({
   position: 'absolute',
   backgroundColor: alpha(theme.palette.grey[900], 0.8),
 }));
-
-// ----------------------------------------------------------------------
 
 BlogPostCard.propTypes = {
   post: PropTypes.object.isRequired,
@@ -58,7 +52,14 @@ export default function BlogPostCard({ post, index }) {
             position: 'absolute',
           }}
         />
-        <PostContent title={title} view={view} comment={comment} share={share} createdAt={createdAt} index={index} />
+        <PostContent
+          title={title}
+          view={view}
+          comment={comment}
+          share={share}
+          createdAt={createdAt}
+          index={index}
+        />
         <OverlayStyle />
         <Image alt="cover" src={cover} sx={{ height: 360 }} />
       </Card>
@@ -94,7 +95,13 @@ export default function BlogPostCard({ post, index }) {
         <Image alt="cover" src={cover} ratio="4/3" />
       </Box>
 
-      <PostContent title={title} view={view} comment={comment} share={share} createdAt={createdAt} />
+      <PostContent
+        title={title}
+        view={view}
+        comment={comment}
+        share={share}
+        createdAt={createdAt}
+      />
     </Card>
   );
 }
@@ -154,7 +161,11 @@ export function PostContent({ title, view, comment, share, createdAt, index }) {
       </Typography>
 
       <Link to={linkTo} color="inherit" component={RouterLink}>
-        <TextMaxLine variant={isDesktop && latestPostLarge ? 'h5' : 'subtitle2'} line={2} persistent>
+        <TextMaxLine
+          variant={isDesktop && latestPostLarge ? 'h5' : 'subtitle2'}
+          line={2}
+          persistent
+        >
           {title}
         </TextMaxLine>
       </Link>

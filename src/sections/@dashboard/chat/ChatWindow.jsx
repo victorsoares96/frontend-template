@@ -1,27 +1,23 @@
 import { useEffect } from 'react';
-import { useNavigate, useParams, useLocation } from 'react-router-dom';
-// @mui
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+
 import { Box, Divider, Stack } from '@mui/material';
-// redux
-import { useDispatch, useSelector } from '../../../redux/store';
+
+import { PATH_DASHBOARD } from '../../../routes/paths';
+import { useDispatch, useSelector } from '../../../store';
 import {
   addRecipients,
-  onSendMessage,
   getConversation,
   getParticipants,
   markConversationAsRead,
+  onSendMessage,
   resetActiveConversation,
-} from '../../../redux/slices/chat';
-// routes
-import { PATH_DASHBOARD } from '../../../routes/paths';
-//
-import ChatRoom from './ChatRoom';
-import ChatMessageList from './ChatMessageList';
+} from '../../../store/slices/chat';
+import ChatHeaderCompose from './ChatHeaderCompose';
 import ChatHeaderDetail from './ChatHeaderDetail';
 import ChatMessageInput from './ChatMessageInput';
-import ChatHeaderCompose from './ChatHeaderCompose';
-
-// ----------------------------------------------------------------------
+import ChatMessageList from './ChatMessageList';
+import ChatRoom from './ChatRoom';
 
 const conversationSelector = (state) => {
   const { conversations, activeConversationId } = state.chat;
@@ -44,11 +40,15 @@ export default function ChatWindow() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { conversationKey } = useParams();
-  const { contacts, recipients, participants, activeConversationId } = useSelector((state) => state.chat);
+  const { contacts, recipients, participants, activeConversationId } = useSelector(
+    (state) => state.chat,
+  );
   const conversation = useSelector((state) => conversationSelector(state));
 
   const mode = conversationKey ? 'DETAIL' : 'COMPOSE';
-  const displayParticipants = participants.filter((item) => item.id !== '8864c717-587d-472a-929a-8e5f298024da-0');
+  const displayParticipants = participants.filter(
+    (item) => item.id !== '8864c717-587d-472a-929a-8e5f298024da-0',
+  );
 
   useEffect(() => {
     const getDetails = async () => {
@@ -113,7 +113,9 @@ export default function ChatWindow() {
           />
         </Stack>
 
-        {mode === 'DETAIL' && <ChatRoom conversation={conversation} participants={displayParticipants} />}
+        {mode === 'DETAIL' && (
+          <ChatRoom conversation={conversation} participants={displayParticipants} />
+        )}
       </Box>
     </Stack>
   );

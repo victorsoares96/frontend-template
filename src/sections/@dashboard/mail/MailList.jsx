@@ -1,19 +1,17 @@
-import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useState, useEffect } from 'react';
-// @mui
+
+import { Box, Divider } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { Divider, Box } from '@mui/material';
-// redux
-import { useDispatch, useSelector } from '../../../redux/store';
-import { getMails } from '../../../redux/slices/mail';
-//
-import Scrollbar from '../../../components/Scrollbar';
+
+import PropTypes from 'prop-types';
+
 import EmptyContent from '../../../components/EmptyContent';
+import Scrollbar from '../../../components/Scrollbar';
+import { useDispatch, useSelector } from '../../../store';
+import { getMails } from '../../../store/slices/mail';
 import MailItem from './MailItem';
 import MailToolbar from './MailToolbar';
-
-// ----------------------------------------------------------------------
 
 const RootStyle = styled('div')({
   flexGrow: 1,
@@ -21,8 +19,6 @@ const RootStyle = styled('div')({
   overflow: 'hidden',
   flexDirection: 'column',
 });
-
-// ----------------------------------------------------------------------
 
 MailList.propTypes = {
   onOpenSidebar: PropTypes.func,

@@ -1,4 +1,4 @@
-import { Document, Image, Page, Text, View } from '@react-pdf/renderer';
+import pdf from '@react-pdf/renderer';
 
 import PropTypes from 'prop-types';
 
@@ -9,6 +9,8 @@ import styles from './InvoiceStyle';
 InvoicePDF.propTypes = {
   invoice: PropTypes.object.isRequired,
 };
+
+const { Document, Image, Page, Text, View } = pdf;
 
 export default function InvoicePDF({ invoice }) {
   const {

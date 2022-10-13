@@ -1,19 +1,14 @@
 import { useEffect } from 'react';
-// @mui
-import { Card, Container } from '@mui/material';
-// redux
-import { useDispatch } from '../../redux/store';
-import { getConversations, getContacts } from '../../redux/slices/chat';
-// routes
-import { PATH_DASHBOARD } from '../../routes/paths';
-// hooks
-import useSettings from '../../hooks/useSettings';
-// components
-import Page from '../../components/Page';
-import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
-import { ChatSidebar, ChatWindow } from '../../sections/@dashboard/chat';
 
-// ----------------------------------------------------------------------
+import { Card, Container } from '@mui/material';
+
+import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
+import Page from '../../components/Page';
+import useSettings from '../../hooks/useSettings';
+import { PATH_DASHBOARD } from '../../routes/paths';
+import { ChatSidebar, ChatWindow } from '../../sections/@dashboard/chat';
+import { useDispatch } from '../../store';
+import { getContacts, getConversations } from '../../store/slices/chat';
 
 export default function Chat() {
   const { themeStretch } = useSettings();

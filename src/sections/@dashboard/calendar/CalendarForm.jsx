@@ -1,23 +1,20 @@
-import PropTypes from 'prop-types';
-import * as Yup from 'yup';
-import merge from 'lodash/merge';
-import { isBefore } from 'date-fns';
-import { useSnackbar } from 'notistack';
-// form
-import { useForm, Controller } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-// @mui
-import { Box, Stack, Button, Tooltip, TextField, IconButton, DialogActions } from '@mui/material';
+import { Controller, useForm } from 'react-hook-form';
+
 import { LoadingButton, MobileDateTimePicker } from '@mui/lab';
-// redux
-import { useDispatch } from '../../../redux/store';
-import { createEvent, updateEvent, deleteEvent } from '../../../redux/slices/calendar';
-// components
+import { Box, Button, DialogActions, IconButton, Stack, TextField, Tooltip } from '@mui/material';
+
+import * as Yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { isBefore } from 'date-fns';
+import merge from 'lodash/merge';
+import { useSnackbar } from 'notistack';
+import PropTypes from 'prop-types';
+
 import Iconify from '../../../components/Iconify';
 import { ColorSinglePicker } from '../../../components/color-utils';
-import { FormProvider, RHFTextField, RHFSwitch } from '../../../components/hook-form';
-
-// ----------------------------------------------------------------------
+import { FormProvider, RHFSwitch, RHFTextField } from '../../../components/hook-form';
+import { useDispatch } from '../../../store';
+import { createEvent, deleteEvent, updateEvent } from '../../../store/slices/calendar';
 
 const COLOR_OPTIONS = [
   '#00AB55', // theme.palette.primary.main,
@@ -164,7 +161,11 @@ export default function CalendarForm({ event, range, onCancel }) {
           name="textColor"
           control={control}
           render={({ field }) => (
-            <ColorSinglePicker value={field.value} onChange={field.onChange} colors={COLOR_OPTIONS} />
+            <ColorSinglePicker
+              value={field.value}
+              onChange={field.onChange}
+              colors={COLOR_OPTIONS}
+            />
           )}
         />
       </Stack>
