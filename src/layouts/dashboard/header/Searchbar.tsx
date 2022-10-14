@@ -1,14 +1,12 @@
 import { useState } from 'react';
-// @mui
-import { styled } from '@mui/material/styles';
-import { Input, Slide, Button, InputAdornment, ClickAwayListener } from '@mui/material';
-// utils
-import cssStyles from '../../../utils/cssStyles';
-// components
-import Iconify from '../../../components/Iconify';
-import { IconButtonAnimate } from '../../../components/animate';
 
-// ----------------------------------------------------------------------
+import { Button, ClickAwayListener, Input, InputAdornment, Slide } from '@mui/material';
+import { styled } from '@mui/material/styles';
+
+import { IconButtonAnimate } from '@/components/animate';
+import cssStyles from '@/utils/cssStyles';
+
+import Iconify from '../../../components/Iconify';
 
 const APPBAR_MOBILE = 64;
 const APPBAR_DESKTOP = 92;
@@ -31,8 +29,6 @@ const SearchbarStyle = styled('div')(({ theme }) => ({
   },
 }));
 
-// ----------------------------------------------------------------------
-
 export default function Searchbar() {
   const [isOpen, setOpen] = useState(false);
 
@@ -49,7 +45,7 @@ export default function Searchbar() {
       <div>
         {!isOpen && (
           <IconButtonAnimate onClick={handleOpen}>
-            <Iconify icon={'eva:search-fill'} width={20} height={20} />
+            <Iconify icon="eva:search-fill" width={20} height={20} />
           </IconButtonAnimate>
         )}
 
@@ -63,7 +59,7 @@ export default function Searchbar() {
               startAdornment={
                 <InputAdornment position="start">
                   <Iconify
-                    icon={'eva:search-fill'}
+                    icon="eva:search-fill"
                     sx={{ color: 'text.disabled', width: 20, height: 20 }}
                   />
                 </InputAdornment>

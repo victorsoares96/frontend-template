@@ -1,30 +1,29 @@
-import PropTypes from 'prop-types';
-// @mui
+import { AppBar, Box, Stack, Toolbar } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { Box, Stack, AppBar, Toolbar } from '@mui/material';
-// hooks
+
+import Iconify from '../../../components/Iconify';
+import Logo from '../../../components/Logo';
+import { IconButtonAnimate } from '../../../components/animate';
+import { HEADER, NAVBAR } from '../../../config';
 import useOffSetTop from '../../../hooks/useOffSetTop';
 import useResponsive from '../../../hooks/useResponsive';
-// utils
 import cssStyles from '../../../utils/cssStyles';
-// config
-import { HEADER, NAVBAR } from '../../../config';
-// components
-import Logo from '../../../components/Logo';
-import Iconify from '../../../components/Iconify';
-import { IconButtonAnimate } from '../../../components/animate';
-//
-import Searchbar from './Searchbar';
 import AccountPopover from './AccountPopover';
-import LanguagePopover from './LanguagePopover';
 import ContactsPopover from './ContactsPopover';
+import LanguagePopover from './LanguagePopover';
 import NotificationsPopover from './NotificationsPopover';
+import Searchbar from './Searchbar';
 
-// ----------------------------------------------------------------------
+interface RootStyleProps {
+  isCollapse: boolean;
+  isOffset: boolean;
+  verticalLayout: boolean;
+}
 
 const RootStyle = styled(AppBar, {
-  shouldForwardProp: (prop) => prop !== 'isCollapse' && prop !== 'isOffset' && prop !== 'verticalLayout',
-})(({ isCollapse, isOffset, verticalLayout, theme }) => ({
+  shouldForwardProp: (prop) =>
+    prop !== 'isCollapse' && prop !== 'isOffset' && prop !== 'verticalLayout',
+})<RootStyleProps>(({ isCollapse, isOffset, verticalLayout, theme }) => ({
   ...cssStyles(theme).bgBlur(),
   boxShadow: 'none',
   height: HEADER.MOBILE_HEIGHT,
@@ -49,15 +48,17 @@ const RootStyle = styled(AppBar, {
   },
 }));
 
-// ----------------------------------------------------------------------
+interface DashboardHeaderProps {
+  onOpenSidebar: () => void;
+  isCollapse?: boolean;
+  verticalLayout?: boolean;
+}
 
-DashboardHeader.propTypes = {
-  onOpenSidebar: PropTypes.func,
-  isCollapse: PropTypes.bool,
-  verticalLayout: PropTypes.bool,
-};
-
-export default function DashboardHeader({ onOpenSidebar, isCollapse = false, verticalLayout = false }) {
+export default function DashboardHeader({
+  onOpenSidebar,
+  isCollapse = false,
+  verticalLayout = false,
+}: DashboardHeaderProps) {
   const isOffset = useOffSetTop(HEADER.DASHBOARD_DESKTOP_HEIGHT) && !verticalLayout;
 
   const isDesktop = useResponsive('up', 'lg');
@@ -91,3 +92,8 @@ export default function DashboardHeader({ onOpenSidebar, isCollapse = false, ver
     </RootStyle>
   );
 }
+
+DashboardHeader.defaultProps = {
+  isCollapse: false,
+  verticalLayout: false,
+};

@@ -1,8 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit';
-import axios from '../../utils/axios';
-import { dispatch } from '../index';
 
-const initialState = {
+import type { AppThunk } from '@/store/types';
+
+import axios from '../../utils/axios';
+
+type InitialState = {
+  isLoading: boolean;
+  error: string | null;
+  events: any[];
+  isOpenModal: boolean;
+  selectedEventId: number | null;
+  selectedRange: any;
+};
+
+const initialState: InitialState = {
   isLoading: false,
   error: null,
   events: [],
@@ -15,31 +26,22 @@ const slice = createSlice({
   name: 'calendar',
   initialState,
   reducers: {
-    // START LOADING
     startLoading(state) {
       state.isLoading = true;
     },
-
-    // HAS ERROR
     hasError(state, action) {
       state.isLoading = false;
       state.error = action.payload;
     },
-
-    // GET EVENTS
     getEventsSuccess(state, action) {
       state.isLoading = false;
       state.events = action.payload;
     },
-
-    // CREATE EVENT
     createEventSuccess(state, action) {
       const newEvent = action.payload;
       state.isLoading = false;
       state.events = [...state.events, newEvent];
     },
-
-    // UPDATE EVENT
     updateEventSuccess(state, action) {
       const event = action.payload;
       const updateEvent = state.events.map((_event) => {
@@ -52,34 +54,24 @@ const slice = createSlice({
       state.isLoading = false;
       state.events = updateEvent;
     },
-
-    // DELETE EVENT
     deleteEventSuccess(state, action) {
       const { eventId } = action.payload;
       const deleteEvent = state.events.filter((event) => event.id !== eventId);
       state.events = deleteEvent;
     },
-
-    // SELECT EVENT
     selectEvent(state, action) {
       const eventId = action.payload;
       state.isOpenModal = true;
       state.selectedEventId = eventId;
     },
-
-    // SELECT RANGE
     selectRange(state, action) {
       const { start, end } = action.payload;
       state.isOpenModal = true;
       state.selectedRange = { start, end };
     },
-
-    // OPEN MODAL
     openModal(state) {
       state.isOpenModal = true;
     },
-
-    // CLOSE MODAL
     closeModal(state) {
       state.isOpenModal = false;
       state.selectedEventId = null;
@@ -88,30 +80,23 @@ const slice = createSlice({
   },
 });
 
-// Reducer
 export default slice.reducer;
 
-// Actions
 export const { openModal, closeModal, selectEvent } = slice.actions;
 
-// ----------------------------------------------------------------------
+export const getEvents = (): AppThunk => async (dispatch) => {
+  dispatch(slice.actions.startLoading());
+  try {
+    const response = await axios.get('/api/calendar/events');
+    dispatch(slice.actions.getEventsSuccess(response.data.events));
+  } catch (error) {
+    dispatch(slice.actions.hasError(error));
+  }
+};
 
-export function getEvents() {
-  return async () => {
-    dispatch(slice.actions.startLoading());
-    try {
-      const response = await axios.get('/api/calendar/events');
-      dispatch(slice.actions.getEventsSuccess(response.data.events));
-    } catch (error) {
-      dispatch(slice.actions.hasError(error));
-    }
-  };
-}
-
-// ----------------------------------------------------------------------
-
-export function createEvent(newEvent) {
-  return async () => {
+export const createEvent =
+  (newEvent: unknown): AppThunk =>
+  async (dispatch) => {
     dispatch(slice.actions.startLoading());
     try {
       const response = await axios.post('/api/calendar/events/new', newEvent);
@@ -120,12 +105,10 @@ export function createEvent(newEvent) {
       dispatch(slice.actions.hasError(error));
     }
   };
-}
 
-// ----------------------------------------------------------------------
-
-export function updateEvent(eventId, updateEvent) {
-  return async () => {
+export const updateEvent =
+  (eventId: number, updateEvent: unknown): AppThunk =>
+  async (dispatch) => {
     dispatch(slice.actions.startLoading());
     try {
       const response = await axios.post('/api/calendar/events/update', {
@@ -137,12 +120,10 @@ export function updateEvent(eventId, updateEvent) {
       dispatch(slice.actions.hasError(error));
     }
   };
-}
 
-// ----------------------------------------------------------------------
-
-export function deleteEvent(eventId) {
-  return async () => {
+export const deleteEvent =
+  (eventId: number): AppThunk =>
+  async (dispatch) => {
     dispatch(slice.actions.startLoading());
     try {
       await axios.post('/api/calendar/events/delete', { eventId });
@@ -151,17 +132,14 @@ export function deleteEvent(eventId) {
       dispatch(slice.actions.hasError(error));
     }
   };
-}
 
-// ----------------------------------------------------------------------
-
-export function selectRange(start, end) {
-  return async () => {
+export const selectRange =
+  (start: Date, end: Date): AppThunk =>
+  async (dispatch) => {
     dispatch(
       slice.actions.selectRange({
         start: start.getTime(),
         end: end.getTime(),
-      })
+      }),
     );
   };
-}

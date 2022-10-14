@@ -1,34 +1,35 @@
-import { capitalCase } from 'change-case';
-import { m } from 'framer-motion';
-// @mui
-import { styled, alpha } from '@mui/material/styles';
 import {
   Box,
-  Stack,
-  Radio,
-  Tooltip,
-  Container,
-  Typography,
-  RadioGroup,
   CardActionArea,
+  Container,
   FormControlLabel,
+  Radio,
+  RadioGroup,
+  Stack,
+  Tooltip,
+  Typography,
 } from '@mui/material';
-// hooks
-import useSettings from '../../hooks/useSettings';
-// components
+import { alpha, styled } from '@mui/material/styles';
+
+import { capitalCase } from 'change-case';
+import { m } from 'framer-motion';
+
+import { useAppDispatch } from '@/hooks/useAppDispatch';
+import { useAppSelector } from '@/hooks/useAppSelector';
+import { changeColorPreset } from '@/store/settings/settings.slice';
+import { ColorPreset } from '@/store/settings/types';
+
 import Image from '../../components/Image';
 import { MotionViewport, varFade } from '../../components/animate';
-
-// ----------------------------------------------------------------------
 
 const RootStyle = styled('div')(({ theme }) => ({
   padding: theme.spacing(15, 0),
 }));
 
-// ----------------------------------------------------------------------
-
 export default function HomeColorPresets() {
-  const { themeColorPresets, onChangeColor, colorOption } = useSettings();
+  const dispatch = useAppDispatch();
+  const themeColorPresets = useAppSelector((state) => state.settings.themeColorPresets);
+  const currentThemeColorPreset = useAppSelector((state) => state.settings.currentThemeColorPreset);
 
   return (
     <RootStyle>
@@ -48,14 +49,20 @@ export default function HomeColorPresets() {
         <m.div variants={varFade().inUp}>
           <Typography
             sx={{
-              color: (theme) => (theme.palette.mode === 'light' ? 'text.secondary' : 'text.primary'),
+              color: (theme) =>
+                theme.palette.mode === 'light' ? 'text.secondary' : 'text.primary',
             }}
           >
             Express your own style with just one click.
           </Typography>
         </m.div>
 
-        <RadioGroup name="themeColorPresets" value={themeColorPresets} onChange={onChangeColor} sx={{ my: 5 }}>
+        <RadioGroup
+          name="themeColorPresets"
+          value={themeColorPresets}
+          onChange={(e) => dispatch(changeColorPreset(e.target.value as unknown as ColorPreset))}
+          sx={{ my: 5 }}
+        >
           <Stack
             direction={{ xs: 'row', lg: 'column' }}
             justifyContent="center"
@@ -65,14 +72,16 @@ export default function HomeColorPresets() {
               right: { lg: 0 },
             }}
           >
-            {colorOption.map((color) => {
+            {themeColorPresets.map((color) => {
               const colorName = color.name;
-              const colorValue = color.value;
-              const isSelected = themeColorPresets === colorName;
+              const colorValue = color.main;
+              const isSelected = currentThemeColorPreset.name === colorName;
 
               return (
                 <Tooltip key={colorName} title={capitalCase(colorName)} placement="right">
-                  <CardActionArea sx={{ color: colorValue, borderRadius: '50%', width: 32, height: 32 }}>
+                  <CardActionArea
+                    sx={{ color: colorValue, borderRadius: '50%', width: 32, height: 32 }}
+                  >
                     <Box
                       sx={{
                         width: 1,

@@ -1,27 +1,21 @@
-import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-// @mui
+
+import { Box, Drawer, Stack } from '@mui/material';
 import { styled, useTheme } from '@mui/material/styles';
-import { Box, Stack, Drawer } from '@mui/material';
-// hooks
-import useResponsive from '../../../hooks/useResponsive';
-import useCollapseDrawer from '../../../hooks/useCollapseDrawer';
-// utils
-import cssStyles from '../../../utils/cssStyles';
-// config
-import { NAVBAR } from '../../../config';
-// components
+
+import useCollapseDrawer from '@/hooks/useCollapseDrawer';
+
 import Logo from '../../../components/Logo';
 import Scrollbar from '../../../components/Scrollbar';
 import { NavSectionVertical } from '../../../components/nav-section';
-//
-import navConfig from './NavConfig';
-import NavbarDocs from './NavbarDocs';
-import NavbarAccount from './NavbarAccount';
+import { NAVBAR } from '../../../config';
+import useResponsive from '../../../hooks/useResponsive';
+import cssStyles from '../../../utils/cssStyles';
 import CollapseButton from './CollapseButton';
-
-// ----------------------------------------------------------------------
+import navConfig from './NavConfig';
+import NavbarAccount from './NavbarAccount';
+import NavbarDocs from './NavbarDocs';
 
 const RootStyle = styled('div')(({ theme }) => ({
   [theme.breakpoints.up('lg')]: {
@@ -32,14 +26,12 @@ const RootStyle = styled('div')(({ theme }) => ({
   },
 }));
 
-// ----------------------------------------------------------------------
+interface NavbarVerticalProps {
+  isOpenSidebar: boolean;
+  onCloseSidebar: () => void;
+}
 
-NavbarVertical.propTypes = {
-  isOpenSidebar: PropTypes.bool,
-  onCloseSidebar: PropTypes.func,
-};
-
-export default function NavbarVertical({ isOpenSidebar, onCloseSidebar }) {
+export default function NavbarVertical({ isOpenSidebar, onCloseSidebar }: NavbarVerticalProps) {
   const theme = useTheme();
 
   const { pathname } = useLocation();
@@ -104,7 +96,11 @@ export default function NavbarVertical({ isOpenSidebar, onCloseSidebar }) {
       }}
     >
       {!isDesktop && (
-        <Drawer open={isOpenSidebar} onClose={onCloseSidebar} PaperProps={{ sx: { width: NAVBAR.DASHBOARD_WIDTH } }}>
+        <Drawer
+          open={isOpenSidebar}
+          onClose={onCloseSidebar}
+          PaperProps={{ sx: { width: NAVBAR.DASHBOARD_WIDTH } }}
+        >
           {renderContent}
         </Drawer>
       )}
@@ -120,16 +116,16 @@ export default function NavbarVertical({ isOpenSidebar, onCloseSidebar }) {
               width: NAVBAR.DASHBOARD_WIDTH,
               borderRightStyle: 'dashed',
               bgcolor: 'background.default',
-              transition: (theme) =>
-                theme.transitions.create('width', {
-                  duration: theme.transitions.duration.standard,
+              transition: (theme_) =>
+                theme_.transitions.create('width', {
+                  duration: theme_.transitions.duration.standard,
                 }),
               ...(isCollapse && {
                 width: NAVBAR.DASHBOARD_COLLAPSE_WIDTH,
               }),
               ...(collapseHover && {
                 ...cssStyles(theme).bgBlur(),
-                boxShadow: (theme) => theme.customShadows.z24,
+                boxShadow: (theme_) => theme_.customShadows.z24,
               }),
             },
           }}

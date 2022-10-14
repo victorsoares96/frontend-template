@@ -1,14 +1,61 @@
-import PropTypes from 'prop-types';
-import { m } from 'framer-motion';
-import { useState, useEffect } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { NavLink as RouterLink, useLocation } from 'react-router-dom';
-// @mui
+
+import {
+  Box,
+  CardActionArea,
+  Grid,
+  Link,
+  List,
+  ListItem,
+  ListSubheader,
+  Popover,
+  Stack,
+} from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { Box, Link, Grid, List, Stack, Popover, ListItem, ListSubheader, CardActionArea } from '@mui/material';
-// components
+
+import { m } from 'framer-motion';
+
 import Iconify from '../../components/Iconify';
 
-// ----------------------------------------------------------------------
+interface IconBulletProps {
+  type?: 'item' | 'subheader';
+}
+
+interface MenuDesktopProps {
+  isHome: boolean;
+  isOffset: boolean;
+  navConfig: {
+    path: string;
+    title: string;
+    children: {
+      subheader: string;
+      items: {
+        path: string;
+        title: string;
+      }[];
+    }[];
+  }[];
+}
+
+interface MenuDesktopItemProps {
+  isHome: boolean;
+  isOffset: boolean;
+  isOpen: boolean;
+  onClose: () => void;
+  onOpen: () => void;
+  item: {
+    path: string;
+    title: string;
+    children: {
+      subheader: string;
+      items: {
+        path: string;
+        title: string;
+      }[];
+    }[];
+  };
+}
 
 const LinkStyle = styled(Link)(({ theme }) => ({
   ...theme.typography.subtitle2,
@@ -34,57 +81,7 @@ const ListItemStyle = styled(ListItem)(({ theme }) => ({
   },
 }));
 
-// ----------------------------------------------------------------------
-
-MenuDesktop.propTypes = {
-  isHome: PropTypes.bool,
-  isOffset: PropTypes.bool,
-  navConfig: PropTypes.array,
-};
-
-export default function MenuDesktop({ isOffset, isHome, navConfig }) {
-  const { pathname } = useLocation();
-  const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    if (open) {
-      handleClose();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname]);
-
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  return (
-    <Stack direction="row">
-      {navConfig.map((link) => (
-        <MenuDesktopItem
-          key={link.title}
-          item={link}
-          isOpen={open}
-          onOpen={handleOpen}
-          onClose={handleClose}
-          isOffset={isOffset}
-          isHome={isHome}
-        />
-      ))}
-    </Stack>
-  );
-}
-
-// ----------------------------------------------------------------------
-
-IconBullet.propTypes = {
-  type: PropTypes.oneOf(['item', 'subheader']),
-};
-
-function IconBullet({ type = 'item' }) {
+function IconBullet({ type = 'item' }: IconBulletProps) {
   return (
     <Box sx={{ width: 24, height: 16, display: 'flex', alignItems: 'center' }}>
       <Box
@@ -102,27 +99,19 @@ function IconBullet({ type = 'item' }) {
   );
 }
 
-// ----------------------------------------------------------------------
-
-MenuDesktopItem.propTypes = {
-  isHome: PropTypes.bool,
-  isOffset: PropTypes.bool,
-  isOpen: PropTypes.bool,
-  onClose: PropTypes.func,
-  onOpen: PropTypes.func,
-  item: PropTypes.shape({
-    path: PropTypes.string,
-    title: PropTypes.string,
-    children: PropTypes.array,
-  }),
-};
-
-function MenuDesktopItem({ item, isHome, isOpen, isOffset, onOpen, onClose }) {
+function MenuDesktopItem({
+  item,
+  isHome,
+  isOpen,
+  isOffset,
+  onOpen,
+  onClose,
+}: MenuDesktopItemProps) {
   const { title, path, children } = item;
 
   if (children) {
     return (
-      <>
+      <Fragment>
         <LinkStyle
           onClick={onOpen}
           sx={{
@@ -217,10 +206,10 @@ function MenuDesktopItem({ item, isHome, isOpen, isOffset, onOpen, onClose }) {
                             />
                           </CardActionArea>
                         ) : (
-                          <>
+                          <Fragment>
                             <IconBullet />
                             {item.title}
-                          </>
+                          </Fragment>
                         )}
                       </ListItemStyle>
                     ))}
@@ -230,7 +219,7 @@ function MenuDesktopItem({ item, isHome, isOpen, isOffset, onOpen, onClose }) {
             })}
           </Grid>
         </Popover>
-      </>
+      </Fragment>
     );
   }
 
@@ -267,3 +256,42 @@ function MenuDesktopItem({ item, isHome, isOpen, isOffset, onOpen, onClose }) {
     </LinkStyle>
   );
 }
+
+export default function MenuDesktop({ isOffset, isHome, navConfig }: MenuDesktopProps) {
+  const { pathname } = useLocation();
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  useEffect(() => {
+    if (open) {
+      handleClose();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname]);
+  return (
+    <Stack direction="row">
+      {navConfig.map((link) => (
+        <MenuDesktopItem
+          key={link.title}
+          item={link}
+          isOpen={open}
+          onOpen={handleOpen}
+          onClose={handleClose}
+          isOffset={isOffset}
+          isHome={isHome}
+        />
+      ))}
+    </Stack>
+  );
+}
+
+IconBullet.defaultProps = {
+  type: 'item',
+};

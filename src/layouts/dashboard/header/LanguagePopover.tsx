@@ -1,21 +1,18 @@
-import { useState } from 'react';
-// @mui
+import { Fragment, MouseEvent, useState } from 'react';
+
 import { MenuItem, Stack } from '@mui/material';
-// hooks
-import useLocales from '../../../hooks/useLocales';
-// components
+
 import Image from '../../../components/Image';
 import MenuPopover from '../../../components/MenuPopover';
 import { IconButtonAnimate } from '../../../components/animate';
-
-// ----------------------------------------------------------------------
+import useLocales from '../../../hooks/useLocales';
 
 export default function LanguagePopover() {
   const { allLang, currentLang, onChangeLang } = useLocales();
 
-  const [open, setOpen] = useState(null);
+  const [open, setOpen] = useState<(EventTarget & HTMLButtonElement) | null>(null);
 
-  const handleOpen = (event) => {
+  const handleOpen = (event: MouseEvent<HTMLButtonElement>) => {
     setOpen(event.currentTarget);
   };
 
@@ -24,13 +21,14 @@ export default function LanguagePopover() {
   };
 
   return (
-    <>
+    <Fragment>
       <IconButtonAnimate
         onClick={handleOpen}
         sx={{
           width: 40,
           height: 40,
-          ...(open && { bgcolor: 'action.selected' }),
+          bgcolor: open ? 'action.selected' : 'transparent',
+          // ...(open && { bgcolor: 'action.selected' }),
         }}
       >
         <Image disabledEffect src={currentLang.icon} alt={currentLang.label} />
@@ -57,13 +55,18 @@ export default function LanguagePopover() {
                 handleClose();
               }}
             >
-              <Image disabledEffect alt={option.label} src={option.icon} sx={{ width: 28, mr: 2 }} />
+              <Image
+                disabledEffect
+                alt={option.label}
+                src={option.icon}
+                sx={{ width: 28, mr: 2 }}
+              />
 
               {option.label}
             </MenuItem>
           ))}
         </Stack>
       </MenuPopover>
-    </>
+    </Fragment>
   );
 }

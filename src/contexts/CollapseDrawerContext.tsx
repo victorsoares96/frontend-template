@@ -1,11 +1,9 @@
-import PropTypes from 'prop-types';
-import { createContext, useState, useEffect } from 'react';
-// hooks
+import { createContext, useEffect, useState } from 'react';
+
 import useResponsive from '../hooks/useResponsive';
 
-// ----------------------------------------------------------------------
-
 const initialState = {
+  isCollapse: false,
   collapseClick: false,
   collapseHover: false,
   onToggleCollapse: () => {},
@@ -15,13 +13,7 @@ const initialState = {
 
 const CollapseDrawerContext = createContext(initialState);
 
-// ----------------------------------------------------------------------
-
-CollapseDrawerProvider.propTypes = {
-  children: PropTypes.node,
-};
-
-function CollapseDrawerProvider({ children }) {
+function CollapseDrawerProvider({ children }: { children: React.ReactNode }) {
   const isDesktop = useResponsive('up', 'lg');
 
   const [collapse, setCollapse] = useState({

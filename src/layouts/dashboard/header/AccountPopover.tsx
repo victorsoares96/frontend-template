@@ -1,20 +1,17 @@
-import { useSnackbar } from 'notistack';
-import { useState } from 'react';
+import { Fragment, MouseEvent, MouseEventHandler, useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
-// @mui
-import { alpha } from '@mui/material/styles';
-import { Box, Divider, Typography, Stack, MenuItem } from '@mui/material';
-// routes
-import { PATH_DASHBOARD, PATH_AUTH } from '../../../routes/paths';
-// hooks
-import useAuth from '../../../hooks/useAuth';
-import useIsMountedRef from '../../../hooks/useIsMountedRef';
-// components
-import MyAvatar from '../../../components/MyAvatar';
-import MenuPopover from '../../../components/MenuPopover';
-import { IconButtonAnimate } from '../../../components/animate';
 
-// ----------------------------------------------------------------------
+import { Box, Divider, MenuItem, Stack, Typography } from '@mui/material';
+import { alpha } from '@mui/material/styles';
+
+import { useSnackbar } from 'notistack';
+
+import MenuPopover from '@/components/MenuPopover';
+import MyAvatar from '@/components/MyAvatar';
+import useIsMountedRef from '@/hooks/useIsMountedRef';
+
+import { IconButtonAnimate } from '../../../components/animate';
+import { PATH_AUTH, PATH_DASHBOARD } from '../../../routes/paths';
 
 const MENU_OPTIONS = [
   {
@@ -31,20 +28,22 @@ const MENU_OPTIONS = [
   },
 ];
 
-// ----------------------------------------------------------------------
-
 export default function AccountPopover() {
   const navigate = useNavigate();
-
-  const { user, logout } = useAuth();
 
   const isMountedRef = useIsMountedRef();
 
   const { enqueueSnackbar } = useSnackbar();
 
-  const [open, setOpen] = useState(null);
+  const [open, setOpen] = useState<(EventTarget & HTMLButtonElement) | null>(null);
 
-  const handleOpen = (event) => {
+  const logout = async () => {};
+  const user = {
+    displayName: 'John Doe',
+    email: 'john@doe.com',
+  };
+
+  const handleOpen = (event: MouseEvent<HTMLButtonElement>) => {
     setOpen(event.currentTarget);
   };
 
@@ -67,7 +66,7 @@ export default function AccountPopover() {
   };
 
   return (
-    <>
+    <Fragment>
       <IconButtonAnimate
         onClick={handleOpen}
         sx={{
@@ -115,7 +114,12 @@ export default function AccountPopover() {
 
         <Stack sx={{ p: 1 }}>
           {MENU_OPTIONS.map((option) => (
-            <MenuItem key={option.label} to={option.linkTo} component={RouterLink} onClick={handleClose}>
+            <MenuItem
+              key={option.label}
+              to={option.linkTo}
+              component={RouterLink}
+              onClick={handleClose}
+            >
               {option.label}
             </MenuItem>
           ))}
@@ -127,6 +131,6 @@ export default function AccountPopover() {
           Logout
         </MenuItem>
       </MenuPopover>
-    </>
+    </Fragment>
   );
 }

@@ -3,9 +3,33 @@ import sum from 'lodash/sum';
 import uniqBy from 'lodash/uniqBy';
 
 import axios from '../../utils/axios';
-import { dispatch } from '../index';
+import type { AppThunk } from '../types';
 
-const initialState = {
+type InitialState = {
+  isLoading: boolean;
+  error: string | null;
+  products: any[];
+  product: any;
+  sortBy: string | null;
+  filters: {
+    gender: string[];
+    category: string;
+    colors: string[];
+    priceRange: string;
+    rating: string;
+  };
+  checkout: {
+    activeStep: number;
+    cart: any[];
+    subtotal: number;
+    total: number;
+    discount: number;
+    shipping: number;
+    billing: number | null;
+  };
+};
+
+const initialState: InitialState = {
   isLoading: false,
   error: null,
   products: [],
@@ -33,34 +57,24 @@ const slice = createSlice({
   name: 'product',
   initialState,
   reducers: {
-    // START LOADING
     startLoading(state) {
       state.isLoading = true;
     },
-
-    // HAS ERROR
     hasError(state, action) {
       state.isLoading = false;
       state.error = action.payload;
     },
-
-    // GET PRODUCTS
     getProductsSuccess(state, action) {
       state.isLoading = false;
       state.products = action.payload;
     },
-
-    // GET PRODUCT
     getProductSuccess(state, action) {
       state.isLoading = false;
       state.product = action.payload;
     },
-
-    //  SORT & FILTER PRODUCTS
     sortByProducts(state, action) {
       state.sortBy = action.payload;
     },
-
     filterProducts(state, action) {
       state.filters.gender = action.payload.gender;
       state.filters.category = action.payload.category;
@@ -68,8 +82,6 @@ const slice = createSlice({
       state.filters.priceRange = action.payload.priceRange;
       state.filters.rating = action.payload.rating;
     },
-
-    // CHECKOUT
     getCart(state, action) {
       const cart = action.payload;
 
@@ -85,7 +97,6 @@ const slice = createSlice({
       state.checkout.subtotal = subtotal;
       state.checkout.total = subtotal - discount;
     },
-
     addCart(state, action) {
       const product = action.payload;
       const isEmptyCart = state.checkout.cart.length === 0;
@@ -106,13 +117,11 @@ const slice = createSlice({
       }
       state.checkout.cart = uniqBy([...state.checkout.cart, product], 'id');
     },
-
     deleteCart(state, action) {
       const updateCart = state.checkout.cart.filter((item) => item.id !== action.payload);
 
       state.checkout.cart = updateCart;
     },
-
     resetCart(state) {
       state.checkout.activeStep = 0;
       state.checkout.cart = [];
@@ -122,20 +131,16 @@ const slice = createSlice({
       state.checkout.shipping = 0;
       state.checkout.billing = null;
     },
-
     onBackStep(state) {
       state.checkout.activeStep -= 1;
     },
-
     onNextStep(state) {
       state.checkout.activeStep += 1;
     },
-
     onGotoStep(state, action) {
       const goToStep = action.payload;
       state.checkout.activeStep = goToStep;
     },
-
     increaseQuantity(state, action) {
       const productId = action.payload;
       const updateCart = state.checkout.cart.map((product) => {
@@ -150,7 +155,6 @@ const slice = createSlice({
 
       state.checkout.cart = updateCart;
     },
-
     decreaseQuantity(state, action) {
       const productId = action.payload;
       const updateCart = state.checkout.cart.map((product) => {
@@ -165,17 +169,14 @@ const slice = createSlice({
 
       state.checkout.cart = updateCart;
     },
-
     createBilling(state, action) {
       state.checkout.billing = action.payload;
     },
-
     applyDiscount(state, action) {
       const discount = action.payload;
       state.checkout.discount = discount;
       state.checkout.total = state.checkout.subtotal - discount;
     },
-
     applyShipping(state, action) {
       const shipping = action.payload;
       state.checkout.shipping = shipping;
@@ -184,10 +185,8 @@ const slice = createSlice({
   },
 });
 
-// Reducer
 export default slice.reducer;
 
-// Actions
 export const {
   getCart,
   addCart,
@@ -205,24 +204,19 @@ export const {
   filterProducts,
 } = slice.actions;
 
-// ----------------------------------------------------------------------
+export const getProducts = (): AppThunk => async (dispatch) => {
+  dispatch(slice.actions.startLoading());
+  try {
+    const response = await axios.get('/api/products');
+    dispatch(slice.actions.getProductsSuccess(response.data.products));
+  } catch (error) {
+    dispatch(slice.actions.hasError(error));
+  }
+};
 
-export function getProducts() {
-  return async () => {
-    dispatch(slice.actions.startLoading());
-    try {
-      const response = await axios.get('/api/products');
-      dispatch(slice.actions.getProductsSuccess(response.data.products));
-    } catch (error) {
-      dispatch(slice.actions.hasError(error));
-    }
-  };
-}
-
-// ----------------------------------------------------------------------
-
-export function getProduct(name) {
-  return async () => {
+export const getProduct =
+  (name: string): AppThunk =>
+  async (dispatch) => {
     dispatch(slice.actions.startLoading());
     try {
       const response = await axios.get('/api/products/product', {
@@ -234,4 +228,3 @@ export function getProduct(name) {
       dispatch(slice.actions.hasError(error));
     }
   };
-}

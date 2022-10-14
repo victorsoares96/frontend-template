@@ -1,15 +1,11 @@
 import { memo } from 'react';
-// @mui
-import { styled } from '@mui/material/styles';
-import { Container, AppBar } from '@mui/material';
-// config
-import { HEADER } from '../../../config';
-// components
-import { NavSectionHorizontal } from '../../../components/nav-section';
-//
-import navConfig from './NavConfig';
 
-// ----------------------------------------------------------------------
+import { AppBar, Container } from '@mui/material';
+import { styled } from '@mui/material/styles';
+
+import { NavSectionHorizontal } from '../../../components/nav-section';
+import { HEADER } from '../../../config';
+import navConfig from './NavConfig';
 
 const RootStyle = styled(AppBar)(({ theme }) => ({
   transition: theme.transitions.create('top', {
@@ -24,8 +20,6 @@ const RootStyle = styled(AppBar)(({ theme }) => ({
   top: HEADER.DASHBOARD_DESKTOP_OFFSET_HEIGHT,
   backgroundColor: theme.palette.background.default,
 }));
-
-// ----------------------------------------------------------------------
 
 function NavbarHorizontal() {
   return (

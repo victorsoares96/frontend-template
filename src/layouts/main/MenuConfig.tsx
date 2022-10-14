@@ -1,11 +1,7 @@
-// routes
-import { PATH_AUTH, PATH_DOCS, PATH_PAGE } from '../../routes/paths';
-// components
-import { PATH_AFTER_LOGIN } from '../../config';
-// components
-import Iconify from '../../components/Iconify';
+import { PATH_AUTH, PATH_DOCS, PATH_PAGE } from '@/routes/paths';
 
-// ----------------------------------------------------------------------
+import Iconify from '../../components/Iconify';
+import { PATH_AFTER_LOGIN } from '../../config';
 
 const ICON_SIZE = {
   width: 22,
@@ -15,13 +11,13 @@ const ICON_SIZE = {
 const menuConfig = [
   {
     title: 'Home',
-    icon: <Iconify icon={'eva:home-fill'} {...ICON_SIZE} />,
+    icon: <Iconify icon="eva:home-fill" {...ICON_SIZE} />,
     path: '/',
   },
   {
     title: 'Pages',
     path: '/pages',
-    icon: <Iconify icon={'eva:file-fill'} {...ICON_SIZE} />,
+    icon: <Iconify icon="eva:file-fill" {...ICON_SIZE} />,
     children: [
       {
         subheader: 'Other',
@@ -59,7 +55,7 @@ const menuConfig = [
   },
   {
     title: 'Documentation',
-    icon: <Iconify icon={'eva:book-open-fill'} {...ICON_SIZE} />,
+    icon: <Iconify icon="eva:book-open-fill" {...ICON_SIZE} />,
     path: PATH_DOCS,
   },
 ];

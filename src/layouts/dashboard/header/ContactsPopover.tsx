@@ -1,22 +1,22 @@
-import { Fragment, useState } from 'react';
+import { Fragment, MouseEvent, useState } from 'react';
 
 import { Avatar, ListItemAvatar, ListItemText, MenuItem, Typography } from '@mui/material';
 import { alpha } from '@mui/material/styles';
 
-import { _contacts } from '../../../_mock';
-import BadgeStatus from '../../../components/BadgeStatus';
-import Iconify from '../../../components/Iconify';
-import MenuPopover from '../../../components/MenuPopover';
-import Scrollbar from '../../../components/Scrollbar';
-import { IconButtonAnimate } from '../../../components/animate';
-import { fToNow } from '../../../utils/formatTime.util';
+import { _contacts } from '@/_mock';
+import BadgeStatus from '@/components/BadgeStatus';
+import Iconify from '@/components/Iconify';
+import MenuPopover from '@/components/MenuPopover';
+import Scrollbar from '@/components/Scrollbar';
+import { IconButtonAnimate } from '@/components/animate';
+import { fToNow } from '@/utils/formatTime.util';
 
 const ITEM_HEIGHT = 64;
 
 export default function ContactsPopover() {
-  const [open, setOpen] = useState(null);
+  const [open, setOpen] = useState<(EventTarget & HTMLButtonElement) | null>(null);
 
-  const handleOpen = (event) => {
+  const handleOpen = (event: MouseEvent<HTMLButtonElement>) => {
     setOpen(event.currentTarget);
   };
 
@@ -32,10 +32,11 @@ export default function ContactsPopover() {
         sx={{
           width: 40,
           height: 40,
-          ...(open && {
+          bgcolor: (theme) => (open ? alpha(theme.palette.primary.main, 0.08) : 'transparent'),
+          /* ...(open && {
             bgcolor: (theme) =>
               alpha(theme.palette.primary.main, theme.palette.action.focusOpacity),
-          }),
+          }), */
         }}
       >
         <Iconify icon="eva:people-fill" width={20} height={20} />

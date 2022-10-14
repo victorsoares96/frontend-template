@@ -1,12 +1,10 @@
-// routes
-// components
 import Label from '../../../components/Label';
 import SvgIconStyle from '../../../components/SvgIconStyle';
 import { PATH_DASHBOARD } from '../../../routes/paths';
 
-// ----------------------------------------------------------------------
-
-const getIcon = (name) => <SvgIconStyle src={`/icons/${name}.svg`} sx={{ width: 1, height: 1 }} />;
+const getIcon = (name: string) => (
+  <SvgIconStyle src={`/icons/${name}.svg`} sx={{ width: 1, height: 1 }} />
+);
 
 const ICONS = {
   blog: getIcon('ic_blog'),
@@ -25,8 +23,6 @@ const ICONS = {
 };
 
 const navConfig = [
-  // GENERAL
-  // ----------------------------------------------------------------------
   {
     subheader: 'general',
     items: [
@@ -37,13 +33,9 @@ const navConfig = [
       { title: 'booking', path: PATH_DASHBOARD.general.booking, icon: ICONS.booking },
     ],
   },
-
-  // MANAGEMENT
-  // ----------------------------------------------------------------------
   {
     subheader: 'management',
     items: [
-      // USER
       {
         title: 'user',
         path: PATH_DASHBOARD.user.root,
@@ -57,8 +49,6 @@ const navConfig = [
           { title: 'account', path: PATH_DASHBOARD.user.account },
         ],
       },
-
-      // E-COMMERCE
       {
         title: 'e-commerce',
         path: PATH_DASHBOARD.eCommerce.root,
@@ -72,8 +62,6 @@ const navConfig = [
           { title: 'checkout', path: PATH_DASHBOARD.eCommerce.checkout },
         ],
       },
-
-      // INVOICE
       {
         title: 'invoice',
         path: PATH_DASHBOARD.invoice.root,
@@ -85,8 +73,6 @@ const navConfig = [
           { title: 'edit', path: PATH_DASHBOARD.invoice.demoEdit },
         ],
       },
-
-      // BLOG
       {
         title: 'blog',
         path: PATH_DASHBOARD.blog.root,
@@ -99,9 +85,6 @@ const navConfig = [
       },
     ],
   },
-
-  // APP
-  // ----------------------------------------------------------------------
   {
     subheader: 'app',
     items: [

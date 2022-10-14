@@ -9,7 +9,7 @@ import Logo from './Logo';
 import ProgressBar from './ProgressBar';
 
 interface LoadingScreenProps {
-  isDashboard: boolean;
+  isDashboard?: boolean;
 }
 
 const RootStyle = styled('div')(({ theme }) => ({
@@ -89,3 +89,7 @@ export default function LoadingScreen({ isDashboard, ...other }: LoadingScreenPr
     </React.Fragment>
   );
 }
+
+LoadingScreen.defaultProps = {
+  isDashboard: false,
+};

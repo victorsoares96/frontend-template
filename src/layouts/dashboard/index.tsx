@@ -1,20 +1,25 @@
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 
 import { Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
+import { useAppSelector } from '@/hooks/useAppSelector';
+import useResponsive from '@/hooks/useResponsive';
+
 import { HEADER, NAVBAR } from '../../config';
 import useCollapseDrawer from '../../hooks/useCollapseDrawer';
-import useResponsive from '../../hooks/useResponsive';
-import useSettings from '../../hooks/useSettings';
 import DashboardHeader from './header';
 import NavbarHorizontal from './navbar/NavbarHorizontal';
 import NavbarVertical from './navbar/NavbarVertical';
 
+interface MainStyleProps {
+  collapseClick: boolean;
+}
+
 const MainStyle = styled('main', {
   shouldForwardProp: (prop) => prop !== 'collapseClick',
-})(({ collapseClick, theme }) => ({
+})<MainStyleProps>(({ collapseClick, theme }) => ({
   flexGrow: 1,
   paddingTop: HEADER.MOBILE_HEIGHT + 24,
   paddingBottom: HEADER.MOBILE_HEIGHT + 24,
@@ -33,12 +38,10 @@ const MainStyle = styled('main', {
   },
 }));
 
-// ----------------------------------------------------------------------
-
 export default function DashboardLayout() {
   const { collapseClick, isCollapse } = useCollapseDrawer();
 
-  const { themeLayout } = useSettings();
+  const themeLayout = useAppSelector((state) => state.settings.themeLayout);
 
   const isDesktop = useResponsive('up', 'lg');
 
@@ -48,7 +51,7 @@ export default function DashboardLayout() {
 
   if (verticalLayout) {
     return (
-      <React.Fragment>
+      <Fragment>
         <DashboardHeader onOpenSidebar={() => setOpen(true)} verticalLayout={verticalLayout} />
 
         {isDesktop ? (
@@ -73,7 +76,7 @@ export default function DashboardLayout() {
         >
           <Outlet />
         </Box>
-      </React.Fragment>
+      </Fragment>
     );
   }
 

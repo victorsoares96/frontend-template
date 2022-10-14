@@ -1,16 +1,28 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import axios from '../../utils/axios';
-import { dispatch } from '../index';
+import type { AppThunk } from '../types';
 
-function objFromArray(array, key = 'id') {
+function objFromArray<T>(array: T[], key = 'id') {
   return array.reduce((accumulator, current) => {
     accumulator[current[key]] = current;
     return accumulator;
   }, {});
 }
 
-const initialState = {
+type InitialState = {
+  isLoading: boolean;
+  error: string | null;
+  mails: {
+    byId: {
+      [key: string]: any;
+    };
+    allIds: string[];
+  };
+  labels: any[];
+};
+
+const initialState: InitialState = {
   isLoading: false,
   error: null,
   mails: { byId: {}, allIds: [] },
@@ -21,24 +33,17 @@ const slice = createSlice({
   name: 'mail',
   initialState,
   reducers: {
-    // START LOADING
     startLoading(state) {
       state.isLoading = true;
     },
-
-    // HAS ERROR
     hasError(state, action) {
       state.isLoading = false;
       state.error = action.payload;
     },
-
-    // GET LABELS
     getLabelsSuccess(state, action) {
       state.isLoading = false;
       state.labels = action.payload;
     },
-
-    // GET MAILS
     getMailsSuccess(state, action) {
       const mails = action.payload;
 
@@ -46,8 +51,6 @@ const slice = createSlice({
       state.mails.byId = objFromArray(mails);
       state.mails.allIds = Object.keys(state.mails.byId);
     },
-
-    // GET MAIL
     getMailSuccess(state, action) {
       const mail = action.payload;
 
@@ -59,27 +62,21 @@ const slice = createSlice({
   },
 });
 
-// Reducer
 export default slice.reducer;
 
-// ----------------------------------------------------------------------
+export const getLabels = (): AppThunk => async (dispatch) => {
+  dispatch(slice.actions.startLoading());
+  try {
+    const response = await axios.get('/api/mail/labels');
+    dispatch(slice.actions.getLabelsSuccess(response.data.labels));
+  } catch (error) {
+    dispatch(slice.actions.hasError(error));
+  }
+};
 
-export function getLabels() {
-  return async () => {
-    dispatch(slice.actions.startLoading());
-    try {
-      const response = await axios.get('/api/mail/labels');
-      dispatch(slice.actions.getLabelsSuccess(response.data.labels));
-    } catch (error) {
-      dispatch(slice.actions.hasError(error));
-    }
-  };
-}
-
-// ----------------------------------------------------------------------
-
-export function getMails(params) {
-  return async () => {
+export const getMails =
+  (params: unknown): AppThunk =>
+  async (dispatch) => {
     dispatch(slice.actions.startLoading());
     try {
       const response = await axios.get('/api/mail/mails', { params });
@@ -88,12 +85,10 @@ export function getMails(params) {
       dispatch(slice.actions.hasError(error));
     }
   };
-}
 
-// ----------------------------------------------------------------------
-
-export function getMail(mailId) {
-  return async () => {
+export const getMail =
+  (mailId: string): AppThunk =>
+  async (dispatch) => {
     dispatch(slice.actions.startLoading());
     try {
       const response = await axios.get('/api/mail/mail', {
@@ -104,4 +99,3 @@ export function getMail(mailId) {
       dispatch(slice.actions.hasError(error));
     }
   };
-}

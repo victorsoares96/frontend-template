@@ -1,16 +1,10 @@
-import PropTypes from 'prop-types';
 import { Link as RouterLink } from 'react-router-dom';
-// @mui
-import { styled } from '@mui/material/styles';
-import { Box, Link, Typography } from '@mui/material';
-// hooks
-import useAuth from '../../../hooks/useAuth';
-// routes
-import { PATH_DASHBOARD } from '../../../routes/paths';
-// components
-import MyAvatar from '../../../components/MyAvatar';
 
-// ----------------------------------------------------------------------
+import { Box, Link, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
+
+import MyAvatar from '../../../components/MyAvatar';
+import { PATH_DASHBOARD } from '../../../routes/paths';
 
 const RootStyle = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -23,15 +17,15 @@ const RootStyle = styled('div')(({ theme }) => ({
   }),
 }));
 
-// ----------------------------------------------------------------------
+interface NavbarAccountProps {
+  isCollapse: boolean;
+}
 
-NavbarAccount.propTypes = {
-  isCollapse: PropTypes.bool,
-};
-
-export default function NavbarAccount({ isCollapse }) {
-  const { user } = useAuth();
-
+export default function NavbarAccount({ isCollapse }: NavbarAccountProps) {
+  const user = {
+    displayName: 'Katarina Smith',
+    role: 'Admin',
+  };
   return (
     <Link underline="none" color="inherit" component={RouterLink} to={PATH_DASHBOARD.user.account}>
       <RootStyle

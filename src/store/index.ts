@@ -33,20 +33,20 @@ const productPersistConfig = {
 };
 
 const rootReducer = combineReducers({
-  // mail: mailReducer,
-  // chat: chatReducer,
-  // calendar: calendarReducer,
-  // kanban: kanbanReducer,
-  // product: persistReducer(productPersistConfig, productReducer),
-  // session: sessionSlice,
-  // hotkeys: hotkeysSlice,
+  mail: mailReducer,
+  chat: chatReducer,
+  calendar: calendarReducer,
+  kanban: kanbanReducer,
+  product: persistReducer(productPersistConfig, productReducer),
+  session: sessionSlice,
+  hotkeys: hotkeysSlice,
   settings: settingsSlice,
-  // sidebar: sidebarSlice,
-  // notification: notificationSlice,
+  sidebar: sidebarSlice,
+  notification: notificationSlice,
   [mainApi.reducerPath]: mainApi.reducer,
 });
 
-const persistedReducer = persistReducer(persistConfig, rootReducer);
+const persistedReducer = persistReducer(rootPersistConfig, rootReducer);
 
 const store = configureStore({
   reducer: persistedReducer,
@@ -58,14 +58,5 @@ const store = configureStore({
 });
 
 const persistor = persistStore(store);
-
-export type AppDispatch = typeof store.dispatch;
-export type RootState = ReturnType<typeof store.getState>;
-export type AppThunk<ReturnType = void> = ThunkAction<
-  ReturnType,
-  RootState,
-  unknown,
-  Action<string>
->;
 
 export { store, persistor };

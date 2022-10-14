@@ -1,8 +1,15 @@
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 
-// ----------------------------------------------------------------------
+interface Props {
+  defaultDense?: boolean;
+  defaultOrderBy?: string;
+  defaultOrder?: 'asc' | 'desc';
+  defaultCurrentPage?: number;
+  defaultRowsPerPage?: number;
+  defaultSelected?: string[];
+}
 
-export default function useTable(props) {
+export default function useTable(props: Props) {
   const [dense, setDense] = useState(props?.defaultDense || false);
 
   const [orderBy, setOrderBy] = useState(props?.defaultOrderBy || 'name');
@@ -15,7 +22,7 @@ export default function useTable(props) {
 
   const [selected, setSelected] = useState(props?.defaultSelected || []);
 
-  const onSort = (id) => {
+  const onSort = (id: string) => {
     const isAsc = orderBy === id && order === 'asc';
     if (id !== '') {
       setOrder(isAsc ? 'desc' : 'asc');
@@ -23,10 +30,10 @@ export default function useTable(props) {
     }
   };
 
-  const onSelectRow = (id) => {
+  const onSelectRow = (id: string) => {
     const selectedIndex = selected.indexOf(id);
 
-    let newSelected = [];
+    let newSelected: string[] = [];
 
     if (selectedIndex === -1) {
       newSelected = newSelected.concat(selected, id);
@@ -35,12 +42,15 @@ export default function useTable(props) {
     } else if (selectedIndex === selected.length - 1) {
       newSelected = newSelected.concat(selected.slice(0, -1));
     } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(selected.slice(0, selectedIndex), selected.slice(selectedIndex + 1));
+      newSelected = newSelected.concat(
+        selected.slice(0, selectedIndex),
+        selected.slice(selectedIndex + 1),
+      );
     }
     setSelected(newSelected);
   };
 
-  const onSelectAllRows = (checked, newSelecteds) => {
+  const onSelectAllRows = (checked: boolean, newSelecteds: string[]) => {
     if (checked) {
       setSelected(newSelecteds);
       return;
@@ -48,16 +58,16 @@ export default function useTable(props) {
     setSelected([]);
   };
 
-  const onChangePage = (event, newPage) => {
+  const onChangePage = (_: unknown, newPage: number) => {
     setPage(newPage);
   };
 
-  const onChangeRowsPerPage = (event) => {
+  const onChangeRowsPerPage = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
 
-  const onChangeDense = (event) => {
+  const onChangeDense = (event: ChangeEvent<HTMLInputElement>) => {
     setDense(event.target.checked);
   };
 
@@ -83,24 +93,24 @@ export default function useTable(props) {
   };
 }
 
-// ----------------------------------------------------------------------
-
-export function descendingComparator(a, b, orderBy) {
+export function descendingComparator(a: any, b: any, orderBy: string) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
   }
+
   if (b[orderBy] > a[orderBy]) {
     return 1;
   }
+
   return 0;
 }
 
-export function getComparator(order, orderBy) {
+export function getComparator(order: 'asc' | 'desc', orderBy: string) {
   return order === 'desc'
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
+    ? (a: unknown, b: unknown) => descendingComparator(a, b, orderBy)
+    : (a: unknown, b: unknown) => -descendingComparator(a, b, orderBy);
 }
 
-export function emptyRows(page, rowsPerPage, arrayLength) {
+export function emptyRows(page: number, rowsPerPage: number, arrayLength: number) {
   return page > 0 ? Math.max(0, (1 + page) * rowsPerPage - arrayLength) : 0;
 }
