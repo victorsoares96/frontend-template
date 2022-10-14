@@ -1,20 +1,16 @@
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
-// @mui
-import { styled } from '@mui/material/styles';
-import { Box } from '@mui/material';
-// hooks
-import useSettings from '../../hooks/useSettings';
-import useResponsive from '../../hooks/useResponsive';
-import useCollapseDrawer from '../../hooks/useCollapseDrawer';
-// config
-import { HEADER, NAVBAR } from '../../config';
-//
-import DashboardHeader from './header';
-import NavbarVertical from './navbar/NavbarVertical';
-import NavbarHorizontal from './navbar/NavbarHorizontal';
 
-// ----------------------------------------------------------------------
+import { Box } from '@mui/material';
+import { styled } from '@mui/material/styles';
+
+import { HEADER, NAVBAR } from '../../config';
+import useCollapseDrawer from '../../hooks/useCollapseDrawer';
+import useResponsive from '../../hooks/useResponsive';
+import useSettings from '../../hooks/useSettings';
+import DashboardHeader from './header';
+import NavbarHorizontal from './navbar/NavbarHorizontal';
+import NavbarVertical from './navbar/NavbarVertical';
 
 const MainStyle = styled('main', {
   shouldForwardProp: (prop) => prop !== 'collapseClick',
@@ -52,7 +48,7 @@ export default function DashboardLayout() {
 
   if (verticalLayout) {
     return (
-      <>
+      <React.Fragment>
         <DashboardHeader onOpenSidebar={() => setOpen(true)} verticalLayout={verticalLayout} />
 
         {isDesktop ? (
@@ -77,7 +73,7 @@ export default function DashboardLayout() {
         >
           <Outlet />
         </Box>
-      </>
+      </React.Fragment>
     );
   }
 

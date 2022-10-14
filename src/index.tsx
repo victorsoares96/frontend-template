@@ -25,7 +25,6 @@ import { PersistGate } from 'redux-persist/lib/integration/react';
 import App from './App';
 import { CollapseDrawerProvider } from './contexts/CollapseDrawerContext';
 import { AuthProvider } from './contexts/JWTContext';
-import { SettingsProvider } from './contexts/SettingsContext';
 import { persistor, store } from './store';
 
 ReactDOM.render(
@@ -34,13 +33,11 @@ ReactDOM.render(
       <ReduxProvider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <SettingsProvider>
-              <CollapseDrawerProvider>
-                <BrowserRouter>
-                  <App />
-                </BrowserRouter>
-              </CollapseDrawerProvider>
-            </SettingsProvider>
+            <CollapseDrawerProvider>
+              <BrowserRouter>
+                <App />
+              </BrowserRouter>
+            </CollapseDrawerProvider>
           </LocalizationProvider>
         </PersistGate>
       </ReduxProvider>

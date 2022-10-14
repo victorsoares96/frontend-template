@@ -1,5 +1,4 @@
 /* eslint-disable import/order */
-import { useDispatch as useAppDispatch, useSelector as useAppSelector } from 'react-redux';
 import { combineReducers } from 'redux';
 
 import { configureStore } from '@reduxjs/toolkit';
@@ -34,21 +33,23 @@ const productPersistConfig = {
 };
 
 const rootReducer = combineReducers({
-  mail: mailReducer,
-  chat: chatReducer,
-  calendar: calendarReducer,
-  kanban: kanbanReducer,
-  product: persistReducer(productPersistConfig, productReducer),
-  session: sessionSlice,
-  hotkeys: hotkeysSlice,
+  // mail: mailReducer,
+  // chat: chatReducer,
+  // calendar: calendarReducer,
+  // kanban: kanbanReducer,
+  // product: persistReducer(productPersistConfig, productReducer),
+  // session: sessionSlice,
+  // hotkeys: hotkeysSlice,
   settings: settingsSlice,
-  sidebar: sidebarSlice,
-  notification: notificationSlice,
+  // sidebar: sidebarSlice,
+  // notification: notificationSlice,
   [mainApi.reducerPath]: mainApi.reducer,
 });
 
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
 const store = configureStore({
-  reducer: persistReducer(rootPersistConfig, rootReducer),
+  reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
@@ -58,10 +59,13 @@ const store = configureStore({
 
 const persistor = persistStore(store);
 
-const { dispatch } = store;
+export type AppDispatch = typeof store.dispatch;
+export type RootState = ReturnType<typeof store.getState>;
+export type AppThunk<ReturnType = void> = ThunkAction<
+  ReturnType,
+  RootState,
+  unknown,
+  Action<string>
+>;
 
-const useSelector = useAppSelector;
-
-const useDispatch = () => useAppDispatch();
-
-export { store, persistor, dispatch, useSelector, useDispatch };
+export { store, persistor };
