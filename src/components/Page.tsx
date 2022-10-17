@@ -1,29 +1,32 @@
 import { Fragment, ReactFragment, forwardRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 
-import { Box } from '@mui/material';
+import { Box, BoxProps } from '@mui/material';
 
-interface Props {
+interface Props extends BoxProps {
   children: React.ReactNode;
   title?: string;
-  meta: React.ReactNode;
+  meta?: React.ReactNode;
 }
 
-const Page = forwardRef<ReactFragment, Props>(({ children, title = '', meta, ...other }, ref) => (
-  <Fragment>
-    <Helmet>
-      <title>{`${title} | Minimal-UI`}</title>
-      {meta}
-    </Helmet>
+const Page = forwardRef<ReactFragment, Props>(
+  ({ children, title = 'Minimal-UI', meta, ...other }, ref) => (
+    <Fragment>
+      <Helmet>
+        <title>{`${title} | Minimal-UI`}</title>
+        {meta}
+      </Helmet>
 
-    <Box ref={ref} {...other}>
-      {children}
-    </Box>
-  </Fragment>
-));
+      <Box ref={ref} {...other}>
+        {children}
+      </Box>
+    </Fragment>
+  ),
+);
 
 Page.defaultProps = {
   title: 'Minimal-UI',
+  meta: null,
 };
 
 export default Page;

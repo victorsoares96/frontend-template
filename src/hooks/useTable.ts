@@ -9,7 +9,7 @@ interface Props {
   defaultSelected?: string[];
 }
 
-export default function useTable(props: Props) {
+export default function useTable(props?: Props) {
   const [dense, setDense] = useState(props?.defaultDense || false);
 
   const [orderBy, setOrderBy] = useState(props?.defaultOrderBy || 'name');

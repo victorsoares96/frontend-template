@@ -107,7 +107,7 @@ export const createEvent =
   };
 
 export const updateEvent =
-  (eventId: number, updateEvent: unknown): AppThunk =>
+  (eventId: string, updateEvent: unknown): AppThunk =>
   async (dispatch) => {
     dispatch(slice.actions.startLoading());
     try {

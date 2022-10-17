@@ -7,6 +7,7 @@ import Breadcrumbs from './Breadcrumbs';
 interface HeaderBreadcrumbsProps {
   links: Array<{
     name: string;
+    href?: string;
   }>;
   action?: React.ReactNode;
   heading: string;
