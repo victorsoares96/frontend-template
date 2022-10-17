@@ -1,14 +1,10 @@
-import PropTypes from 'prop-types';
-import { sentenceCase } from 'change-case';
-// @mui
-import { useTheme, styled } from '@mui/material/styles';
-import { Chip, Typography, Stack, Button } from '@mui/material';
-// utils
-import getColorName from '../../../../utils/getColorName';
-// components
-import Iconify from '../../../../components/Iconify';
+import { Button, Chip, Stack, Typography } from '@mui/material';
+import { styled, useTheme } from '@mui/material/styles';
 
-// ----------------------------------------------------------------------
+import { sentenceCase } from 'change-case';
+
+import Iconify from '@/components/Iconify';
+import getColorName from '@/utils/getColorName';
 
 const RootStyle = styled('div')({
   flexGrow: 1,
@@ -26,7 +22,9 @@ const WrapperStyle = styled('div')(({ theme }) => ({
   border: `solid 1px ${theme.palette.divider}`,
 }));
 
-const LabelStyle = styled((props) => <Typography component="span" variant="subtitle2" {...props} />)(({ theme }) => ({
+const LabelStyle = styled((props) => (
+  <Typography component="span" variant="subtitle2" {...props} />
+))<{ children: React.ReactNode }>(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   padding: theme.spacing(0, 1),
@@ -35,9 +33,7 @@ const LabelStyle = styled((props) => <Typography component="span" variant="subti
   borderRight: `solid 1px ${theme.palette.divider}`,
 }));
 
-// ----------------------------------------------------------------------
-
-function labelPriceRange(range) {
+function labelPriceRange(range: string) {
   if (range === 'below') {
     return 'Below $25';
   }
@@ -47,16 +43,22 @@ function labelPriceRange(range) {
   return 'Above $75';
 }
 
-ShopTagFiltered.propTypes = {
-  filters: PropTypes.object,
-  isShowReset: PropTypes.bool,
-  onRemoveGender: PropTypes.func,
-  onRemoveCategory: PropTypes.func,
-  onRemoveColor: PropTypes.func,
-  onRemovePrice: PropTypes.func,
-  onRemoveRating: PropTypes.func,
-  onResetAll: PropTypes.func,
-};
+interface Props {
+  filters: {
+    gender: string[];
+    category: string;
+    priceRange: string;
+    colors: string[];
+    rating: string;
+  };
+  isShowReset: boolean;
+  onRemoveGender: (gender: string) => void;
+  onRemoveCategory: (category: string) => void;
+  onRemoveColor: (color: string) => void;
+  onRemovePrice: (price: number) => void;
+  onRemoveRating: () => void;
+  onResetAll: () => void;
+}
 
 export default function ShopTagFiltered({
   filters,
@@ -67,7 +69,7 @@ export default function ShopTagFiltered({
   onRemovePrice,
   onRemoveRating,
   onResetAll,
-}) {
+}: Props) {
   const theme = useTheme();
 
   const { gender, category, colors, priceRange, rating } = filters;
@@ -131,7 +133,12 @@ export default function ShopTagFiltered({
         <WrapperStyle>
           <LabelStyle>Price:</LabelStyle>
           <Stack direction="row" flexWrap="wrap" sx={{ p: 0.75 }}>
-            <Chip size="small" label={labelPriceRange(priceRange)} onDelete={onRemovePrice} sx={{ m: 0.5 }} />
+            <Chip
+              size="small"
+              label={labelPriceRange(priceRange)}
+              onDelete={onRemovePrice}
+              sx={{ m: 0.5 }}
+            />
           </Stack>
         </WrapperStyle>
       )}
@@ -140,13 +147,23 @@ export default function ShopTagFiltered({
         <WrapperStyle>
           <LabelStyle>Rating:</LabelStyle>
           <Stack direction="row" flexWrap="wrap" sx={{ p: 0.75 }}>
-            <Chip size="small" label={sentenceCase(rating)} onDelete={onRemoveRating} sx={{ m: 0.5 }} />
+            <Chip
+              size="small"
+              label={sentenceCase(rating)}
+              onDelete={onRemoveRating}
+              sx={{ m: 0.5 }}
+            />
           </Stack>
         </WrapperStyle>
       )}
 
       {isShowReset && (
-        <Button color="error" size="small" onClick={onResetAll} startIcon={<Iconify icon={'ic:round-clear-all'} />}>
+        <Button
+          color="error"
+          size="small"
+          onClick={onResetAll}
+          startIcon={<Iconify icon="ic:round-clear-all" />}
+        >
           Clear All
         </Button>
       )}

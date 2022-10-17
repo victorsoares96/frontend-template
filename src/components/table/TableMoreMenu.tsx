@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, MouseEvent } from 'react';
 
 import { IconButton } from '@mui/material';
 
@@ -9,7 +9,7 @@ interface Props {
   actions: React.ReactNode;
   open: any;
   onClose: () => void;
-  onOpen: () => void;
+  onOpen: (event: MouseEvent<HTMLButtonElement>) => void;
 }
 
 export default function TableMoreMenu({ actions, open, onClose, onOpen }: Props) {

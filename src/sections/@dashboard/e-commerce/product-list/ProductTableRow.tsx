@@ -4,24 +4,29 @@ import { Checkbox, MenuItem, TableCell, TableRow, Typography } from '@mui/materi
 import { useTheme } from '@mui/material/styles';
 
 import { sentenceCase } from 'change-case';
-import PropTypes from 'prop-types';
 
-import Iconify from '../../../../components/Iconify';
-import Image from '../../../../components/Image';
-import Label from '../../../../components/Label';
-import { TableMoreMenu } from '../../../../components/table';
-import { fCurrency } from '../../../../utils/formatNumber';
-import { fDate } from '../../../../utils/formatTime.util';
+import Iconify from '@/components/Iconify';
+import Image from '@/components/Image';
+import Label from '@/components/Label';
+import { TableMoreMenu } from '@/components/table';
+import { fCurrency } from '@/utils/formatNumber';
+import { fDate } from '@/utils/formatTime.util';
 
-ProductTableRow.propTypes = {
-  row: PropTypes.object,
-  selected: PropTypes.bool,
-  onEditRow: PropTypes.func,
-  onSelectRow: PropTypes.func,
-  onDeleteRow: PropTypes.func,
-};
+interface Props {
+  row: any;
+  selected: boolean;
+  onEditRow: () => void;
+  onSelectRow: () => void;
+  onDeleteRow: () => void;
+}
 
-export default function ProductTableRow({ row, selected, onEditRow, onSelectRow, onDeleteRow }) {
+export default function ProductTableRow({
+  row,
+  selected,
+  onEditRow,
+  onSelectRow,
+  onDeleteRow,
+}: Props) {
   const theme = useTheme();
 
   const { name, cover, createdAt, inventoryType, price } = row;
