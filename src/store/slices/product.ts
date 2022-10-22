@@ -25,7 +25,12 @@ type InitialState = {
     total: number;
     discount: number;
     shipping: number;
-    billing: number | null;
+    billing: {
+      receiver: string;
+      addressType: string;
+      fullAddress: string;
+      phone: string;
+    } | null;
   };
 };
 

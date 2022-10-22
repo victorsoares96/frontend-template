@@ -1,8 +1,8 @@
-import { Box, Radio, RadioGroup, SxProps, Theme } from '@mui/material';
+import { Box, Radio, RadioGroup, RadioGroupProps, SxProps, Theme } from '@mui/material';
 
 import Iconify from '../Iconify';
 
-interface ColorSinglePickerProps {
+interface ColorSinglePickerProps extends RadioGroupProps {
   colors: string[];
 }
 

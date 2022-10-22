@@ -1,14 +1,10 @@
-import PropTypes from 'prop-types';
-import sumBy from 'lodash/sumBy';
-// @mui
+import { Button, Grid, LinearProgress, Link, Rating, Stack, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { Grid, Rating, Button, Typography, LinearProgress, Stack, Link } from '@mui/material';
-// utils
-import { fShortenNumber } from '../../../../utils/formatNumber';
-// components
-import Iconify from '../../../../components/Iconify';
 
-// ----------------------------------------------------------------------
+import sumBy from 'lodash/sumBy';
+
+import Iconify from '@/components/Iconify';
+import { fShortenNumber } from '@/utils/formatNumber';
 
 const RatingStyle = styled(Rating)(({ theme }) => ({
   marginBottom: theme.spacing(1),
@@ -28,14 +24,56 @@ const GridStyle = styled(Grid)(({ theme }) => ({
   },
 }));
 
-// ----------------------------------------------------------------------
+interface ProductDetailsReviewOverviewProps {
+  product: {
+    totalRating: number;
+    totalReview: number;
+    ratings: {
+      name: string;
+      starCount: number;
+      reviewCount: number;
+    }[];
+  };
+  onOpen: () => void;
+}
 
-ProductDetailsReviewOverview.propTypes = {
-  product: PropTypes.object,
-  onOpen: PropTypes.func,
-};
+interface ProgressItemProps {
+  star: {
+    name: string;
+    starCount: number;
+    reviewCount: number;
+  };
+  total: number;
+}
 
-export default function ProductDetailsReviewOverview({ product, onOpen }) {
+function ProgressItem({ star, total }: ProgressItemProps) {
+  const { name, starCount, reviewCount } = star;
+  return (
+    <Stack direction="row" alignItems="center" spacing={1.5}>
+      <Typography variant="subtitle2">{name}</Typography>
+      <LinearProgress
+        variant="determinate"
+        value={(starCount / total) * 100}
+        sx={{
+          mx: 2,
+          flexGrow: 1,
+          bgcolor: 'divider',
+        }}
+      />
+      <Typography
+        variant="body2"
+        sx={{ color: 'text.secondary', minWidth: 64, textAlign: 'right' }}
+      >
+        {fShortenNumber(reviewCount)}
+      </Typography>
+    </Stack>
+  );
+}
+
+export default function ProductDetailsReviewOverview({
+  product,
+  onOpen,
+}: ProductDetailsReviewOverviewProps) {
   const { totalRating, totalReview, ratings } = product;
 
   const total = sumBy(ratings, (star) => star.starCount);
@@ -69,39 +107,16 @@ export default function ProductDetailsReviewOverview({ product, onOpen }) {
 
       <GridStyle item xs={12} md={4}>
         <Link href="#move_add_review" underline="none">
-          <Button size="large" onClick={onOpen} variant="outlined" startIcon={<Iconify icon={'eva:edit-2-fill'} />}>
+          <Button
+            size="large"
+            onClick={onOpen}
+            variant="outlined"
+            startIcon={<Iconify icon="eva:edit-2-fill" />}
+          >
             Write your review
           </Button>
         </Link>
       </GridStyle>
     </Grid>
-  );
-}
-
-// ----------------------------------------------------------------------
-
-ProgressItem.propTypes = {
-  star: PropTypes.object,
-  total: PropTypes.number,
-};
-
-function ProgressItem({ star, total }) {
-  const { name, starCount, reviewCount } = star;
-  return (
-    <Stack direction="row" alignItems="center" spacing={1.5}>
-      <Typography variant="subtitle2">{name}</Typography>
-      <LinearProgress
-        variant="determinate"
-        value={(starCount / total) * 100}
-        sx={{
-          mx: 2,
-          flexGrow: 1,
-          bgcolor: 'divider',
-        }}
-      />
-      <Typography variant="body2" sx={{ color: 'text.secondary', minWidth: 64, textAlign: 'right' }}>
-        {fShortenNumber(reviewCount)}
-      </Typography>
-    </Stack>
   );
 }

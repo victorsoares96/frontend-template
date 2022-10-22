@@ -1,22 +1,16 @@
 import { Fragment, useState } from 'react';
 
-// @mui
 import { Collapse, Divider } from '@mui/material';
 
-import PropTypes from 'prop-types';
-
-//
 import ProductDetailsReviewForm from './ProductDetailsReviewForm';
 import ProductDetailsReviewList from './ProductDetailsReviewList';
 import ProductDetailsReviewOverview from './ProductDetailsReviewOverview';
 
-// ----------------------------------------------------------------------
+interface Props {
+  product: any;
+}
 
-ProductDetailsReview.propTypes = {
-  product: PropTypes.object,
-};
-
-export default function ProductDetailsReview({ product }) {
+export default function ProductDetailsReview({ product }: Props) {
   const [reviewBox, setReviewBox] = useState(false);
 
   const handleOpenReviewBox = () => {

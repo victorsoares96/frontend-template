@@ -1,16 +1,13 @@
-import * as Yup from 'yup';
-import PropTypes from 'prop-types';
-// form
-import { useForm, Controller } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-// @mui
-import { styled } from '@mui/material/styles';
-import { Button, Stack, Rating, Typography, FormHelperText } from '@mui/material';
-import { LoadingButton } from '@mui/lab';
-// components
-import { FormProvider, RHFTextField } from '../../../../components/hook-form';
+import { Controller, useForm } from 'react-hook-form';
 
-// ----------------------------------------------------------------------
+import { LoadingButton } from '@mui/lab';
+import { Button, FormHelperText, Rating, Stack, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
+
+import * as Yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+
+import { FormProvider, RHFTextField } from '../../../../components/hook-form';
 
 const RootStyle = styled('div')(({ theme }) => ({
   margin: theme.spacing(3),
@@ -19,14 +16,12 @@ const RootStyle = styled('div')(({ theme }) => ({
   backgroundColor: theme.palette.background.neutral,
 }));
 
-// ----------------------------------------------------------------------
+interface Props extends React.HTMLAttributes<HTMLDivElement> {
+  onClose: () => void;
+  id: string;
+}
 
-ProductDetailsReviewForm.propTypes = {
-  onClose: PropTypes.func,
-  id: PropTypes.string,
-};
-
-export default function ProductDetailsReviewForm({ onClose, id, ...other }) {
+export default function ProductDetailsReviewForm({ onClose, id, ...other }: Props) {
   const ReviewSchema = Yup.object().shape({
     rating: Yup.mixed().required('Rating is required'),
     review: Yup.string().required('Review is required'),

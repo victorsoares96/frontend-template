@@ -4,25 +4,27 @@ import { Button, Card, CardHeader, Grid, Typography } from '@mui/material';
 
 import sum from 'lodash/sum';
 
-import EmptyContent from '../../../../components/EmptyContent';
-import Iconify from '../../../../components/Iconify';
-import Scrollbar from '../../../../components/Scrollbar';
-import { PATH_DASHBOARD } from '../../../../routes/paths';
-import { useDispatch, useSelector } from '../../../../store';
+import EmptyContent from '@/components/EmptyContent';
+import Iconify from '@/components/Iconify';
+import Scrollbar from '@/components/Scrollbar';
+import { useAppDispatch } from '@/hooks/useAppDispatch';
+import { useAppSelector } from '@/hooks/useAppSelector';
+import { PATH_DASHBOARD } from '@/routes/paths';
 import {
   applyDiscount,
   decreaseQuantity,
   deleteCart,
   increaseQuantity,
   onNextStep,
-} from '../../../../store/slices/product';
+} from '@/store/slices/product';
+
 import CheckoutProductList from './CheckoutProductList';
 import CheckoutSummary from './CheckoutSummary';
 
 export default function CheckoutCart() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const { checkout } = useSelector((state) => state.product);
+  const { checkout } = useAppSelector((state) => state.product);
 
   const { cart, total, discount, subtotal } = checkout;
 
@@ -30,7 +32,7 @@ export default function CheckoutCart() {
 
   const isEmptyCart = cart.length === 0;
 
-  const handleDeleteCart = (productId) => {
+  const handleDeleteCart = (productId: number) => {
     dispatch(deleteCart(productId));
   };
 
@@ -38,15 +40,15 @@ export default function CheckoutCart() {
     dispatch(onNextStep());
   };
 
-  const handleIncreaseQuantity = (productId) => {
+  const handleIncreaseQuantity = (productId: number) => {
     dispatch(increaseQuantity(productId));
   };
 
-  const handleDecreaseQuantity = (productId) => {
+  const handleDecreaseQuantity = (productId: number) => {
     dispatch(decreaseQuantity(productId));
   };
 
-  const handleApplyDiscount = (value) => {
+  const handleApplyDiscount = (value: number) => {
     dispatch(applyDiscount(value));
   };
 

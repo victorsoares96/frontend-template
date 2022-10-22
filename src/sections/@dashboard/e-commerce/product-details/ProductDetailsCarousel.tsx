@@ -1,15 +1,12 @@
-import PropTypes from 'prop-types';
+import { useEffect, useRef, useState } from 'react';
 import Slider from 'react-slick';
-import { useState, useRef, useEffect } from 'react';
-// @mui
-import { alpha, styled } from '@mui/material/styles';
-import { Box } from '@mui/material';
-//
-import Image from '../../../../components/Image';
-import LightboxModal from '../../../../components/LightboxModal';
-import { CarouselArrowIndex } from '../../../../components/carousel';
 
-// ----------------------------------------------------------------------
+import { Box } from '@mui/material';
+import { alpha, styled } from '@mui/material/styles';
+
+import Image from '@/components/Image';
+import LightboxModal from '@/components/LightboxModal';
+import { CarouselArrowIndex } from '@/components/carousel';
 
 const THUMB_SIZE = 64;
 
@@ -20,33 +17,32 @@ const RootStyle = styled('div')(({ theme }) => ({
   },
 }));
 
-// ----------------------------------------------------------------------
+interface Props {
+  product: {
+    images: string[];
+  };
+}
 
-ProductDetailsCarousel.propTypes = {
-  product: PropTypes.shape({
-    images: PropTypes.arrayOf(PropTypes.string),
-  }),
-};
-
-export default function ProductDetailsCarousel({ product }) {
+export default function ProductDetailsCarousel({ product }: Props) {
   const [openLightbox, setOpenLightbox] = useState(false);
 
   const [selectedImage, setSelectedImage] = useState(0);
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const [nav1, setNav1] = useState();
+  const [nav1, setNav1] = useState<Slider | undefined>(undefined);
 
-  const [nav2, setNav2] = useState();
+  const [nav2, setNav2] = useState<Slider | undefined>(undefined);
 
-  const slider1 = useRef(null);
+  const slider1 = useRef<Slider>(null);
 
-  const slider2 = useRef(null);
+  const slider2 = useRef<Slider>(null);
 
   const imagesLightbox = product.images.map((_image) => _image);
 
-  const handleOpenLightbox = (url) => {
+  const handleOpenLightbox = (url: string) => {
     const selectedImage = imagesLightbox.findIndex((index) => index === url);
+
     setOpenLightbox(true);
     setSelectedImage(selectedImage);
   };
@@ -58,7 +54,7 @@ export default function ProductDetailsCarousel({ product }) {
     draggable: false,
     slidesToScroll: 1,
     adaptiveHeight: true,
-    beforeChange: (current, next) => setCurrentIndex(next),
+    beforeChange: (current: number, next: number) => setCurrentIndex(next),
   };
 
   const settings2 = {
@@ -105,6 +101,7 @@ export default function ProductDetailsCarousel({ product }) {
               />
             ))}
           </Slider>
+
           <CarouselArrowIndex
             index={currentIndex}
             total={product.images.length}

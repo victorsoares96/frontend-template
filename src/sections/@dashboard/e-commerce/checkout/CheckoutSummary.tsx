@@ -1,34 +1,29 @@
-import PropTypes from 'prop-types';
-// @mui
 import {
   Box,
-  Card,
-  Stack,
   Button,
-  Divider,
-  TextField,
-  CardHeader,
-  Typography,
+  Card,
   CardContent,
+  CardHeader,
+  Divider,
   InputAdornment,
+  Stack,
+  TextField,
+  Typography,
 } from '@mui/material';
-// utils
-import { fCurrency } from '../../../../utils/formatNumber';
-// components
-import Iconify from '../../../../components/Iconify';
 
-// ----------------------------------------------------------------------
+import Iconify from '@/components/Iconify';
+import { fCurrency } from '@/utils/formatNumber';
 
-CheckoutSummary.propTypes = {
-  total: PropTypes.number,
-  discount: PropTypes.number,
-  subtotal: PropTypes.number,
-  shipping: PropTypes.number,
-  onEdit: PropTypes.func,
-  enableEdit: PropTypes.bool,
-  onApplyDiscount: PropTypes.func,
-  enableDiscount: PropTypes.bool,
-};
+interface CheckoutSummaryProps {
+  total: number;
+  discount: number;
+  subtotal: number;
+  shipping: number;
+  onEdit: () => void;
+  enableEdit?: boolean;
+  onApplyDiscount: (value: number) => void;
+  enableDiscount?: boolean;
+}
 
 export default function CheckoutSummary({
   total,
@@ -39,7 +34,7 @@ export default function CheckoutSummary({
   onApplyDiscount,
   enableEdit = false,
   enableDiscount = false,
-}) {
+}: CheckoutSummaryProps) {
   const displayShipping = shipping !== null ? 'Free' : '-';
 
   return (
@@ -48,7 +43,7 @@ export default function CheckoutSummary({
         title="Order Summary"
         action={
           enableEdit && (
-            <Button size="small" onClick={onEdit} startIcon={<Iconify icon={'eva:edit-fill'} />}>
+            <Button size="small" onClick={onEdit} startIcon={<Iconify icon="eva:edit-fill" />}>
               Edit
             </Button>
           )
@@ -75,7 +70,9 @@ export default function CheckoutSummary({
             <Typography variant="body2" sx={{ color: 'text.secondary' }}>
               Shipping
             </Typography>
-            <Typography variant="subtitle2">{shipping ? fCurrency(shipping) : displayShipping}</Typography>
+            <Typography variant="subtitle2">
+              {shipping ? fCurrency(shipping) : displayShipping}
+            </Typography>
           </Stack>
 
           <Divider />
@@ -113,3 +110,8 @@ export default function CheckoutSummary({
     </Card>
   );
 }
+
+CheckoutSummary.defaultProps = {
+  enableEdit: false,
+  enableDiscount: false,
+};

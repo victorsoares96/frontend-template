@@ -1,23 +1,21 @@
-import PropTypes from 'prop-types';
-// form
 import { Controller, useFormContext } from 'react-hook-form';
-// @mui
-import { styled } from '@mui/material/styles';
+
 import {
   Box,
   Card,
+  CardContent,
+  CardHeader,
+  FormControlLabel,
   Radio,
+  RadioGroup,
   Stack,
   Typography,
-  RadioGroup,
-  CardHeader,
-  CardContent,
-  FormControlLabel,
 } from '@mui/material';
-// components
-import Iconify from '../../../../components/Iconify';
+import { styled } from '@mui/material/styles';
 
-// ----------------------------------------------------------------------
+import PropTypes from 'prop-types';
+
+import Iconify from '../../../../components/Iconify';
 
 const OptionStyle = styled('div')(({ theme }) => ({
   width: '100%',
@@ -30,19 +28,25 @@ const OptionStyle = styled('div')(({ theme }) => ({
   borderRadius: Number(theme.shape.borderRadius) * 1.5,
 }));
 
-// ----------------------------------------------------------------------
+interface CheckoutDeliveryProps {
+  deliveryOptions: {
+    title: string;
+    description: string;
+    value: string;
+  }[];
+  onApplyShipping: (value: number) => void;
+}
 
-CheckoutDelivery.propTypes = {
-  deliveryOptions: PropTypes.array,
-  onApplyShipping: PropTypes.func,
-};
-
-export default function CheckoutDelivery({ deliveryOptions, onApplyShipping }) {
+export default function CheckoutDelivery({
+  deliveryOptions,
+  onApplyShipping,
+}: CheckoutDeliveryProps) {
   const { control } = useFormContext();
 
   return (
     <Card>
       <CardHeader title="Delivery options" />
+
       <CardContent>
         <Controller
           name="delivery"
@@ -71,7 +75,9 @@ export default function CheckoutDelivery({ deliveryOptions, onApplyShipping }) {
                     >
                       <FormControlLabel
                         value={delivery.value}
-                        control={<Radio checkedIcon={<Iconify icon={'eva:checkmark-circle-2-fill'} />} />}
+                        control={
+                          <Radio checkedIcon={<Iconify icon="eva:checkmark-circle-2-fill" />} />
+                        }
                         label={
                           <Box sx={{ ml: 1 }}>
                             <Typography variant="subtitle2">{delivery.title}</Typography>

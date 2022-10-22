@@ -1,25 +1,42 @@
-import PropTypes from 'prop-types';
-import * as Yup from 'yup';
-// form
 import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-// @mui
-import { Box, Stack, Dialog, Button, Divider, DialogTitle, DialogContent, DialogActions } from '@mui/material';
+
 import { LoadingButton } from '@mui/lab';
-// _mock
-import { countries } from '../../../../_mock';
-import { FormProvider, RHFCheckbox, RHFSelect, RHFTextField, RHFRadioGroup } from '../../../../components/hook-form';
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Divider,
+  Stack,
+} from '@mui/material';
 
-// ----------------------------------------------------------------------
+import * as Yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 
-CheckoutNewAddressForm.propTypes = {
-  open: PropTypes.bool,
-  onClose: PropTypes.func,
-  onNextStep: PropTypes.func,
-  onCreateBilling: PropTypes.func,
-};
+import { countries } from '@/_mock';
+import {
+  FormProvider,
+  RHFCheckbox,
+  RHFRadioGroup,
+  RHFSelect,
+  RHFTextField,
+} from '@/components/hook-form';
 
-export default function CheckoutNewAddressForm({ open, onClose, onNextStep, onCreateBilling }) {
+interface CheckoutNewAddressFormProps {
+  open: boolean;
+  onClose: () => void;
+  onNextStep: () => void;
+  onCreateBilling: (data: any) => void;
+}
+
+export default function CheckoutNewAddressForm({
+  open,
+  onClose,
+  onNextStep,
+  onCreateBilling,
+}: CheckoutNewAddressFormProps) {
   const NewAddressSchema = Yup.object().shape({
     receiver: Yup.string().required('Fullname is required'),
     phone: Yup.string().required('Phone is required'),
@@ -50,7 +67,17 @@ export default function CheckoutNewAddressForm({ open, onClose, onNextStep, onCr
     formState: { isSubmitting },
   } = methods;
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: {
+    receiver: string;
+    phone: string;
+    address: string;
+    city: string;
+    state: string;
+    country: string;
+    zipcode: number;
+    addressType: string;
+    isDefault: boolean;
+  }) => {
     try {
       onNextStep();
       onCreateBilling({

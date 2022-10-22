@@ -1,11 +1,11 @@
 import { Controller, useFormContext } from 'react-hook-form';
 
-import { TextField } from '@mui/material';
+import { TextField, TextFieldProps } from '@mui/material';
 
-interface Props {
-  children: React.ReactNode;
+type Props = TextFieldProps & {
   name: string;
-}
+  children: React.ReactNode;
+};
 
 export default function RHFSelect({ name, children, ...other }: Props) {
   const { control } = useFormContext();

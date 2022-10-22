@@ -1,23 +1,18 @@
-import PropTypes from 'prop-types';
-import { sentenceCase } from 'change-case';
-import { useNavigate } from 'react-router-dom';
-// form
 import { Controller, useForm } from 'react-hook-form';
-// @mui
-import { useTheme, styled } from '@mui/material/styles';
-import { Box, Link, Stack, Button, Rating, Divider, IconButton, Typography } from '@mui/material';
-// routes
-import { PATH_DASHBOARD } from '../../../../routes/paths';
-// utils
-import { fShortenNumber, fCurrency } from '../../../../utils/formatNumber';
-// components
-import Label from '../../../../components/Label';
-import Iconify from '../../../../components/Iconify';
-import SocialsButton from '../../../../components/SocialsButton';
-import { ColorSinglePicker } from '../../../../components/color-utils';
-import { FormProvider, RHFSelect } from '../../../../components/hook-form';
+import { useNavigate } from 'react-router-dom';
 
-// ----------------------------------------------------------------------
+import { Box, Button, Divider, IconButton, Link, Rating, Stack, Typography } from '@mui/material';
+import { styled, useTheme } from '@mui/material/styles';
+
+import { sentenceCase } from 'change-case';
+
+import Iconify from '@/components/Iconify';
+import Label from '@/components/Label';
+import SocialsButton from '@/components/SocialsButton';
+import { ColorSinglePicker } from '@/components/color-utils';
+import { FormProvider, RHFSelect } from '@/components/hook-form';
+import { PATH_DASHBOARD } from '@/routes/paths';
+import { fCurrency, fShortenNumber } from '@/utils/formatNumber';
 
 const RootStyle = styled('div')(({ theme }) => ({
   padding: theme.spacing(3),
@@ -26,29 +21,84 @@ const RootStyle = styled('div')(({ theme }) => ({
   },
 }));
 
-// ----------------------------------------------------------------------
+interface ProductDetailsSummaryProps {
+  cart: any[];
+  onAddCart: (cart: any) => void;
+  onGotoStep: (step: number) => void;
+  product: {
+    available: number;
+    colors: string[];
+    cover: string;
+    id: string;
+    inventoryType: string;
+    name: string;
+    price: number;
+    priceSale: number;
+    sizes: string[];
+    status: string;
+    totalRating: number;
+    totalReview: number;
+  };
+}
 
-ProductDetailsSummary.propTypes = {
-  cart: PropTypes.array,
-  onAddCart: PropTypes.func,
-  onGotoStep: PropTypes.func,
-  product: PropTypes.shape({
-    available: PropTypes.number,
-    colors: PropTypes.arrayOf(PropTypes.string),
-    cover: PropTypes.string,
-    id: PropTypes.string,
-    inventoryType: PropTypes.string,
-    name: PropTypes.string,
-    price: PropTypes.number,
-    priceSale: PropTypes.number,
-    sizes: PropTypes.arrayOf(PropTypes.string),
-    status: PropTypes.string,
-    totalRating: PropTypes.number,
-    totalReview: PropTypes.number,
-  }),
-};
+interface IncrementerProps {
+  available: number;
+  quantity: number;
+  onIncrementQuantity: () => void;
+  onDecrementQuantity: () => void;
+}
 
-export default function ProductDetailsSummary({ cart, product, onAddCart, onGotoStep, ...other }) {
+function Incrementer({
+  available,
+  quantity,
+  onIncrementQuantity,
+  onDecrementQuantity,
+}: IncrementerProps) {
+  return (
+    <Box
+      sx={{
+        py: 0.5,
+        px: 0.75,
+        border: 1,
+        lineHeight: 0,
+        borderRadius: 1,
+        display: 'flex',
+        alignItems: 'center',
+        borderColor: 'grey.50032',
+      }}
+    >
+      <IconButton
+        size="small"
+        color="inherit"
+        disabled={quantity <= 1}
+        onClick={onDecrementQuantity}
+      >
+        <Iconify icon="eva:minus-fill" width={14} height={14} />
+      </IconButton>
+
+      <Typography variant="body2" component="span" sx={{ width: 40, textAlign: 'center' }}>
+        {quantity}
+      </Typography>
+
+      <IconButton
+        size="small"
+        color="inherit"
+        disabled={quantity >= available}
+        onClick={onIncrementQuantity}
+      >
+        <Iconify icon="eva:plus-fill" width={14} height={14} />
+      </IconButton>
+    </Box>
+  );
+}
+
+export default function ProductDetailsSummary({
+  cart,
+  product,
+  onAddCart,
+  onGotoStep,
+  ...other
+}: ProductDetailsSummaryProps) {
   const theme = useTheme();
 
   const navigate = useNavigate();
@@ -70,7 +120,8 @@ export default function ProductDetailsSummary({ cart, product, onAddCart, onGoto
 
   const alreadyProduct = cart.map((item) => item.id).includes(id);
 
-  const isMaxQuantity = cart.filter((item) => item.id === id).map((item) => item.quantity)[0] >= available;
+  const isMaxQuantity =
+    cart.filter((item) => item.id === id).map((item) => item.quantity)[0] >= available;
 
   const defaultValues = {
     id,
@@ -91,7 +142,7 @@ export default function ProductDetailsSummary({ cart, product, onAddCart, onGoto
 
   const values = watch();
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: { price: number; quantity: number }) => {
     try {
       if (!alreadyProduct) {
         onAddCart({
@@ -224,7 +275,11 @@ export default function ProductDetailsSummary({ cart, product, onAddCart, onGoto
               onIncrementQuantity={() => setValue('quantity', values.quantity + 1)}
               onDecrementQuantity={() => setValue('quantity', values.quantity - 1)}
             />
-            <Typography variant="caption" component="div" sx={{ mt: 1, textAlign: 'right', color: 'text.secondary' }}>
+            <Typography
+              variant="caption"
+              component="div"
+              sx={{ mt: 1, textAlign: 'right', color: 'text.secondary' }}
+            >
               Available: {available}
             </Typography>
           </div>
@@ -239,7 +294,7 @@ export default function ProductDetailsSummary({ cart, product, onAddCart, onGoto
             size="large"
             color="warning"
             variant="contained"
-            startIcon={<Iconify icon={'ic:round-add-shopping-cart'} />}
+            startIcon={<Iconify icon="ic:round-add-shopping-cart" />}
             onClick={handleAddCart}
             sx={{ whiteSpace: 'nowrap' }}
           >
@@ -256,43 +311,5 @@ export default function ProductDetailsSummary({ cart, product, onAddCart, onGoto
         </Stack>
       </FormProvider>
     </RootStyle>
-  );
-}
-
-// ----------------------------------------------------------------------
-
-Incrementer.propTypes = {
-  available: PropTypes.number,
-  quantity: PropTypes.number,
-  onIncrementQuantity: PropTypes.func,
-  onDecrementQuantity: PropTypes.func,
-};
-
-function Incrementer({ available, quantity, onIncrementQuantity, onDecrementQuantity }) {
-  return (
-    <Box
-      sx={{
-        py: 0.5,
-        px: 0.75,
-        border: 1,
-        lineHeight: 0,
-        borderRadius: 1,
-        display: 'flex',
-        alignItems: 'center',
-        borderColor: 'grey.50032',
-      }}
-    >
-      <IconButton size="small" color="inherit" disabled={quantity <= 1} onClick={onDecrementQuantity}>
-        <Iconify icon={'eva:minus-fill'} width={14} height={14} />
-      </IconButton>
-
-      <Typography variant="body2" component="span" sx={{ width: 40, textAlign: 'center' }}>
-        {quantity}
-      </Typography>
-
-      <IconButton size="small" color="inherit" disabled={quantity >= available} onClick={onIncrementQuantity}>
-        <Iconify icon={'eva:plus-fill'} width={14} height={14} />
-      </IconButton>
-    </Box>
   );
 }

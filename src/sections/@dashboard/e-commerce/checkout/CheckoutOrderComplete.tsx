@@ -3,12 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { Box, Button, Divider, Link, Stack, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-import { OrderCompleteIllustration } from '../../../../assets';
-import Iconify from '../../../../components/Iconify';
-import { DialogAnimate } from '../../../../components/animate';
-import { PATH_DASHBOARD } from '../../../../routes/paths';
-import { useDispatch } from '../../../../store';
-import { resetCart } from '../../../../store/slices/product';
+import { OrderCompleteIllustration } from '@/assets';
+import Iconify from '@/components/Iconify';
+import { DialogAnimate } from '@/components/animate';
+import { useAppDispatch } from '@/hooks/useAppDispatch';
+import { PATH_DASHBOARD } from '@/routes/paths';
+import { resetCart } from '@/store/slices/product';
 
 const DialogStyle = styled(DialogAnimate)(({ theme }) => ({
   '& .MuiDialog-paper': {
@@ -22,7 +22,7 @@ const DialogStyle = styled(DialogAnimate)(({ theme }) => ({
 
 export default function CheckoutOrderComplete({ ...other }) {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handleResetStep = () => {
     dispatch(resetCart());

@@ -48,7 +48,7 @@ const rightIcon = (isRTL: boolean, customIcon?: IconifyIcon) => (
 );
 
 interface Props {
-  customIcon: IconifyIcon;
+  customIcon?: IconifyIcon;
   index: number;
   onNext: () => void;
   onPrevious: () => void;
@@ -82,3 +82,7 @@ export default function CarouselArrowIndex({
     </RootStyle>
   );
 }
+
+CarouselArrowIndex.defaultProps = {
+  customIcon: undefined,
+};

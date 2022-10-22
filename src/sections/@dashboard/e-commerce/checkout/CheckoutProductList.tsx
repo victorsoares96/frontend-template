@@ -1,26 +1,21 @@
-import PropTypes from 'prop-types';
-// @mui
-import { styled } from '@mui/material/styles';
 import {
   Box,
-  Table,
   Divider,
-  TableRow,
+  IconButton,
+  Table,
   TableBody,
   TableCell,
-  TableHead,
-  Typography,
-  IconButton,
   TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
 } from '@mui/material';
-// utils
-import getColorName from '../../../../utils/getColorName';
-import { fCurrency } from '../../../../utils/formatNumber';
-// components
-import Image from '../../../../components/Image';
-import Iconify from '../../../../components/Iconify';
+import { styled } from '@mui/material/styles';
 
-// ----------------------------------------------------------------------
+import Iconify from '@/components/Iconify';
+import Image from '@/components/Image';
+import { fCurrency } from '@/utils/formatNumber';
+import getColorName from '@/utils/getColorName';
 
 const IncrementerStyle = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -32,16 +27,50 @@ const IncrementerStyle = styled('div')(({ theme }) => ({
   border: `solid 1px ${theme.palette.grey[500_32]}`,
 }));
 
-// ----------------------------------------------------------------------
+interface CheckoutProductListProps {
+  products: any[];
+  onDelete: (id: string) => void;
+  onDecreaseQuantity: (id: string) => void;
+  onIncreaseQuantity: (id: string) => void;
+}
 
-CheckoutProductList.propTypes = {
-  products: PropTypes.array.isRequired,
-  onDelete: PropTypes.func,
-  onDecreaseQuantity: PropTypes.func,
-  onIncreaseQuantity: PropTypes.func,
-};
+interface IncrementerProps {
+  available: number;
+  quantity: number;
+  onIncrease: () => void;
+  onDecrease: () => void;
+}
 
-export default function CheckoutProductList({ products, onDelete, onIncreaseQuantity, onDecreaseQuantity }) {
+function Incrementer({ available, quantity, onIncrease, onDecrease }: IncrementerProps) {
+  return (
+    <Box sx={{ width: 96, textAlign: 'right' }}>
+      <IncrementerStyle>
+        <IconButton size="small" color="inherit" onClick={onDecrease} disabled={quantity <= 1}>
+          <Iconify icon="eva:minus-fill" width={16} height={16} />
+        </IconButton>
+        {quantity}
+        <IconButton
+          size="small"
+          color="inherit"
+          onClick={onIncrease}
+          disabled={quantity >= available}
+        >
+          <Iconify icon="eva:plus-fill" width={16} height={16} />
+        </IconButton>
+      </IncrementerStyle>
+      <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+        available: {available}
+      </Typography>
+    </Box>
+  );
+}
+
+export default function CheckoutProductList({
+  products,
+  onDelete,
+  onIncreaseQuantity,
+  onDecreaseQuantity,
+}: CheckoutProductListProps) {
   return (
     <TableContainer sx={{ minWidth: 720 }}>
       <Table>
@@ -62,7 +91,11 @@ export default function CheckoutProductList({ products, onDelete, onIncreaseQuan
               <TableRow key={id}>
                 <TableCell>
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Image alt="product image" src={cover} sx={{ width: 64, height: 64, borderRadius: 1.5, mr: 2 }} />
+                    <Image
+                      alt="product image"
+                      src={cover}
+                      sx={{ width: 64, height: 64, borderRadius: 1.5, mr: 2 }}
+                    />
                     <Box>
                       <Typography noWrap variant="subtitle2" sx={{ maxWidth: 240 }}>
                         {name}
@@ -75,14 +108,22 @@ export default function CheckoutProductList({ products, onDelete, onIncreaseQuan
                         }}
                       >
                         <Typography variant="body2">
-                          <Typography component="span" variant="body2" sx={{ color: 'text.secondary' }}>
+                          <Typography
+                            component="span"
+                            variant="body2"
+                            sx={{ color: 'text.secondary' }}
+                          >
                             size:&nbsp;
                           </Typography>
                           {size}
                         </Typography>
                         <Divider orientation="vertical" sx={{ mx: 1, height: 16 }} />
                         <Typography variant="body2">
-                          <Typography component="span" variant="body2" sx={{ color: 'text.secondary' }}>
+                          <Typography
+                            component="span"
+                            variant="body2"
+                            sx={{ color: 'text.secondary' }}
+                          >
                             color:&nbsp;
                           </Typography>
                           {getColorName(color)}
@@ -107,7 +148,7 @@ export default function CheckoutProductList({ products, onDelete, onIncreaseQuan
 
                 <TableCell align="right">
                   <IconButton onClick={() => onDelete(id)}>
-                    <Iconify icon={'eva:trash-2-outline'} width={20} height={20} />
+                    <Iconify icon="eva:trash-2-outline" width={20} height={20} />
                   </IconButton>
                 </TableCell>
               </TableRow>
@@ -116,33 +157,5 @@ export default function CheckoutProductList({ products, onDelete, onIncreaseQuan
         </TableBody>
       </Table>
     </TableContainer>
-  );
-}
-
-// ----------------------------------------------------------------------
-
-Incrementer.propTypes = {
-  available: PropTypes.number,
-  quantity: PropTypes.number,
-  onIncrease: PropTypes.func,
-  onDecrease: PropTypes.func,
-};
-
-function Incrementer({ available, quantity, onIncrease, onDecrease }) {
-  return (
-    <Box sx={{ width: 96, textAlign: 'right' }}>
-      <IncrementerStyle>
-        <IconButton size="small" color="inherit" onClick={onDecrease} disabled={quantity <= 1}>
-          <Iconify icon={'eva:minus-fill'} width={16} height={16} />
-        </IconButton>
-        {quantity}
-        <IconButton size="small" color="inherit" onClick={onIncrease} disabled={quantity >= available}>
-          <Iconify icon={'eva:plus-fill'} width={16} height={16} />
-        </IconButton>
-      </IncrementerStyle>
-      <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-        available: {available}
-      </Typography>
-    </Box>
   );
 }

@@ -1,9 +1,9 @@
-import { FormProvider as Form } from 'react-hook-form';
+import { FormProvider as Form, UseFormReturn } from 'react-hook-form';
 
 interface Props {
   children: React.ReactNode;
-  methods: object;
-  onSubmit?: (data: unknown) => void;
+  methods: UseFormReturn;
+  onSubmit?: (e?: React.BaseSyntheticEvent) => void;
 }
 
 function FormProvider({ children, onSubmit, methods }: Props) {

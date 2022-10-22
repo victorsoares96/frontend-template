@@ -6,15 +6,12 @@ import { Button, Grid } from '@mui/material';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import Iconify from '../../../../components/Iconify';
-import { FormProvider } from '../../../../components/hook-form';
-import { useDispatch, useSelector } from '../../../../store';
-import {
-  applyShipping,
-  onBackStep,
-  onGotoStep,
-  onNextStep,
-} from '../../../../store/slices/product';
+import Iconify from '@/components/Iconify';
+import { FormProvider } from '@/components/hook-form';
+import { useAppDispatch } from '@/hooks/useAppDispatch';
+import { useAppSelector } from '@/hooks/useAppSelector';
+import { applyShipping, onBackStep, onGotoStep, onNextStep } from '@/store/slices/product';
+
 import CheckoutBillingInfo from './CheckoutBillingInfo';
 import CheckoutDelivery from './CheckoutDelivery';
 import CheckoutPaymentMethods from './CheckoutPaymentMethods';
@@ -64,9 +61,9 @@ const CARDS_OPTIONS = [
 ];
 
 export default function CheckoutPayment() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const { checkout } = useSelector((state) => state.product);
+  const { checkout } = useAppSelector((state) => state.product);
 
   const { total, discount, subtotal, shipping } = checkout;
 
@@ -78,11 +75,11 @@ export default function CheckoutPayment() {
     dispatch(onBackStep());
   };
 
-  const handleGotoStep = (step) => {
+  const handleGotoStep = (step: number) => {
     dispatch(onGotoStep(step));
   };
 
-  const handleApplyShipping = (value) => {
+  const handleApplyShipping = (value: number) => {
     dispatch(applyShipping(value));
   };
 

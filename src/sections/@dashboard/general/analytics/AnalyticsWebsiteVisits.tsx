@@ -1,11 +1,10 @@
-import merge from 'lodash/merge';
 import ReactApexChart from 'react-apexcharts';
-// @mui
-import { Card, CardHeader, Box } from '@mui/material';
-//
-import { BaseOptionChart } from '../../../../components/chart';
 
-// ----------------------------------------------------------------------
+import { Box, Card, CardHeader } from '@mui/material';
+
+import merge from 'lodash/merge';
+
+import { BaseOptionChart } from '@/components/chart';
 
 const CHART_DATA = [
   {
@@ -48,7 +47,7 @@ export default function AnalyticsWebsiteVisits() {
       shared: true,
       intersect: false,
       y: {
-        formatter: (y) => {
+        formatter: (y: number) => {
           if (typeof y !== 'undefined') {
             return `${y.toFixed(0)} visits`;
           }

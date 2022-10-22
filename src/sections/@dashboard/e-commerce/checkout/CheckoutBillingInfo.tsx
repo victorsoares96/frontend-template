@@ -1,19 +1,16 @@
 import { Button, Card, CardContent, CardHeader, Typography } from '@mui/material';
 
-import PropTypes from 'prop-types';
+import Iconify from '@/components/Iconify';
+import { useAppSelector } from '@/hooks/useAppSelector';
 
-import Iconify from '../../../../components/Iconify';
-import { useSelector } from '../../../../store';
+interface CheckoutBillingInfoProps {
+  onBackStep: () => void;
+}
 
-CheckoutBillingInfo.propTypes = {
-  onBackStep: PropTypes.func,
-};
-
-export default function CheckoutBillingInfo({ onBackStep }) {
-  const { checkout } = useSelector((state) => state.product);
+export default function CheckoutBillingInfo({ onBackStep }: CheckoutBillingInfoProps) {
+  const { checkout } = useAppSelector((state) => state.product);
 
   const { billing } = checkout;
-
   return (
     <Card sx={{ mb: 3 }}>
       <CardHeader

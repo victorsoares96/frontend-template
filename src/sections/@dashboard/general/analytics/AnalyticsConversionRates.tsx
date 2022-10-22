@@ -1,13 +1,11 @@
-import merge from 'lodash/merge';
 import ReactApexChart from 'react-apexcharts';
-// @mui
-import { Box, Card, CardHeader } from '@mui/material';
-// utils
-import { fNumber } from '../../../../utils/formatNumber';
-//
-import { BaseOptionChart } from '../../../../components/chart';
 
-// ----------------------------------------------------------------------
+import { Box, Card, CardHeader } from '@mui/material';
+
+import merge from 'lodash/merge';
+
+import { BaseOptionChart } from '@/components/chart';
+import { fNumber } from '@/utils/formatNumber';
 
 const CHART_DATA = [{ data: [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380] }];
 
@@ -16,7 +14,7 @@ export default function AnalyticsConversionRates() {
     tooltip: {
       marker: { show: false },
       y: {
-        formatter: (seriesName) => fNumber(seriesName),
+        formatter: (seriesName: number) => fNumber(seriesName),
         title: {
           formatter: () => '',
         },

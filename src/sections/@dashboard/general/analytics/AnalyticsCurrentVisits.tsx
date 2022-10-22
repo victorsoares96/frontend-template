@@ -1,14 +1,12 @@
-import merge from 'lodash/merge';
 import ReactApexChart from 'react-apexcharts';
-// @mui
-import { useTheme, styled } from '@mui/material/styles';
-import { Card, CardHeader } from '@mui/material';
-// utils
-import { fNumber } from '../../../../utils/formatNumber';
-//
-import { BaseOptionChart } from '../../../../components/chart';
 
-// ----------------------------------------------------------------------
+import { Card, CardHeader } from '@mui/material';
+import { styled, useTheme } from '@mui/material/styles';
+
+import merge from 'lodash/merge';
+
+import { BaseOptionChart } from '@/components/chart';
+import { fNumber } from '@/utils/formatNumber';
 
 const CHART_HEIGHT = 372;
 const LEGEND_HEIGHT = 72;
@@ -29,8 +27,6 @@ const ChartWrapperStyle = styled('div')(({ theme }) => ({
   },
 }));
 
-// ----------------------------------------------------------------------
-
 const CHART_DATA = [4344, 5435, 1443, 4443];
 
 export default function AnalyticsCurrentVisits() {
@@ -50,9 +46,9 @@ export default function AnalyticsCurrentVisits() {
     tooltip: {
       fillSeriesColor: false,
       y: {
-        formatter: (seriesName) => fNumber(seriesName),
+        formatter: (seriesName: string) => fNumber(seriesName),
         title: {
-          formatter: (seriesName) => `${seriesName}`,
+          formatter: (seriesName: string) => `${seriesName}`,
         },
       },
     },

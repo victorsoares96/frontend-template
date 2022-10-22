@@ -1,12 +1,11 @@
-import merge from 'lodash/merge';
 import ReactApexChart from 'react-apexcharts';
-// @mui
-import { useTheme, styled } from '@mui/material/styles';
-import { Card, CardHeader } from '@mui/material';
-//
-import { BaseOptionChart } from '../../../../components/chart';
 
-// ----------------------------------------------------------------------
+import { Card, CardHeader } from '@mui/material';
+import { styled, useTheme } from '@mui/material/styles';
+
+import merge from 'lodash/merge';
+
+import { BaseOptionChart } from '@/components/chart';
 
 const CHART_HEIGHT = 392;
 const LEGEND_HEIGHT = 72;
@@ -28,8 +27,6 @@ const ChartWrapperStyle = styled('div')(({ theme }) => ({
     top: `calc(${CHART_HEIGHT - LEGEND_HEIGHT}px) !important`,
   },
 }));
-
-// ----------------------------------------------------------------------
 
 const CHART_DATA = [
   { name: 'Series 1', data: [80, 50, 30, 40, 100, 20] },

@@ -1,13 +1,8 @@
-import PropTypes from 'prop-types';
-// @mui
-import { alpha, styled } from '@mui/material/styles';
 import { Card, Typography } from '@mui/material';
-// utils
-import { fShortenNumber } from '../../../../utils/formatNumber';
-// components
-import Iconify from '../../../../components/Iconify';
+import { alpha, styled } from '@mui/material/styles';
 
-// ----------------------------------------------------------------------
+import Iconify from '@/components/Iconify';
+import { fShortenNumber } from '@/utils/formatNumber';
 
 const RootStyle = styled(Card)(({ theme }) => ({
   boxShadow: 'none',
@@ -26,16 +21,19 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
   marginBottom: theme.spacing(3),
 }));
 
-// ----------------------------------------------------------------------
+interface AnalyticsWidgetSummaryProps {
+  color?: 'primary' | 'secondary' | 'info' | 'success' | 'warning' | 'error';
+  icon: string;
+  title: string;
+  total: number;
+}
 
-AnalyticsWidgetSummary.propTypes = {
-  color: PropTypes.oneOf(['primary', 'secondary', 'info', 'success', 'warning', 'error']),
-  icon: PropTypes.string,
-  title: PropTypes.string,
-  total: PropTypes.number,
-};
-
-export default function AnalyticsWidgetSummary({ title, total, icon, color = 'primary' }) {
+export default function AnalyticsWidgetSummary({
+  title,
+  total,
+  icon,
+  color = 'primary',
+}: AnalyticsWidgetSummaryProps) {
   return (
     <RootStyle
       sx={{
@@ -49,7 +47,7 @@ export default function AnalyticsWidgetSummary({ title, total, icon, color = 'pr
           backgroundImage: (theme) =>
             `linear-gradient(135deg, ${alpha(theme.palette[color].dark, 0)} 0%, ${alpha(
               theme.palette[color].dark,
-              0.24
+              0.24,
             )} 100%)`,
         }}
       >
@@ -62,3 +60,7 @@ export default function AnalyticsWidgetSummary({ title, total, icon, color = 'pr
     </RootStyle>
   );
 }
+
+AnalyticsWidgetSummary.defaultProps = {
+  color: 'primary',
+};

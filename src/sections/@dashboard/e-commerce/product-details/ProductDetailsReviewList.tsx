@@ -1,46 +1,33 @@
 import { useState } from 'react';
 
-// @mui
 import { Avatar, Box, Button, List, ListItem, Pagination, Rating, Typography } from '@mui/material';
 
-import PropTypes from 'prop-types';
+import Iconify from '@/components/Iconify';
+import { fShortenNumber } from '@/utils/formatNumber';
+import { fDate } from '@/utils/formatTime.util';
 
-// components
-import Iconify from '../../../../components/Iconify';
-import { fShortenNumber } from '../../../../utils/formatNumber';
-// utils
-import { fDate } from '../../../../utils/formatTime.util';
-
-// ----------------------------------------------------------------------
-
-ProductDetailsReviewList.propTypes = {
-  product: PropTypes.object,
+type Review = {
+  id: string;
+  name: string;
+  rating: number;
+  comment: string;
+  helpful: number;
+  postedAt: number | Date;
+  avatarUrl: string;
+  isPurchased: boolean;
 };
 
-export default function ProductDetailsReviewList({ product }) {
-  const { reviews } = product;
-
-  return (
-    <Box sx={{ pt: 3, px: 2, pb: 5 }}>
-      <List disablePadding>
-        {reviews.map((review) => (
-          <ReviewItem key={review.id} review={review} />
-        ))}
-      </List>
-      <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <Pagination count={10} color="primary" />
-      </Box>
-    </Box>
-  );
+interface ProductDetailsReviewProps {
+  product: {
+    reviews: Review[];
+  };
 }
 
-// ----------------------------------------------------------------------
+interface ReviewItemProps {
+  review: Review;
+}
 
-ReviewItem.propTypes = {
-  review: PropTypes.object,
-};
-
-function ReviewItem({ review }) {
+function ReviewItem({ review }: ReviewItemProps) {
   const [isHelpful, setHelpfuls] = useState(false);
 
   const { name, rating, comment, helpful, postedAt, avatarUrl, isPurchased } = review;
@@ -133,5 +120,22 @@ function ReviewItem({ review }) {
         </Box>
       </div>
     </ListItem>
+  );
+}
+
+export default function ProductDetailsReviewList({ product }: ProductDetailsReviewProps) {
+  const { reviews } = product;
+
+  return (
+    <Box sx={{ pt: 3, px: 2, pb: 5 }}>
+      <List disablePadding>
+        {reviews.map((review) => (
+          <ReviewItem key={review.id} review={review} />
+        ))}
+      </List>
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <Pagination count={10} color="primary" />
+      </Box>
+    </Box>
   );
 }
