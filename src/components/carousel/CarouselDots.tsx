@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, BoxProps } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 const RootStyle = styled(Box, {
@@ -43,7 +43,7 @@ const DotStyle = styled('span')(({ theme }) => ({
   }),
 }));
 
-interface Props {
+interface Props extends BoxProps {
   color?: string;
   rounded?: boolean;
 }

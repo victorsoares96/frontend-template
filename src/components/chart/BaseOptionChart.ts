@@ -1,23 +1,25 @@
 import { useTheme } from '@mui/material/styles';
 
-export default function BaseOptionChart() {
+import { ApexOptions } from 'apexcharts';
+
+export default function BaseOptionChart(): ApexOptions {
   const theme = useTheme();
 
   const LABEL_TOTAL = {
     show: true,
     label: 'Total',
     color: theme.palette.text.secondary,
-    fontSize: theme.typography.subtitle2.fontSize,
-    fontWeight: theme.typography.subtitle2.fontWeight,
-    lineHeight: theme.typography.subtitle2.lineHeight,
+    fontSize: theme.typography.subtitle2.fontSize as string,
+    fontWeight: theme.typography.subtitle2.fontWeight as string,
+    lineHeight: theme.typography.subtitle2.lineHeight as number,
   };
 
   const LABEL_VALUE = {
     offsetY: 8,
     color: theme.palette.text.primary,
-    fontSize: theme.typography.h3.fontSize,
-    fontWeight: theme.typography.h3.fontWeight,
-    lineHeight: theme.typography.h3.lineHeight,
+    fontSize: theme.typography.h3.fontSize as string,
+    fontWeight: theme.typography.h3.fontWeight as string,
+    lineHeight: theme.typography.h3.lineHeight as number,
   };
 
   return {
