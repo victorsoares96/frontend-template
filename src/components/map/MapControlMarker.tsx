@@ -1,4 +1,4 @@
-import { Marker } from 'react-map-gl';
+import { Marker, MarkerProps } from 'react-map-gl';
 
 import { styled } from '@mui/material/styles';
 
@@ -15,7 +15,7 @@ const IconStyle = styled('svg')(({ theme }) => ({
   transform: `translate(${-SIZE / 2}px,${-SIZE}px)`,
 }));
 
-interface Props {
+interface Props extends MarkerProps {
   onClick?: () => void;
 }
 

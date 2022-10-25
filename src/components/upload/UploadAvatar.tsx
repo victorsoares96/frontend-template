@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDropzone } from 'react-dropzone';
+import { DropzoneOptions, useDropzone } from 'react-dropzone';
 
 import { SxProps, Theme, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
@@ -54,7 +54,7 @@ const PlaceholderStyle = styled('div')(({ theme }) => ({
   '&:hover': { opacity: 0.72 },
 }));
 
-interface UploadAvatarProps {
+interface UploadAvatarProps extends DropzoneOptions {
   error?: boolean;
   file?: string | File;
   helperText?: React.ReactNode;

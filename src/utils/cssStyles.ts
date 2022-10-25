@@ -12,7 +12,7 @@ function getDirection(value = 'bottom') {
 
 export default function cssStyles(theme?: Theme) {
   return {
-    bgBlur: (props?: { color: string; blur: number; opacity: number }) => {
+    bgBlur: (props: { color?: string; blur?: number; opacity?: number }) => {
       const color = props?.color || theme?.palette.background.default || '#000000';
 
       const blur = props?.blur || 6;

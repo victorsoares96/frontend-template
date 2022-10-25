@@ -1,5 +1,5 @@
-import { Typography } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { Theme, Typography } from '@mui/material';
+import { SxProps, styled } from '@mui/material/styles';
 
 import Image from './Image';
 
@@ -17,6 +17,7 @@ interface Props {
   title: string;
   img?: string;
   description?: string;
+  sx?: SxProps<Theme>;
 }
 
 export default function EmptyContent({ title, description, img, ...other }: Props) {
@@ -49,4 +50,5 @@ export default function EmptyContent({ title, description, img, ...other }: Prop
 EmptyContent.defaultProps = {
   img: undefined,
   description: undefined,
+  sx: {},
 };
