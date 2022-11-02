@@ -7,7 +7,7 @@ import { useSnackbar } from 'notistack';
 
 import Iconify from '@/components/Iconify';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
-import { useAppSelector , useAppSelector } from '@/hooks/useAppSelector';
+import { useAppSelector } from '@/hooks/useAppSelector';
 import { addTask, deleteColumn, deleteTask, updateColumn } from '@/store/slices/kanban';
 
 import KanbanColumnToolBar from './KanbanColumnToolBar';
