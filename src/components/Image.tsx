@@ -92,7 +92,7 @@ export default function Image({
 Image.defaultProps = {
   disabledEffect: false,
   effect: 'blur',
-  ratio: '1/1',
+  ratio: undefined,
   sx: {},
   alt: '',
 };

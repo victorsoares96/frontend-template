@@ -1,3 +1,6 @@
+/* eslint-disable react/jsx-no-useless-fragment */
+import React from 'react';
+
 import { Box, BoxProps } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
@@ -54,9 +57,11 @@ export default function CarouselDots(props?: Props) {
 
   return {
     appendDots: (dots: React.ReactNode) => (
-      <RootStyle rounded={rounded} component="ul" {...props}>
-        {dots}
-      </RootStyle>
+      <React.Fragment>
+        <RootStyle rounded={rounded} component="ul" {...props}>
+          {dots}
+        </RootStyle>
+      </React.Fragment>
     ),
     customPaging: () => (
       <DotWrapStyle>

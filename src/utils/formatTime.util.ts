@@ -1,6 +1,6 @@
 import { format, formatDistanceToNow, getTime } from 'date-fns';
 
-export function fDate(date: Date | number) {
+export function fDate(date: Date | number | string) {
   return format(new Date(date), 'dd MMMM yyyy');
 }
 

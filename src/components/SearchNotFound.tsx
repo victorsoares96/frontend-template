@@ -1,6 +1,6 @@
-import { Paper, Typography } from '@mui/material';
+import { Paper, PaperProps, Typography } from '@mui/material';
 
-interface Props {
+interface Props extends PaperProps {
   searchQuery?: string;
 }
 
