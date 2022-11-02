@@ -1,11 +1,11 @@
-import { Box, Dialog, Paper, PaperProps, SxProps, Theme } from '@mui/material';
+import { Box, Dialog, DialogProps, Paper, PaperProps, SxProps, Theme } from '@mui/material';
 import { Variant } from '@mui/material/styles/createTypography';
 
 import { AnimatePresence, m } from 'framer-motion';
 
 import { varFade } from './variants';
 
-interface Props {
+interface Props extends DialogProps {
   children: React.ReactNode;
   open: boolean;
   onClose: () => void;

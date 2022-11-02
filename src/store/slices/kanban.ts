@@ -1,20 +1,27 @@
 import { createSlice } from '@reduxjs/toolkit';
 import omit from 'lodash/omit';
-// utils
+
 import axios from '../../utils/axios';
-//
-import { dispatch } from '../index';
+import type { AppThunk } from '../types';
 
-// ----------------------------------------------------------------------
-
-function objFromArray(array, key = 'id') {
+function objFromArray<T>(array: T[], key = 'id') {
   return array.reduce((accumulator, current) => {
     accumulator[current[key]] = current;
     return accumulator;
   }, {});
 }
 
-const initialState = {
+type InitialState = {
+  isLoading: boolean;
+  error: string | null;
+  board: {
+    cards: any;
+    columns: any;
+    columnOrder: any;
+  };
+};
+
+const initialState: InitialState = {
   isLoading: false,
   error: null,
   board: {
@@ -28,18 +35,13 @@ const slice = createSlice({
   name: 'kanban',
   initialState,
   reducers: {
-    // START LOADING
     startLoading(state) {
       state.isLoading = true;
     },
-
-    // HAS ERROR
     hasError(state, action) {
       state.isLoading = false;
       state.error = action.payload;
     },
-
-    // GET BOARD
     getBoardSuccess(state, action) {
       state.isLoading = false;
       const board = action.payload;
@@ -52,8 +54,6 @@ const slice = createSlice({
         columnOrder,
       };
     },
-
-    // CREATE NEW COLUMN
     createColumnSuccess(state, action) {
       const newColumn = action.payload;
       state.isLoading = false;
@@ -63,39 +63,33 @@ const slice = createSlice({
       };
       state.board.columnOrder.push(newColumn.id);
     },
-
     persistCard(state, action) {
       const columns = action.payload;
       state.board.columns = columns;
     },
-
     persistColumn(state, action) {
       state.board.columnOrder = action.payload;
     },
-
     addTask(state, action) {
       const { card, columnId } = action.payload;
 
       state.board.cards[card.id] = card;
       state.board.columns[columnId].cardIds.push(card.id);
     },
-
     deleteTask(state, action) {
       const { cardId, columnId } = action.payload;
 
-      state.board.columns[columnId].cardIds = state.board.columns[columnId].cardIds.filter((id) => id !== cardId);
+      state.board.columns[columnId].cardIds = state.board.columns[columnId].cardIds.filter(
+        (id) => id !== cardId,
+      );
       state.board.cards = omit(state.board.cards, [cardId]);
     },
-
-    // UPDATE COLUMN
     updateColumnSuccess(state, action) {
       const column = action.payload;
 
       state.isLoading = false;
       state.board.columns[column.id] = column;
     },
-
-    // DELETE COLUMN
     deleteColumnSuccess(state, action) {
       const { columnId } = action.payload;
       const deletedColumn = state.board.columns[columnId];
@@ -108,29 +102,23 @@ const slice = createSlice({
   },
 });
 
-// Reducer
 export default slice.reducer;
 
 export const { actions } = slice;
 
-// ----------------------------------------------------------------------
+export const getBoard = (): AppThunk => async (dispatch) => {
+  dispatch(slice.actions.startLoading());
+  try {
+    const response = await axios.get('/api/kanban/board');
+    dispatch(slice.actions.getBoardSuccess(response.data.board));
+  } catch (error) {
+    dispatch(slice.actions.hasError(error));
+  }
+};
 
-export function getBoard() {
-  return async () => {
-    dispatch(slice.actions.startLoading());
-    try {
-      const response = await axios.get('/api/kanban/board');
-      dispatch(slice.actions.getBoardSuccess(response.data.board));
-    } catch (error) {
-      dispatch(slice.actions.hasError(error));
-    }
-  };
-}
-
-// ----------------------------------------------------------------------
-
-export function createColumn(newColumn) {
-  return async () => {
+export const createColumn =
+  (newColumn: unknown): AppThunk =>
+  async (dispatch) => {
     dispatch(slice.actions.startLoading());
     try {
       const response = await axios.post('/api/kanban/columns/new', newColumn);
@@ -139,12 +127,10 @@ export function createColumn(newColumn) {
       dispatch(slice.actions.hasError(error));
     }
   };
-}
 
-// ----------------------------------------------------------------------
-
-export function updateColumn(columnId, updateColumn) {
-  return async () => {
+export const updateColumn =
+  (columnId: string, updateColumn: unknown): AppThunk =>
+  async (dispatch) => {
     dispatch(slice.actions.startLoading());
     try {
       const response = await axios.post('/api/kanban/columns/update', {
@@ -156,12 +142,10 @@ export function updateColumn(columnId, updateColumn) {
       dispatch(slice.actions.hasError(error));
     }
   };
-}
 
-// ----------------------------------------------------------------------
-
-export function deleteColumn(columnId) {
-  return async () => {
+export const deleteColumn =
+  (columnId: string): AppThunk =>
+  async (dispatch) => {
     dispatch(slice.actions.startLoading());
     try {
       await axios.post('/api/kanban/columns/delete', { columnId });
@@ -170,36 +154,23 @@ export function deleteColumn(columnId) {
       dispatch(slice.actions.hasError(error));
     }
   };
-}
 
-// ----------------------------------------------------------------------
-
-export function persistColumn(newColumnOrder) {
-  return () => {
+export const persistColumn =
+  (newColumnOrder: unknown): AppThunk =>
+  async (dispatch) =>
     dispatch(slice.actions.persistColumn(newColumnOrder));
-  };
-}
 
-// ----------------------------------------------------------------------
-
-export function persistCard(columns) {
-  return () => {
+export const persistCard =
+  (columns: unknown): AppThunk =>
+  async (dispatch) =>
     dispatch(slice.actions.persistCard(columns));
-  };
-}
 
-// ----------------------------------------------------------------------
-
-export function addTask({ card, columnId }) {
-  return () => {
+export const addTask =
+  ({ card, columnId }: { card: unknown; columnId: string }): AppThunk =>
+  async (dispatch) =>
     dispatch(slice.actions.addTask({ card, columnId }));
-  };
-}
 
-// ----------------------------------------------------------------------
-
-export function deleteTask({ cardId, columnId }) {
-  return (dispatch) => {
+export const deleteTask =
+  ({ cardId, columnId }: { cardId: string; columnId: string }): AppThunk =>
+  async (dispatch) =>
     dispatch(slice.actions.deleteTask({ cardId, columnId }));
-  };
-}

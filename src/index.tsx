@@ -5,8 +5,8 @@ import 'react-lazy-load-image-component/src/effects/blur.css';
 import 'react-lazy-load-image-component/src/effects/opacity.css';
 import 'react-quill/dist/quill.snow.css';
 import 'simplebar/src/simplebar.css';
-import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import './locales/i18n';
 import './utils/highlight';
@@ -25,7 +25,6 @@ import { PersistGate } from 'redux-persist/lib/integration/react';
 import App from './App';
 import { CollapseDrawerProvider } from './contexts/CollapseDrawerContext';
 import { AuthProvider } from './contexts/JWTContext';
-import { SettingsProvider } from './contexts/SettingsContext';
 import { persistor, store } from './store';
 
 ReactDOM.render(
@@ -34,13 +33,11 @@ ReactDOM.render(
       <ReduxProvider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <SettingsProvider>
-              <CollapseDrawerProvider>
-                <BrowserRouter>
-                  <App />
-                </BrowserRouter>
-              </CollapseDrawerProvider>
-            </SettingsProvider>
+            <CollapseDrawerProvider>
+              <BrowserRouter>
+                <App />
+              </BrowserRouter>
+            </CollapseDrawerProvider>
           </LocalizationProvider>
         </PersistGate>
       </ReduxProvider>

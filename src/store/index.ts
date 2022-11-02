@@ -1,5 +1,4 @@
 /* eslint-disable import/order */
-import { useDispatch as useAppDispatch, useSelector as useAppSelector } from 'react-redux';
 import { combineReducers } from 'redux';
 
 import { configureStore } from '@reduxjs/toolkit';
@@ -47,8 +46,10 @@ const rootReducer = combineReducers({
   [mainApi.reducerPath]: mainApi.reducer,
 });
 
+const persistedReducer = persistReducer(rootPersistConfig, rootReducer);
+
 const store = configureStore({
-  reducer: persistReducer(rootPersistConfig, rootReducer),
+  reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
@@ -58,10 +59,4 @@ const store = configureStore({
 
 const persistor = persistStore(store);
 
-const { dispatch } = store;
-
-const useSelector = useAppSelector;
-
-const useDispatch = () => useAppDispatch();
-
-export { store, persistor, dispatch, useSelector, useDispatch };
+export { store, persistor };

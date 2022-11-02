@@ -1,4 +1,4 @@
-import { useDropzone } from 'react-dropzone';
+import { DropzoneOptions, useDropzone } from 'react-dropzone';
 
 import { Box, SxProps, Theme, styled } from '@mui/material';
 
@@ -15,7 +15,7 @@ const DropZoneStyle = styled('div')(({ theme }) => ({
   '&:hover': { opacity: 0.72, cursor: 'pointer' },
 }));
 
-interface Props {
+interface Props extends DropzoneOptions {
   error?: boolean;
   showPreview?: boolean;
   files: File[];

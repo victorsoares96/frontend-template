@@ -10,7 +10,7 @@ const BUTTON_SIZE = 40;
 
 const ArrowStyle = styled(IconButtonAnimate, {
   shouldForwardProp: (prop) => prop !== 'filled',
-})(({ filled, theme }) => ({
+})<{ filled: boolean }>(({ filled, theme }) => ({
   width: BUTTON_SIZE,
   height: BUTTON_SIZE,
   cursor: 'pointer',
@@ -35,14 +35,14 @@ const ArrowStyle = styled(IconButtonAnimate, {
 }));
 
 interface Props extends BoxProps {
-  children: React.ReactNode;
-  customIcon?: IconifyIcon;
+  children?: React.ReactNode;
+  customIcon?: IconifyIcon | string;
   filled?: boolean;
   onNext?: () => void;
   onPrevious?: () => void;
 }
 
-const leftIcon = (isRTL: boolean, customIcon?: IconifyIcon) => (
+const leftIcon = (isRTL: boolean, customIcon?: IconifyIcon | string) => (
   <Iconify
     icon={customIcon || 'eva:arrow-right-fill'}
     sx={{
@@ -54,7 +54,7 @@ const leftIcon = (isRTL: boolean, customIcon?: IconifyIcon) => (
   />
 );
 
-const rightIcon = (isRTL: boolean, customIcon?: IconifyIcon) => (
+const rightIcon = (isRTL: boolean, customIcon?: IconifyIcon | string) => (
   <Iconify
     icon={customIcon || 'eva:arrow-right-fill'}
     sx={{
@@ -120,6 +120,7 @@ CarouselArrows.defaultProps = {
   customIcon: undefined,
   onNext: () => {},
   onPrevious: () => {},
+  children: undefined,
 };
 
 export default CarouselArrows;

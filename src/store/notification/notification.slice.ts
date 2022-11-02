@@ -2,12 +2,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { SnackbarKey } from 'notistack';
 
+import type { AppThunk } from '@/store/types';
 import isMobile from '@/utils/is-mobile';
 
-import type { AppThunk } from '..';
 import type { InitialState, Notification } from './types';
 
-const notificationsDefault: Notifications = {
+const notificationsDefault = {
   options: {
     anchorOrigin: {
       vertical: 'bottom',

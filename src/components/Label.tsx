@@ -1,4 +1,5 @@
-import { alpha, styled } from '@mui/material/styles';
+import { Theme } from '@mui/material';
+import { SxProps, alpha, styled } from '@mui/material/styles';
 
 interface RootStyleProps {
   ownerState: {
@@ -68,6 +69,7 @@ interface LabelProps {
   children: React.ReactNode;
   color?: 'default' | 'primary' | 'secondary' | 'info' | 'success' | 'warning' | 'error';
   variant?: 'filled' | 'outlined' | 'ghost';
+  sx?: SxProps<Theme>;
 }
 
 export default function Label({
@@ -86,4 +88,5 @@ export default function Label({
 Label.defaultProps = {
   color: 'default',
   variant: 'ghost',
+  sx: {},
 };

@@ -1,15 +1,37 @@
 import { createSlice } from '@reduxjs/toolkit';
-import axios from '../../utils/axios';
-import { dispatch } from '../index';
 
-function objFromArray(array, key = 'id') {
+import type { AppThunk } from '@/store/types';
+
+import axios from '../../utils/axios';
+
+function objFromArray<T>(array: T[], key = 'id') {
   return array.reduce((accumulator, current) => {
     accumulator[current[key]] = current;
     return accumulator;
   }, {});
 }
 
-const initialState = {
+type InitialState = {
+  isLoading: boolean;
+  error: string | null;
+  contacts: {
+    byId: {
+      [key: string]: any;
+    };
+    allIds: string[];
+  };
+  conversations: {
+    byId: {
+      [key: string]: any;
+    };
+    allIds: string[];
+  };
+  activeConversationId: string | null;
+  participants: any[];
+  recipients: any[];
+};
+
+const initialState: InitialState = {
   isLoading: false,
   error: null,
   contacts: { byId: {}, allIds: [] },
@@ -23,40 +45,30 @@ const slice = createSlice({
   name: 'chat',
   initialState,
   reducers: {
-    // START LOADING
     startLoading(state) {
       state.isLoading = true;
     },
-
-    // HAS ERROR
     hasError(state, action) {
       state.isLoading = false;
       state.error = action.payload;
     },
-
-    // GET CONTACT SSUCCESS
     getContactsSuccess(state, action) {
       const contacts = action.payload;
-
       state.contacts.byId = objFromArray(contacts);
       state.contacts.allIds = Object.keys(state.contacts.byId);
     },
-
-    // GET CONVERSATIONS
     getConversationsSuccess(state, action) {
       const conversations = action.payload;
-
       state.conversations.byId = objFromArray(conversations);
       state.conversations.allIds = Object.keys(state.conversations.byId);
     },
-
-    // GET CONVERSATION
     getConversationSuccess(state, action) {
       const conversation = action.payload;
 
       if (conversation) {
         state.conversations.byId[conversation.id] = conversation;
         state.activeConversationId = conversation.id;
+
         if (!state.conversations.allIds.includes(conversation.id)) {
           state.conversations.allIds.push(conversation.id);
         }
@@ -64,11 +76,10 @@ const slice = createSlice({
         state.activeConversationId = null;
       }
     },
-
-    // ON SEND MESSAGE
     onSendMessage(state, action) {
       const conversation = action.payload;
-      const { conversationId, messageId, message, contentType, attachments, createdAt, senderId } = conversation;
+      const { conversationId, messageId, message, contentType, attachments, createdAt, senderId } =
+        conversation;
 
       const newMessage = {
         id: messageId,
@@ -112,32 +123,29 @@ export default slice.reducer;
 
 export const { addRecipients, onSendMessage, resetActiveConversation } = slice.actions;
 
-export function getContacts() {
-  return async () => {
-    dispatch(slice.actions.startLoading());
-    try {
-      const response = await axios.get('/api/chat/contacts');
-      dispatch(slice.actions.getContactsSuccess(response.data.contacts));
-    } catch (error) {
-      dispatch(slice.actions.hasError(error));
-    }
-  };
-}
+export const getContacts = (): AppThunk => async (dispatch) => {
+  dispatch(slice.actions.startLoading());
+  try {
+    const response = await axios.get('/api/chat/contacts');
+    dispatch(slice.actions.getContactsSuccess(response.data.contacts));
+  } catch (error) {
+    dispatch(slice.actions.hasError(error));
+  }
+};
 
-export function getConversations() {
-  return async () => {
-    dispatch(slice.actions.startLoading());
-    try {
-      const response = await axios.get('/api/chat/conversations');
-      dispatch(slice.actions.getConversationsSuccess(response.data.conversations));
-    } catch (error) {
-      dispatch(slice.actions.hasError(error));
-    }
-  };
-}
+export const getConversations = (): AppThunk => async (dispatch) => {
+  dispatch(slice.actions.startLoading());
+  try {
+    const response = await axios.get('/api/chat/conversations');
+    dispatch(slice.actions.getConversationsSuccess(response.data.conversations));
+  } catch (error) {
+    dispatch(slice.actions.hasError(error));
+  }
+};
 
-export function getConversation(conversationKey) {
-  return async () => {
+export const getConversation =
+  (conversationKey: string): AppThunk =>
+  async (dispatch) => {
     dispatch(slice.actions.startLoading());
     try {
       const response = await axios.get('/api/chat/conversation', {
@@ -148,10 +156,10 @@ export function getConversation(conversationKey) {
       dispatch(slice.actions.hasError(error));
     }
   };
-}
 
-export function markConversationAsRead(conversationId) {
-  return async () => {
+export const markConversationAsRead =
+  (conversationId: string): AppThunk =>
+  async (dispatch) => {
     dispatch(slice.actions.startLoading());
     try {
       await axios.get('/api/chat/conversation/mark-as-seen', {
@@ -162,10 +170,10 @@ export function markConversationAsRead(conversationId) {
       dispatch(slice.actions.hasError(error));
     }
   };
-}
 
-export function getParticipants(conversationKey) {
-  return async () => {
+export const getParticipants =
+  (conversationKey: string): AppThunk =>
+  async (dispatch) => {
     dispatch(slice.actions.startLoading());
     try {
       const response = await axios.get('/api/chat/participants', {
@@ -176,4 +184,3 @@ export function getParticipants(conversationKey) {
       dispatch(slice.actions.hasError(error));
     }
   };
-}

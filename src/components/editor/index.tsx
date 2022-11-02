@@ -1,4 +1,4 @@
-import ReactQuill from 'react-quill';
+import ReactQuill, { ReactQuillProps } from 'react-quill';
 
 import { Box, SxProps, Theme } from '@mui/material';
 import { styled } from '@mui/material/styles';
@@ -28,7 +28,7 @@ const RootStyle = styled(Box)(({ theme }) => ({
   },
 }));
 
-interface Props {
+interface Props extends ReactQuillProps {
   id: string;
   value: string;
   onChange: (value: string) => void;
