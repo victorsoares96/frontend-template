@@ -99,7 +99,7 @@
   },
   "devDependencies": {
     "@danmarshall/deckgl-typings": "^4.9.27",
-    "@trivago/prettier-plugin-sort-imports": "3.3.0",
+    "@trivago/prettier-plugin-sort-imports": "3.4.0",
     "@types/autosuggest-highlight": "^3.2.0",
     "@types/d3-array": "^3.0.3",
     "@types/d3-scale": "^4.0.2",
