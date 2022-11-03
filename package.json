@@ -18,7 +18,7 @@
     "vite:build": "vite build"
   },
   "dependencies": {
-    "@auth0/auth0-spa-js": "^1.20.1",
+    "@auth0/auth0-spa-js": "^2.0.0",
     "@emotion/cache": "^11.7.1",
     "@emotion/react": "^11.8.2",
     "@emotion/styled": "^11.8.1",
